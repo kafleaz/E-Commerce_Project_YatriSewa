@@ -1,0 +1,109 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\project\\YatriSewa_git\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|d:\\project\\yatrisewa_git\\yatrisewa_mvc\\views\\yatri\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|solutionrelative:yatrisewa_mvc\\views\\yatri\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|d:\\project\\yatrisewa_git\\yatrisewa_mvc\\views\\yatri\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|solutionrelative:yatrisewa_mvc\\views\\yatri\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|d:\\project\\yatrisewa_git\\yatrisewa_mvc\\views\\yatri\\verification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|solutionrelative:yatrisewa_mvc\\views\\yatri\\verification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|d:\\project\\yatrisewa_git\\yatrisewa_mvc\\controllers\\yatri.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|solutionrelative:yatrisewa_mvc\\controllers\\yatri.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|d:\\project\\yatrisewa_git\\yatrisewa_mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6EC26A21-B339-4497-BF0C-E01E99CA8489}|YatriSewa_MVC\\YatriSewa_MVC.csproj|solutionrelative:yatrisewa_mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Verification.cshtml",
+              "DocumentMoniker": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Views\\Yatri\\Verification.cshtml",
+              "RelativeDocumentMoniker": "YatriSewa_MVC\\Views\\Yatri\\Verification.cshtml",
+              "ToolTip": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Views\\Yatri\\Verification.cshtml",
+              "RelativeToolTip": "YatriSewa_MVC\\Views\\Yatri\\Verification.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-09T08:52:55.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Signin.cshtml",
+              "DocumentMoniker": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Views\\Yatri\\Signin.cshtml",
+              "RelativeDocumentMoniker": "YatriSewa_MVC\\Views\\Yatri\\Signin.cshtml",
+              "ToolTip": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Views\\Yatri\\Signin.cshtml",
+              "RelativeToolTip": "YatriSewa_MVC\\Views\\Yatri\\Signin.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAABLAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-09T08:07:13.59Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Yatri.cs",
+              "DocumentMoniker": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Controllers\\Yatri.cs",
+              "RelativeDocumentMoniker": "YatriSewa_MVC\\Controllers\\Yatri.cs",
+              "ToolTip": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Controllers\\Yatri.cs",
+              "RelativeToolTip": "YatriSewa_MVC\\Controllers\\Yatri.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAQwB0AAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-09T08:05:08.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Program.cs",
+              "RelativeDocumentMoniker": "YatriSewa_MVC\\Program.cs",
+              "ToolTip": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Program.cs",
+              "RelativeToolTip": "YatriSewa_MVC\\Program.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAACsAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-09T08:04:08.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Error.cshtml",
+              "DocumentMoniker": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Views\\Yatri\\Error.cshtml",
+              "RelativeDocumentMoniker": "YatriSewa_MVC\\Views\\Yatri\\Error.cshtml",
+              "ToolTip": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\Views\\Yatri\\Error.cshtml",
+              "RelativeToolTip": "YatriSewa_MVC\\Views\\Yatri\\Error.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-09T08:04:00.829Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

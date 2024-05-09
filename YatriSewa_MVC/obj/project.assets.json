@@ -4020,11 +4020,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\project\\YatriSewa_MVC\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
+      "projectUniqueName": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
       "projectName": "YatriSewa_MVC",
-      "projectPath": "D:\\project\\YatriSewa_MVC\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
+      "projectPath": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\project\\YatriSewa_MVC\\YatriSewa_MVC\\obj\\",
+      "outputPath": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",

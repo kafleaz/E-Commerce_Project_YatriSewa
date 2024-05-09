@@ -41,7 +41,10 @@ app.MapControllerRoute(
     name: "Signup",
     pattern: "Signup",
     defaults: new { controller = "Yatri", action = "Signup" });
-
+app.MapControllerRoute(
+    name: "Error",
+    pattern: "Error",
+    defaults: new { controller = "Yatri", action = "Error" });
 
 
 app.Run();
