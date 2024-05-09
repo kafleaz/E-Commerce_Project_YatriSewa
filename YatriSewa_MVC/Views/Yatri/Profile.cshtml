@@ -14,136 +14,85 @@
     <!-- Slick Slider -->
     <link rel="stylesheet" type="text/css" href="vendor/slick/slick.min.css" />
     <link rel="stylesheet" type="text/css" href="vendor/slick/slick-theme.min.css" />
-    <!-- Select Tool -->
-    <link href="vendor/select-tool/dist/css/select2.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/custom.css" rel="stylesheet">
     <!-- Sidebar CSS -->
     <link href="vendor/sidebar/demo.css" rel="stylesheet">
 </head>
-<body>
+<body class="">
     <div class="longcontainer">
-        <!-- verification -->
-        <div class="osahan-verification padding-bt">
-            <div class="p-3 shadow bg-darkblue danger-nav osahan-home-header">
-                <div class="font-weight-normal mb-0 d-flex align-items-center">
-                    <img src="img/yatrilogodark.png" class="img-fluid osahan-nav-logo">
-                    <div class="ml-auto d-flex align-items-center">
-                        <a href="profile.html" class="mr-3"><img src="img/user1.jpg" class="img-fluid rounded-circle"></a>
-                        <a class="toggle osahan-toggle h4 m-0 text-white ml-auto" href="#"><i class="icofont-navigation-menu"></i></a>
-                    </div>
+        <!-- Profile -->
+        <div class="osahan-profile">
+            <div class="osahan-header-nav shadow-sm bg-darkblue p-3 d-flex align-items-center">
+                <h5 class="font-weight-normal mb-0 text-white">
+                    <a class="text-darkblue mr-3" href="home.html"><i class="icofont-rounded-left"></i></a>
+                    My Profile
+                </h5>
+                <div class="ml-auto d-flex align-items-center">
+                    <a class="toggle osahan-toggle h4 m-0 text-white ml-auto" href="#"><i class="icofont-navigation-menu"></i></a>
                 </div>
             </div>
-            <div class="bg-darkblue px-3 pb-3">
-                <div class="bg-white rounded-1 p-3">
-                    <form action="listing.html">
-                        <div class="form-group border-bottom pb-2">
-                            <label for="exampleFormControlSelect1" class="mb-2"><span class="icofont-search-map text-green"></span> From</label><br>
-                            <select class="js-example-basic-single form-control" name="state">
-                                <option value="Amritsar">Amritsar</option>
-                                <option value="Agra">Agra</option>
-                                <option value="Ahmedabad">Ahmedabad</option>
-                                <option value="Bareilly">Bareilly</option>
-                                <option value="Bathinda">Bathinda</option>
-                                <option value="Bhiwani">Bhiwani</option>
-                                <option value="Chandigarh">Chandigarh</option>
-                                <option value="Delhi">Delhi</option>
-                                <option value="Fatehabad">Fatehabad</option>
-                                <option value="Gurgaon">Gurgaon</option>
-                                <option value="Hissar">Hissar</option>
-                                <option value="Jajpur">Jajpur</option>
-                                <option value="Jodhpur">Jodhpur</option>
-                                <option value="Mumbai">Mumbai</option>
-                                <option value="Nanded">Nanded</option>
-                            </select>
-                        </div>
-                        <div class="form-group border-bottom pb-2">
-                            <label for="exampleFormControlSelect1" class="mb-2"><span class="icofont-google-map text-green"></span> To</label><br>
-                            <select class="js-example-basic-single form-control" name="state">
-                                <option value="Amritsar">Amritsar</option>
-                                <option value="Agra">Agra</option>
-                                <option value="Ahmedabad">Ahmedabad</option>
-                                <option value="Bareilly">Bareilly</option>
-                                <option value="Bathinda">Bathinda</option>
-                                <option value="Bhiwani">Bhiwani</option>
-                                <option value="Chandigarh" selected>Chandigarh</option>
-                                <option value="Delhi">Delhi</option>
-                                <option value="Fatehabad">Fatehabad</option>
-                                <option value="Gurgaon">Gurgaon</option>
-                                <option value="Hissar">Hissar</option>
-                                <option value="Jajpur">Jajpur</option>
-                                <option value="Jodhpur">Jodhpur</option>
-                                <option value="Mumbai">Mumbai</option>
-                                <option value="Nanded">Nanded</option>
-                            </select>
-                        </div>
-                        <div class="form-group border-bottom pb-1">
-                            <label for="exampleFormControlSelect1" class="mb-2"><span class="icofont-ui-calendar text-green"></span> Date</label><br>
-                            <input name="date" class="form-control border-0 p-0" type="date">
-                        </div>
-                        <button type="submit" class="btn btn-darkblue btn-block osahanbus-btn rounded-1">Search</button>
-                    </form>
-                </div>
-            </div>
-            <div class="p-3 bg-green">
-                <div class="row m-0">
-                    <div class="col-6 py-1 pr-1 pl-0">
-                        <div class="p-3 bg-white shadow-sm rounded-1">
-                            <img class="img-fluid" src="img/safe-vehicles.svg" alt="">
-                            <p class="mb-0 mt-4 font-weight-bold">Safe and Hygenic<br>Vehicles</p>
+            <!-- Profile -->
+            <div class="px-3 pt-3 pb-5">
+                <form action="profile.html">
+                    <div class="d-flex justify-content-center rounded-2 mb-4">
+                        <div class="form-profile w-100">
+                            <div class="text-center mb-3 position-relative">
+                                <div class="position-absolute edit-bt">
+                                    <label for="upload-photo" class="mb-0"><span class="icofont-pencil-alt-5 text-white"></span></label>
+                                    <input type="file" name="photo" id="upload-photo" />
+                                </div>
+                                <img src="img/profile.jpg" class="rounded-pill">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-muted mb-1">User Name</label>
+                                <input type="number" class="form-control" placeholder="Enter User Name" value="osahantech">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-muted mb-1">Mobile Number</label>
+                                <input type="number" class="form-control" placeholder="Enter Mobile Number" value="1234567890">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-muted mb-1">Your Email</label>
+                                <input type="email" class="form-control" placeholder="Enter Your Email" value="example@mail.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-muted mb-1">City</label>
+                                <input type="number" class="form-control" placeholder="Enter City" value="Ludh.">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-muted mb-1">State</label>
+                                <input type="number" class="form-control" placeholder="Enter State" value="Pun.">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-muted mb-1">Address</label>
+                                <textarea class="form-control" placeholder="Enter Address">House #675, Sector #12, Road #20 Dhaka-123001</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="text-muted mb-1">Life Insurance</label>
+                                <div class="mt-1">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="yes" name="lifeinsurance" class="custom-control-input" checked>
+                                        <label class="custom-control-label small" for="yes">Yes</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="no" name="lifeinsurance" class="custom-control-input">
+                                        <label class="custom-control-label small" for="no">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <a href="home.html" class="btn btn-green btn-block osahanbus-btn rounded-1">UPDATE PROFILE</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 py-1 pl-1 pr-0">
-                        <div class="p-3 bg-white shadow-sm rounded-1">
-                            <img class="img-fluid" src="img/customer-support.svg" alt="">
-                            <p class="mb-0 mt-4 font-weight-bold">Best Customer<br>Support</p>
-                        </div>
-                    </div>
-                    <div class="col-6 py-1 pr-1 pl-0">
-                        <div class="p-3 bg-white shadow-sm rounded-1">
-                            <img class="img-fluid" src="img/live-tracking.svg" alt="">
-                            <p class="mb-0 mt-4 font-weight-bold">Live Track your<br>Journey</p>
-                        </div>
-                    </div>
-                    <div class="col-6 py-1 pl-1 pr-0">
-                        <div class="p-3 bg-white shadow-sm rounded-1">
-                            <img class="img-fluid" src="img/verified-drivers.svg" alt="">
-                            <p class="mb-0 mt-4 font-weight-bold">Verified Drivers<br>and Vehicles</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="p-3">
-                <h6 class="text-center">Bus Discounts For You</h6>
-                <div class="row m-0">
-                    <div class="col-6 py-1 pr-1 pl-0">
-                        <a href="listing.html">
-                            <img class="img-fluid rounded-1 shadow-sm" src="img/offer1.jpg" alt="">
-                        </a>
-                    </div>
-                    <div class="col-6 py-1 pl-1 pr-0">
-                        <a href="listing.html">
-                            <img class="img-fluid rounded-1 shadow-sm" src="img/offer2.jpg" alt="">
-                        </a>
-                    </div>
-                    <div class="col-6 py-1 pr-1 pl-0">
-                        <a href="listing.html">
-                            <img class="img-fluid rounded-1 shadow-sm" src="img/offer3.jpg" alt="">
-                        </a>
-                    </div>
-                    <div class="col-6 py-1 pl-1 pr-0">
-                        <a href="listing.html">
-                            <img class="img-fluid rounded-1 shadow-sm" src="img/offer4.jpg" alt="">
-                        </a>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-        <!-- Footer Fixed -->
         <div class="fixed-bottom nav-osahan-fotter p-3">
             <div class="footer-menu row m-0 bg-darkblue shadow rounded-2">
                 <div class="col-3 p-0 text-center">
-                    <a href="home.html" class="home text-white active">
+                    <a href="home.html" class="home text-white">
                         <span class="icofont-ui-home h5"></span>
                         <p class="mb-0 small">Home</p>
                     </a>
@@ -162,7 +111,7 @@
                     </a>
                 </div>
                 <div class="col-3 p-0 text-center">
-                    <a href="profile.html" class="home text-white">
+                    <a href="profile.html" class="home text-white active">
                         <span class="icofont-user h5"></span>
                         <p class="mb-0 small">Account</p>
                     </a>
@@ -173,12 +122,12 @@
         <nav id="main-nav">
             <ul class="second-nav">
                 <li>
-                    <a href="#" class="bg-darkblue sidebar-user d-flex align-items-center py-4 px-3 border-0 mb-0">
+                    <a href="#" class="sidebar-user d-flex align-items-center py-4 px-3 border-0 mb-0" style="background-color: #043d54">
                         <img src="img/user1.jpg" class="img-fluid rounded-pill mr-3">
                         <div class="text-white">
                             <h6 class="mb-0">I Am Osahan</h6>
                             <small>+91 12345-67890</small><br>
-                            <span class="f-10 text-white-50">Version 1.32</span>
+                            <span class=" text-white-50">Version 1.32</span>
                         </div>
                     </a>
                 </li>
@@ -265,8 +214,8 @@
             </ul>
             <ul class="bottom-nav">
                 <li class="email">
-                    <a class="text-green nav-item text-center" href="home.html" tabindex="0" role="menuitem">
-                        <p class="h5 m-0"><i class="icofont-ui-home text-green"></i></p>
+                    <a class="text-darkblue nav-item text-center" href="home.html" tabindex="0" role="menuitem">
+                        <p class="h5 m-0"><i class="icofont-ui-home text-darkblue"></i></p>
                         Home
                     </a>
                 </li>
@@ -289,8 +238,6 @@
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- slick Slider JS-->
         <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
-        <!-- Select Tool -->
-        <script src="vendor/select-tool/dist/js/select2.min.js"></script>
         <!-- Sidebar JS-->
         <script type="text/javascript" src="vendor/sidebar/hc-offcanvas-nav.js"></script>
         <!-- Custom scripts for all pages-->

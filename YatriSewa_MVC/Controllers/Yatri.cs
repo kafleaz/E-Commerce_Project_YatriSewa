@@ -24,5 +24,49 @@ namespace YatriSewa_MVC.Controllers
         {
             return View();
         }
+        public IActionResult Changepassword()
+        {
+            return View();
+        }
+        public IActionResult Busdetails()
+        {
+            return View();
+        }
+        public IActionResult Customerfeedback()
+        {
+            return View();
+        }
+        public IActionResult Giftcard()
+        {
+            return View();
+        }
+        public IActionResult Myticket()
+        {
+            return View();
+        }
+        public IActionResult Notavailable()
+        {
+            return View();
+        }
+        public IActionResult Notification()
+        {
+            return View();
+        }
+        public IActionResult Payment()
+        {
+            return View();
+        }
+        public IActionResult Paymentcard()
+        {
+            return View();
+        }
+        public IActionResult Profile()
+        {
+            return View();
+        }
+        public IActionResult Selectseat()
+        {
+            return View();
+        }
     }
 }
