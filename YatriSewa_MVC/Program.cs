@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using YatriSewa_MVC.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<UserContext>(options =>
+{
+    options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YatriDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+});
 
 var app = builder.Build();
 
@@ -88,4 +95,8 @@ app.MapControllerRoute(
     name: "Selectseat",
     pattern: "Selectseat",
     defaults: new { controller = "Yatri", action = "Selectseat" });
+app.MapControllerRoute(
+    name: "Home",
+    pattern: "Home",
+    defaults: new { controller = "Yatri", action = "Home" });
 app.Run();

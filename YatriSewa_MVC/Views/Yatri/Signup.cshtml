@@ -6,25 +6,28 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" href="img/logo.png">
-    <title>OsahanBus - Bus Booking HTML Mobile Template</title>
+    <title>Bus Ticket Booking</title>
+
+
+
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icofont Icon-->
-    <link href="vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
+    <link href="~/vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
     <!-- Slick Slider -->
-    <link rel="stylesheet" type="text/css" href="vendor/slick/slick.min.css" />
-    <link rel="stylesheet" type="text/css" href="vendor/slick/slick-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick-theme.min.css" />
     <!-- Custom styles for this template -->
-    <link href="css/custom.css" rel="stylesheet">
+    <link href="~/css/custom.css" rel="stylesheet">
     <!-- Sidebar CSS -->
-    <link href="vendor/sidebar/demo.css" rel="stylesheet">
+    <link href="~/vendor/sidebar/demo.css" rel="stylesheet">
 </head>
 <body>
     <!-- sign up -->
     <div class="whitecontainer">
-        <div class="osahan-header-nav shadow-sm p-3 d-flex align-items-center bg create-account">
+        <div class="osahan-header-nav shadow-sm p-3 d-flex align-items-center bg-darkblue">
             <h5 class="font-weight-normal mb-0 text-white">
-                <a class="text-darkblue mr-3" href="get-started.html"><i class="icofont-rounded-left"></i></a>
+                <a class="text-darkblue mr-3" href="@Url.Action("GetStarted")"><i class="icofont-rounded-left"></i></a>
                 Create an account
             </h5>
             <div class="ml-auto d-flex align-items-center">
@@ -45,7 +48,7 @@
                     <label class="text-muted mb-1">Confirm Password</label>
                     <input type="password" class="form-control" placeholder="Enter Your Password" value="osahan94">
                 </div>
-                <button type="submit" class="btn create-account btn-block osahanbus-btn mb-3 rounded-1 mt-4">CREATE AN ACCOUNT</button>
+                <button type="submit" class="btn create-account btn-block osahanbus-btn mb-4">CREATE AN ACCOUNT</button>
                 <p class="text-muted text-center small">By signing up you agree to our Privacy Policy and Terms.</p>
             </form>
             <div class="sign-or d-flex align-items-center justify-content-center mb-4">
@@ -60,10 +63,9 @@
                 <i class="icofont-facebook"></i> LOGIN WITH FACEBOOK
             </a>
         </div>
-        <script></script>
-    </div>
+    
     <!-- sidebar -->
-    <nav id="main-nav">
+   @*  <nav id="main-nav">
         <ul class="second-nav">
             <li>
                 <a href="#" class="bg-danger sidebar-user d-flex align-items-center py-4 px-3 border-0 mb-0">
@@ -176,7 +178,7 @@
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav> *@
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -186,5 +188,6 @@
     <script type="text/javascript" src="vendor/sidebar/hc-offcanvas-nav.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/custom.js"></script>
+   </div>
 </body>
 </html>

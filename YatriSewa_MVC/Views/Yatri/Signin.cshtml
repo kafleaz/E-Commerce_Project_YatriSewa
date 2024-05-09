@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="px-3 pt-3 pb-5">
-            <form action="verification.html">
+            <form action="@Url.Action("Home")" method="post">
                 <div class="form-group">
                     <label class="text-muted mb-1">Mobile Number</label>
                     <input type="number" class="form-control" placeholder="Enter Mobile Number" value="1234567890">
@@ -47,9 +47,9 @@
                     <input type="password" class="form-control" placeholder="Enter Your Password" value="osahan94">
                 </div>
                 <div class="text mb-3">
-                    <a href="change-password.html" class="text-muted">Forgot your password?</a>
+                    <a href="@Url.Action("Changepassword")" class="text-muted">Forgot your password?</a>
                 </div>
-                <button type="submit" class="btn sign-in btn-block osahanbus-social mb-4 rounded-1">SIGN IN</button>
+                <button type="submit" class="btn sign-in btn-block osahanbus-social mb-4">SIGN IN</button>
             </form>
             <div class="sign-or d-flex align-items-center justify-content-center mb-4">
                 <hr class="mr-4">
@@ -63,7 +63,7 @@
                 <i class="icofont-facebook"></i> LOGIN WITH PHONE
             </a>
             <div class="osahan-signin text-center p-1">
-                <p class="m-0">Not a member ? <a href="signup.html" class="text-green ml-2">Sign Up</a></p>
+                <p class="m-0">Not a member ? <a href="@Url.Action("Signup")" class="text-green ml-2">Sign Up</a></p>
             </div>
         </div>
     </div>
