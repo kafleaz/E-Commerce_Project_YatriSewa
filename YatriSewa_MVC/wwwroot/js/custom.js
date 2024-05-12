@@ -58,3 +58,72 @@ function redirectAfterDelay() {
 
 // =======signup.js=======
 
+//function checkPasswords() {
+//    var password = document.getElementById("password").value;
+//    var confirmPassword = document.getElementById("confirmPassword").value;
+//    var errorDiv = document.getElementById("passwordMatchError");
+
+//    if (password !== confirmPassword) {
+//        errorDiv.style.display = "block";
+//    } else {
+//        errorDiv.style.display = "none";
+//        document.getElementById("signupForm").submit();
+//    }
+//};
+
+//=============   ================
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+function passwordlength(password) {
+
+}
+
+function checkPasswords() {
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+    var email = document.getElementById("email").value; 
+    var errorDiv = document.getElementById("passwordMatchError");
+    var emailErrorDiv = document.getElementById("emailError");
+    var nullErrorDiv = document.getElementById("nullError");
+    var errorMessageDiv = document.getElementById("errorMessage");
+
+    if (!email || !password || !confirmPassword) {
+        nullErrorDiv.style.display = "block";
+        return false;
+    }
+    else if (password.length <= 5) {
+        errorMessageDiv.innerHTML = "Password must be at least 6 characters long.";
+        return false;
+    }
+    else if (password != confirmPassword) {
+        errorDiv.style.display = "block";
+        return false;
+    } 
+    else if (!validateEmail(email)) {
+        emailErrorDiv.style.display = "block";
+        return false;
+    }
+    else {
+        errorMessageDiv.innerHTML = "";
+        errorDiv.style.display = "none";
+        emailErrorDiv.style.display = "none";
+        nullErrorDiv.style.display = "none";
+        document.getElementById("signupForm").action ="/Yatri/Home";
+        document.getElementById("signupForm").submit();
+        return true;
+    }
+}
+
+// Event listener for form submission
+document.getElementById("signupForm").addEventListener("submit", function (event) {
+    if (!checkPasswords()) {
+        // Prevent form submission if passwords don't match
+        event.preventDefault();
+    }
+});
+
+
+
