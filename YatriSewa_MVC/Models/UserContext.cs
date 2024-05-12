@@ -1,13 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 namespace YatriSewa_MVC.Models
 {
-    public class UserContext : DbContext
+    public class UserContext(DbContextOptions<UserContext> options) : DbContext(options)
     {
-        public DbSet<User> Yatris { get; set; }
+        public DbSet<LoginUser> Login_Detail{ get; set; }
+        
+        public DbSet<Customer> Customer { get; set; }
 
-        public UserContext(DbContextOptions options) : base(options) 
-        {
-            
-        }
+        public DbSet<Bus> Bus { get; set; }
+
+        public DbSet<Driver> Drivers{ get; set; }
+
+        public DbSet<Payment> Payment { get; set; }
+
+        public DbSet<TransactionReport> TransactionReport { get; set; }
+
+        public DbSet<Order> Order { get; set; }
+
+        public DbSet<Reservation> Reservation { get; set; }
     }
+
 }
