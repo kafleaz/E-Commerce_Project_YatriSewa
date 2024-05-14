@@ -14,7 +14,7 @@ namespace YatriSewa_MVC.Models
         [Column("customer_ID")]
         public int CustomerId { get; set; }
 
-        public virtual required Customer Customer { get; set; }
+        public virtual  Customer Customer { get; set; }
 
         [Column("order_date")]
         public DateTime OrderDate { get; set; }
@@ -31,7 +31,7 @@ namespace YatriSewa_MVC.Models
         [Column("customer_ID")]
         public int CustomerId { get; set; }
 
-        public virtual required Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         [Column("bus_ID")]
         public int BusId { get; set; }

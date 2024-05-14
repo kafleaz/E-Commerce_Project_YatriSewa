@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\YatriSewa_MVC.csproj": {}
+    "C:\\Users\\user\\OneDrive - College of Applied Business\\Desktop\\New folder\\E-Commerce_Project_YatriSewa\\YatriSewa_MVC\\YatriSewa_MVC.csproj": {}
   },
   "projects": {
-    "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\YatriSewa_MVC.csproj": {
+    "C:\\Users\\user\\OneDrive - College of Applied Business\\Desktop\\New folder\\E-Commerce_Project_YatriSewa\\YatriSewa_MVC\\YatriSewa_MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
+        "projectUniqueName": "C:\\Users\\user\\OneDrive - College of Applied Business\\Desktop\\New folder\\E-Commerce_Project_YatriSewa\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
         "projectName": "YatriSewa_MVC",
-        "projectPath": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
+        "projectPath": "C:\\Users\\user\\OneDrive - College of Applied Business\\Desktop\\New folder\\E-Commerce_Project_YatriSewa\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "D:\\project\\YatriSewa_git\\YatriSewa_MVC\\obj\\",
+        "outputPath": "C:\\Users\\user\\OneDrive - College of Applied Business\\Desktop\\New folder\\E-Commerce_Project_YatriSewa\\YatriSewa_MVC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -45,6 +45,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.4, )"

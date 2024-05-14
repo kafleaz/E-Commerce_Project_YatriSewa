@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YatriSewa_MVC.Models;
 
@@ -9,6 +10,16 @@ builder.Services.AddDbContext<UserContext>(options =>
 {
     options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YatriDB;Trusted_Connection=True;MultipleActiveResultSets=true");
 });
+
+// Configure ASP.NET Core Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 8;
+    // Other configuration options...
+})
+    .AddEntityFrameworkStores<UserContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -25,6 +36,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Configure authentication and authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

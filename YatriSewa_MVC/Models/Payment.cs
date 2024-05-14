@@ -14,13 +14,13 @@ namespace YatriSewa_MVC.Models
         [Column("customer_ID")]
         public int CustomerId { get; set; }
 
-        public virtual required Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         //[ForeignKey("Reservation")]
         [Column("reservation_ID")]
         public int ReservationId { get; set; }
 
-        public virtual required Reservation Reservation { get; set; }
+        public virtual  Reservation Reservation { get; set; }
 
         [Column("payment_date")]
         public DateTime PaymentDate { get; set; }
@@ -37,19 +37,20 @@ namespace YatriSewa_MVC.Models
         [Column("customer_ID")]
         public int CustomerId { get; set; }
 
-        public virtual required Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         [ForeignKey("Reservation")]
         [Column("reservation_ID")]
+        [Required]
         public int ReservationId { get; set; }
 
-        public virtual required Reservation Reservation { get; set; }
+        public virtual Reservation Reservation { get; set; }
 
         [ForeignKey("Payment")]
         [Column("payment_ID")]
         public int PaymentId { get; set; }
 
-        public virtual required Payment Payment { get; set; }
+        public virtual Payment Payment { get; set; }
 
         [Column("report_date")]
         public DateTime ReportDate { get; set; }

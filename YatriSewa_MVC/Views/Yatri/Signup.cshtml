@@ -41,29 +41,29 @@
             </div>
         </div>
         <div class="p-3">
-            <form id="signupForm" method="post" action="">
+            <form id="signupForm" method="post" asp-action="Signup">
                 <div class="form-group">
-                    <label class="text-muted mb-1">Your Email</label>
-                    @*<input type="email" class="form-control" placeholder="Enter Your Email" name="Email" value="" required> *@
-                    @Html.TextBoxFor(X => X.Email, new { @class = "form-control", @id="email", @placeholder = "Enter Your Email"})
-                    <div id="emailError" class="text-danger" style="display:none;">Invalid email format</div>
+                    <label class="text-muted mb-1" asp-for="Email">Your Email</label>
+                    <input asp-for="Email" type="text" class="form-control" placeholder="Enter Your Email" name="Email" value="" required>
+                    @* @Html.TextBoxFor(X => X.Email, new { @class = "form-control", @id="email", @placeholder = "Enter Your Email"}) *@
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="text-muted mb-1">Password</label>
-                    @* <input type="password" class="form-control" id="password" name="Password" placeholder="Enter Your Password" required> *@
-                    @Html.PasswordFor(X => X.Password, new { @class = "form-control", @id = "password", @placeholder = "Enter Password"})
-                    <div id="errorMessage" style="color: red;"></div>
+                    <label class="text-muted mb-1" asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" class="form-control"  name="Password" placeholder="Enter Your Password" required>
+                    @* @Html.PasswordFor(X => X.Password, new { @class = "form-control", @id = "password", @placeholder = "Enter Password"}) *@
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="text-muted mb-1">Confirm Password</label>
-                    @* <input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword" placeholder="Retype Your Password" required> *@
-                    @Html.PasswordFor(X => X.Password, new { @class = "form-control", @id = "confirmPassword", @placeholder = "Retype Password", @required = "required"})
-                    <div id="passwordMatchError" class="text-danger" style="display:none;">Passwords do not match</div>
+                    <label class="text-muted mb-1" asp-for="ConfirmPassword">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" name="ConfirmPassword" placeholder="Retype Your Password" required>
+                    @* @Html.PasswordFor(X => X.Password, new { @class = "form-control", @id = "confirmPassword", @placeholder = "Retype Password", @required = "required"}) *@
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
                 <div id="nullError" class="text-danger" style="display:none;">All fields must be filled out</div>
                 
-                <button type="User" onclick="checkPasswords()" id="submitButton" class="btn create-account btn-block osahanbus-btn mb-4">CREATE AN ACCOUNT</button>
+                <button type="submit"  class="btn create-account btn-block osahanbus-btn mb-4">CREATE AN ACCOUNT</button>
                 <p class="text-muted text-center small">By signing up you agree to our Privacy Policy and Terms.</p>
             </form>
             <div class="sign-or d-flex align-items-center justify-content-center mb-4">

@@ -24,7 +24,7 @@ namespace YatriSewa_MVC.Models
         [Column("driver_ID")]
         public int DriverId { get; set; }
 
-        public virtual required Driver Driver { get; set; }
+        public virtual Driver Driver { get; set; }
     }
     public class Driver
     {
@@ -41,6 +41,6 @@ namespace YatriSewa_MVC.Models
         [Column("bus_ID")]
         public int BusId { get; set; }
 
-        public virtual required Bus Bus { get; set; }
+        public virtual Bus Bus { get; set; }
     }
 }
