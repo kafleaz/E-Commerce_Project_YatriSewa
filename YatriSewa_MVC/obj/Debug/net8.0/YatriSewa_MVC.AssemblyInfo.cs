@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YatriSewa_MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03f11e72735558e909dfb217dc8c3f7bb86da44a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+303964a1733c7c8b80d2e9577f1deef310c249f7")]
 [assembly: System.Reflection.AssemblyProductAttribute("YatriSewa_MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YatriSewa_MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
