@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YatriSewa_MVC.Models;
 
@@ -11,9 +12,11 @@ using YatriSewa_MVC.Models;
 namespace YatriSewa_MVC.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240515140135_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -274,9 +277,10 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("city");
 
-                    b.Property<int>("ContactNo")
+                    b.Property<string>("ContactNo")
+                        .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("int")
+                        .HasColumnType("nvarchar(10)")
                         .HasColumnName("contact_no");
 
                     b.Property<string>("District")
@@ -291,9 +295,8 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("fname");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<int>("Gender")
+                        .HasColumnType("int")
                         .HasColumnName("gender");
 
                     b.Property<string>("LastName")
@@ -308,7 +311,8 @@ namespace YatriSewa_MVC.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.HasIndex("Login_ID");
+                    b.HasIndex("Login_ID")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -555,8 +559,8 @@ namespace YatriSewa_MVC.Migrations
             modelBuilder.Entity("YatriSewa_MVC.Models.Customer", b =>
                 {
                     b.HasOne("YatriSewa_MVC.Models.LoginUser", "LoginUser")
-                        .WithMany()
-                        .HasForeignKey("Login_ID")
+                        .WithOne("Customer")
+                        .HasForeignKey("YatriSewa_MVC.Models.Customer", "Login_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -634,6 +638,12 @@ namespace YatriSewa_MVC.Migrations
             modelBuilder.Entity("YatriSewa_MVC.Models.Driver", b =>
                 {
                     b.Navigation("Bus")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("YatriSewa_MVC.Models.LoginUser", b =>
+                {
+                    b.Navigation("Customer")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

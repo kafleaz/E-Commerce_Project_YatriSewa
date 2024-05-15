@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using YatriSewa_MVC.Models;
 
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//builder.Services.AddRazorPages();
+
 builder.Services.AddDbContext<UserContext>(options =>
 {
     options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=YatriDB;Trusted_Connection=True;MultipleActiveResultSets=true");

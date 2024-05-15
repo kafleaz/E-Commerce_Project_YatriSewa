@@ -12,8 +12,8 @@ using YatriSewa_MVC.Models;
 namespace YatriSewa_MVC.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20240514131528_init")]
-    partial class init
+    [Migration("20240515160221_init2")]
+    partial class init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -271,11 +271,22 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("int")
                         .HasColumnName("age");
 
-                    b.Property<string>("ContactNo")
+                    b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
-                        .HasColumnName("contact_add");
+                        .HasColumnName("city");
+
+                    b.Property<int>("ContactNo")
+                        .HasMaxLength(10)
+                        .HasColumnType("int")
+                        .HasColumnName("contact_no");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("district");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -283,8 +294,9 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("fname");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int")
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("gender");
 
                     b.Property<string>("LastName")
@@ -293,13 +305,13 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("lname");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Login_ID")
+                        .HasColumnType("int")
+                        .HasColumnName("login_ID");
 
                     b.HasKey("CustomerId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Login_ID");
 
                     b.ToTable("Customers");
                 });
@@ -330,12 +342,12 @@ namespace YatriSewa_MVC.Migrations
 
             modelBuilder.Entity("YatriSewa_MVC.Models.LoginUser", b =>
                 {
-                    b.Property<int>("LoginId")
+                    b.Property<int>("Login_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("LoginId");
+                        .HasColumnName("login_Id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoginId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Login_ID"));
 
                     b.Property<string>("ConfirmPassword")
                         .IsRequired()
@@ -349,7 +361,7 @@ namespace YatriSewa_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("LoginId");
+                    b.HasKey("Login_ID");
 
                     b.ToTable("UserLogin");
                 });
@@ -545,13 +557,13 @@ namespace YatriSewa_MVC.Migrations
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Customer", b =>
                 {
-                    b.HasOne("YatriSewa_MVC.Models.ApplicationUser", "User")
+                    b.HasOne("YatriSewa_MVC.Models.LoginUser", "LoginUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("Login_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("LoginUser");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Order", b =>

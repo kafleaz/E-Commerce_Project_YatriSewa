@@ -68,7 +68,7 @@ namespace YatriSewa_MVC.Migrations
                 name: "UserLogin",
                 columns: table => new
                 {
-                    LoginId = table.Column<int>(type: "int", nullable: false)
+                    login_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -76,7 +76,7 @@ namespace YatriSewa_MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserLogin", x => x.LoginId);
+                    table.PrimaryKey("PK_UserLogin", x => x.login_Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,30 +186,6 @@ namespace YatriSewa_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    customer_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    fname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    lname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    gender = table.Column<int>(type: "int", nullable: false),
-                    age = table.Column<int>(type: "int", nullable: false),
-                    contact_add = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.customer_ID);
-                    table.ForeignKey(
-                        name: "FK_Customers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Buses",
                 columns: table => new
                 {
@@ -228,6 +204,32 @@ namespace YatriSewa_MVC.Migrations
                         column: x => x.driver_ID,
                         principalTable: "Drivers",
                         principalColumn: "driver_ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    customer_ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    login_ID = table.Column<int>(type: "int", nullable: false),
+                    fname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    lname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    gender = table.Column<int>(type: "int", nullable: false),
+                    age = table.Column<int>(type: "int", nullable: false),
+                    contact_no = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    district = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    city = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.customer_ID);
+                    table.ForeignKey(
+                        name: "FK_Customers_UserLogin_login_ID",
+                        column: x => x.login_ID,
+                        principalTable: "UserLogin",
+                        principalColumn: "login_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -381,9 +383,10 @@ namespace YatriSewa_MVC.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_UserId",
+                name: "IX_Customers_login_ID",
                 table: "Customers",
-                column: "UserId");
+                column: "login_ID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_customer_ID",
@@ -449,10 +452,10 @@ namespace YatriSewa_MVC.Migrations
                 name: "TransactionReports");
 
             migrationBuilder.DropTable(
-                name: "UserLogin");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Drivers");
@@ -467,7 +470,7 @@ namespace YatriSewa_MVC.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "UserLogin");
         }
     }
 }
