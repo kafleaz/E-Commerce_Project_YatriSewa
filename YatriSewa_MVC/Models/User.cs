@@ -61,10 +61,10 @@ namespace YatriSewa_MVC.Models
         public int Age { get; set; }
 
         [Required(ErrorMessage = "Contact Number is required")]
-        [RegularExpression(@"^9\d{9}$", ErrorMessage = "Invalid contact number.")]
+        //[RegularExpression(@"^9\d{9}$", ErrorMessage = "Invalid contact number.")]
         [StringLength(10, ErrorMessage = "Invalid contact number.")]
         [Column("contact_no")]
-        public int ContactNo { get; set; }
+        public string ContactNo { get; set; }
 
         [Required(ErrorMessage = "District is required")]
         [StringLength(255, ErrorMessage = "District cannot exceed 255 characters")]

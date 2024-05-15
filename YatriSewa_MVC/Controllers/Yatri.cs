@@ -225,6 +225,13 @@ namespace YatriSewa_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                var user = new Customer
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Age = model.Age
+                };
                 // Add customer to database
                 _context.Customers.Add(model);
                 _context.SaveChanges();
