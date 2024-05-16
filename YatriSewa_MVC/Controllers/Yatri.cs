@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YatriSewa_MVC.Models;
+using System.Linq;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -123,7 +125,9 @@ namespace YatriSewa_MVC.Controllers
                 _context.UserLogin.Add(user);
                 _context.SaveChanges();
 
-                return RedirectToAction("Register");
+                var userLoginId = user.Login_ID;
+
+                return RedirectToAction("Register", "Yatri", new { userLoginId });
             }
 
             // If ModelState is not valid, return the view with validation errors
@@ -162,6 +166,7 @@ namespace YatriSewa_MVC.Controllers
                     ModelState.AddModelError("Password", "Incorrect password.");
                     return View(model);
                 }
+
 
                 return RedirectToAction("Home");
             
@@ -215,31 +220,57 @@ namespace YatriSewa_MVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Register(int? userLoginId)
         {
+            if (!userLoginId.HasValue)
+            {
+                // Handle the case when userLoginId is not provided
+                return RedirectToAction("Signup");
+            }
+
+            // Pass the userLoginId to the view
+            ViewBag.UserLoginId = userLoginId.Value;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Register(Customer model)
+        public IActionResult Register(Customer customer, int userLoginId)
         {
+
             if (ModelState.IsValid)
             {
 
-                var user = new Customer
+                var userLogin = _context.UserLogin.FirstOrDefault(u => u.Login_ID == userLoginId);
+
+                if (userLogin == null)
                 {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Age = model.Age
+                    // Handle the case when userLoginId is invalid
+                    ModelState.AddModelError(string.Empty, "Invalid User Login ID.");
+                    return View(customer);
+                }
+
+
+                var customers = new Customer
+                {
+
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    Gender = customer.Gender,
+                    Age = customer.Age,
+                    ContactNo = customer.ContactNo,
+                    District = customer.District,
+                    City = customer.City,
+                    //Login_ID = userLoginId // Use the Login_ID property from the model
                 };
+                customer.Login_ID = userLoginId;
                 // Add customer to database
-                _context.Customers.Add(model);
+                _context.Customers.Add(customer);
                 _context.SaveChanges();
 
                 // Redirect to sign-in page
                 return RedirectToAction("Signin");
             }
-            return View(model);
+            return View(customer);
         }
 
 

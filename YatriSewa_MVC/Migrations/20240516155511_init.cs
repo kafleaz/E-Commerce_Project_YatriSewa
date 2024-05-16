@@ -218,7 +218,7 @@ namespace YatriSewa_MVC.Migrations
                     lname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     gender = table.Column<int>(type: "int", nullable: false),
                     age = table.Column<int>(type: "int", nullable: false),
-                    contact_no = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    contact_no = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     district = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     city = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
@@ -283,7 +283,7 @@ namespace YatriSewa_MVC.Migrations
                     payment_ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     customer_ID = table.Column<int>(type: "int", nullable: false),
-                    reservation_ID = table.Column<int>(type: "int", nullable: false),
+                    ReservationId = table.Column<int>(type: "int", nullable: false),
                     payment_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -296,8 +296,8 @@ namespace YatriSewa_MVC.Migrations
                         principalColumn: "customer_ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Payments_Reservations_reservation_ID",
-                        column: x => x.reservation_ID,
+                        name: "FK_Payments_Reservations_ReservationId",
+                        column: x => x.ReservationId,
                         principalTable: "Reservations",
                         principalColumn: "reservation_ID",
                         onDelete: ReferentialAction.NoAction);
@@ -310,8 +310,8 @@ namespace YatriSewa_MVC.Migrations
                     report_ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     customer_ID = table.Column<int>(type: "int", nullable: false),
-                    reservation_ID = table.Column<int>(type: "int", nullable: false),
-                    payment_ID = table.Column<int>(type: "int", nullable: false),
+                    ReservationId = table.Column<int>(type: "int", nullable: false),
+                    PaymentId = table.Column<int>(type: "int", nullable: false),
                     report_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -324,14 +324,14 @@ namespace YatriSewa_MVC.Migrations
                         principalColumn: "customer_ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TransactionReports_Payments_payment_ID",
-                        column: x => x.payment_ID,
+                        name: "FK_TransactionReports_Payments_PaymentId",
+                        column: x => x.PaymentId,
                         principalTable: "Payments",
                         principalColumn: "payment_ID",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_TransactionReports_Reservations_reservation_ID",
-                        column: x => x.reservation_ID,
+                        name: "FK_TransactionReports_Reservations_ReservationId",
+                        column: x => x.ReservationId,
                         principalTable: "Reservations",
                         principalColumn: "reservation_ID",
                         onDelete: ReferentialAction.NoAction);
@@ -385,8 +385,7 @@ namespace YatriSewa_MVC.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_login_ID",
                 table: "Customers",
-                column: "login_ID",
-                unique: true);
+                column: "login_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_customer_ID",
@@ -399,9 +398,9 @@ namespace YatriSewa_MVC.Migrations
                 column: "customer_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_reservation_ID",
+                name: "IX_Payments_ReservationId",
                 table: "Payments",
-                column: "reservation_ID");
+                column: "ReservationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_customer_ID",
@@ -414,14 +413,14 @@ namespace YatriSewa_MVC.Migrations
                 column: "customer_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionReports_payment_ID",
+                name: "IX_TransactionReports_PaymentId",
                 table: "TransactionReports",
-                column: "payment_ID");
+                column: "PaymentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionReports_reservation_ID",
+                name: "IX_TransactionReports_ReservationId",
                 table: "TransactionReports",
-                column: "reservation_ID");
+                column: "ReservationId");
         }
 
         /// <inheritdoc />

@@ -274,9 +274,9 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("city");
 
-                    b.Property<int>("ContactNo")
-                        .HasMaxLength(10)
-                        .HasColumnType("int")
+                    b.Property<string>("ContactNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("contact_no");
 
                     b.Property<string>("District")
@@ -291,9 +291,8 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("fname");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<int>("Gender")
+                        .HasColumnType("int")
                         .HasColumnName("gender");
 
                     b.Property<string>("LastName")
@@ -405,8 +404,7 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnName("payment_date");
 
                     b.Property<int>("ReservationId")
-                        .HasColumnType("int")
-                        .HasColumnName("reservation_ID");
+                        .HasColumnType("int");
 
                     b.HasKey("PaymentId");
 
@@ -468,16 +466,14 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnName("customer_ID");
 
                     b.Property<int>("PaymentId")
-                        .HasColumnType("int")
-                        .HasColumnName("payment_ID");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ReportDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("report_date");
 
                     b.Property<int>("ReservationId")
-                        .HasColumnType("int")
-                        .HasColumnName("reservation_ID");
+                        .HasColumnType("int");
 
                     b.HasKey("ReportId");
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿//using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +7,7 @@ namespace YatriSewa_MVC.Models
     public class LoginUser
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("login_Id")]
         public int Login_ID { get; set; }
 
@@ -33,16 +33,15 @@ namespace YatriSewa_MVC.Models
     public class Customer
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("customer_ID")]
         public int CustomerId { get; set; }
 
         // Foreign key to link Customer with ApplicationUser (IdentityUser)
         [ForeignKey("LoginUser")]
+        //[Required(ErrorMessage = "Login ID is required")]
         [Column("login_ID")]
         public int Login_ID { get; set; }
-
-        public virtual LoginUser LoginUser { get; set; }
 
         [Required(ErrorMessage = "First Name is required")]
         [StringLength(255, ErrorMessage = "First Name cannot exceed 255 characters")]
@@ -55,14 +54,13 @@ namespace YatriSewa_MVC.Models
         public string LastName { get; set; }
 
         [Column("gender")]
-        public string Gender { get; set; }
+        public int Gender { get; set; }
 
         [Column("age")]
         public int Age { get; set; }
 
         [Required(ErrorMessage = "Contact Number is required")]
-        //[RegularExpression(@"^9\d{9}$", ErrorMessage = "Invalid contact number.")]
-        [StringLength(10, ErrorMessage = "Invalid contact number.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid contact number.")]
         [Column("contact_no")]
         public string ContactNo { get; set; }
 
@@ -75,6 +73,8 @@ namespace YatriSewa_MVC.Models
         [StringLength(255, ErrorMessage = "City cannot exceed 255 characters")]
         [Column("city")]
         public string City { get; set; }
+
+        //public virtual LoginUser LoginUser { get; set; }
     }
 
     public class LogUser

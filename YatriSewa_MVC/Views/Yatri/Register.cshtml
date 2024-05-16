@@ -1,4 +1,8 @@
-﻿@model Customer
+﻿@model YatriSewa_MVC.Models.Customer
+
+@{
+    ViewData["Title"] = "Register";
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,16 +39,17 @@
         </div>
         <div class="p-3">
             <form id="signupForm" method="post" asp-action="Register">
+                <input type="hidden" asp-for="Login_ID"  name="userLoginId" value="@ViewBag.UserLoginId" required>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label asp-for="FirstName" class="text-muted mb-1">First Name</label>
-                        <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name" required>
+                        <input asp-for="FirstName" name="FirstName" type="text" class="form-control" placeholder="First Name" required>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label asp-for="LastName" class="text-muted mb-1">Last Name</label>
-                        <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name" required>
+                        <input asp-for="LastName" type="text" name="LastName" class="form-control" placeholder="Last Name" required>
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
@@ -52,7 +57,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label asp-for="Age" class="text-muted mb-1">Age</label>
-                        <select class="form-control" asp-for="Age" required>
+                        <select class="form-control" asp-for="Age" name="Age" required>
                             <option value="">Select Age</option>
                             @for (int i = 5; i <= 100; i++)
                             {
@@ -63,23 +68,26 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label asp-for="Gender" class="text-muted mb-1">Gender</label>
-                        <select asp-for="Gender" class="form-control" required>
+                        <select asp-for="Gender" name="Gender" class="form-control" required>
                             <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
+                            <option value="1">Male</option>
+                            <option value="2">Female</option>
+                            <option value="3">Other</option>
                         </select>
                         <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="text-muted mb-1" asp-for="ContactNo">Phone Number</label>
-                    <input asp-for="ContactNo" type="number" class="form-control" placeholder="Enter Your Phone no." name="Email" value="" required>
+                    <label asp-for="ContactNo" class="text-muted mb-1">Phone Number</label>
+                    <input asp-for="ContactNo" type="number" name="ContactNo" class="form-control" placeholder="Enter Your Phone no." value="" required>
                     <span asp-validation-for="ContactNo" class="text-danger"></span>
                 </div>
+
+                
+
                 <div class="form-group">
                     <label asp-for="District" class="text-muted mb-1">District</label>
-                    <select class="form-control" asp-for="District" required>
+                    <select class="form-control" asp-for="District" name="District" required>
                         <option value="">Select District</option>
                         <option value="Achham">Achham</option>
                         <option value="Arghakhanchi">Arghakhanchi</option>
@@ -90,8 +98,8 @@
                     <span asp-validation-for="District" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="text-muted mb-1">City</label>
-                    <input type="text" class="form-control" placeholder="City" required>
+                    <label asp-for="City" class="text-muted mb-1">City</label>
+                    <input asp-for="City" type="text" name="City" class="form-control" placeholder="City" required>
                 </div>
                 <br />
                 <br />
