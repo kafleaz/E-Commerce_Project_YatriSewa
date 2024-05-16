@@ -1,0 +1,237 @@
+﻿@model YatriSewa_MVC.Models.Customer
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <title>Bus Ticket Booking</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Icofont Icon-->
+    <link href="~/vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick-theme.min.css" />
+    <!-- Custom styles for this template -->
+    <link href="~/css/custom.css" rel="stylesheet">
+    <!-- Sidebar CSS -->
+    <link href="~/vendor/sidebar/demo.css" rel="stylesheet">
+</head>
+<body>
+    <div class="whitecontainer">
+        <div class="osahan-header-nav shadow-sm p-3 d-flex align-items-center bg-darkblue">
+            <h5 class="font-weight-normal mb-0 text-white">
+                <a class="text-darkblue mr-3" href="@Url.Action("Signup")"><i class="icofont-rounded-left"></i></a>
+                Register User
+            </h5>
+            <div class="ml-auto d-flex align-items-center">
+                <a class="toggle osahan-toggle h4 m-0 text-white ml-auto" href="#"><i class="icofont-navigation-menu"></i></a>
+            </div>
+        </div>
+        <div class="p-3">
+            <form id="signupForm" method="post" asp-action="Register">
+                <input type="hidden" asp-for="Login_ID"  name="userLoginId" value="@ViewBag.UserLoginId" required>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="FirstName" class="text-muted mb-1">First Name</label>
+                        <input asp-for="FirstName" name="FirstName" type="text" class="form-control" placeholder="First Name" required>
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="LastName" class="text-muted mb-1">Last Name</label>
+                        <input asp-for="LastName" type="text" name="LastName" class="form-control" placeholder="Last Name" required>
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Age" class="text-muted mb-1">Age</label>
+                        <select class="form-control" asp-for="Age" name="Age" required>
+                            <option value="">Select Age</option>
+                            @for (int i = 5; i <= 100; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Gender" class="text-muted mb-1">Gender</label>
+                        <select asp-for="Gender" name="Gender" class="form-control" required>
+                            <option value="">Select Gender</option>
+                            <option value="1">Male</option>
+                            <option value="2">Female</option>
+                            <option value="3">Other</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContactNo" class="text-muted mb-1">Phone Number</label>
+                    <input asp-for="ContactNo" type="number" name="ContactNo" class="form-control" placeholder="Enter Your Phone no." value="" required>
+                    <span asp-validation-for="ContactNo" class="text-danger"></span>
+                </div>
+
+                
+
+                <div class="form-group">
+                    <label asp-for="District" class="text-muted mb-1">District</label>
+                    <select class="form-control" asp-for="District" name="District" required>
+                        <option value="">Select District</option>
+                        <option value="Achham">Achham</option>
+                        <option value="Arghakhanchi">Arghakhanchi</option>
+                        <option value="Baglung">Baglung</option>
+                        <option value="kathmandu">Kathmandu</option>
+                        <!-- Add more options for other districts -->
+                    </select>
+                    <span asp-validation-for="District" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="text-muted mb-1">City</label>
+                    <input asp-for="City" type="text" name="City" class="form-control" placeholder="City" required>
+                </div>
+                <br />
+                <br />
+                <button type="submit" class="btn create-account btn-block osahanbus-btn mb-4">FINISH</button>
+               
+            </form>
+            <!-- Social login buttons -->
+        </div>
+    </div>
+    <!-- sidebar -->
+    @*  <nav id="main-nav">
+    <ul class="second-nav">
+    <li>
+    <a href="#" class="bg sidebar-user d-flex align-items-center py-4 px-3 border-0 mb-0">
+    <img src="img/user1.jpg" class="img-fluid rounded-pill mr-3">
+    <div class="text-white">
+    <h6 class="mb-0">I Am Osahan</h6>
+    <small>+91 12345-67890</small><br>
+    <span class="f-10 text-white-50">Version 1.32</span>
+    </div>
+    </a>
+    </li>
+    <li>
+    <a href="index.html"><i class="icofont-page mr-2"></i> Splash</a>
+    </li>
+    <li>
+    <a href="landing.html"><i class="icofont-stylish-right mr-2"></i> Landing</a>
+    </li>
+    <li>
+    <a href="get-started.html"><i class="icofont-ui-play mr-2"></i> Get Started</a>
+    </li>
+    <li>
+    <a href="#"><i class="icofont-key mr-2"></i> Authentication</a>
+    <ul>
+    <li><a href="signin.html">Sign In</a></li>
+    <li><a href="signup.html">Sign Up</a></li>
+    <li><a href="change-password.html">Change Password</a></li>
+    <li><a href="verification.html">Verification</a></li>
+    </ul>
+    </li>
+    <li><a href="home.html"><i class="icofont-ui-home mr-2"></i> Homepage</a></li>
+    <li><a href="gift-card.html"><i class="icofont-sale-discount mr-2"></i> Offers</a></li>
+    <li><a href="listing.html"><i class="icofont-list mr-2"></i> Listing</a></li>
+    <li><a href="bus-details.html"><i class="icofont-file-text mr-2"></i> Bus Detail</a></li>
+    <li><a href="select-seat.html"><i class="icofont-check-circled mr-2"></i> Select Seat</a></li>
+    <li><a href="payment.html"><i class="icofont-id-card mr-2"></i> Checkout</a></li>
+    <li><a href="payment-card.html"><i class="icofont-ui-v-card mr-2"></i> Payment</a></li>
+    <li>
+    <a href="#"><i class="icofont-user-alt-3 mr-2"></i> Profile Pages</a>
+    <ul>
+    <li><a href="profile.html"> Profile</a></li>
+    <li><a href="your-ticket.html"> Your Ticket</a></li>
+    <li><a href="my-ticket.html"> History</a></li>
+    <li><a href="customer-feedback.html">  Customer Feedback</a></li>
+    </ul>
+    </li>
+    <li>
+    <a href="#"><i class="icofont-page mr-2"></i> Extra Pages</a>
+    <ul>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="notification.html">Notification</a></li>
+    <li><a href="not-available.html">Not Available</a></li>
+    <li><a href="404.html"> Not Found</a></li>
+    </ul>
+    </li>
+    <li>
+    <a href="#"><i class="icofont-link mr-2"></i> Navigation Link Example</a>
+    <ul>
+    <li>
+    <a href="#">Link Example 1</a>
+    <ul>
+    <li>
+    <a href="#">Link Example 1.1</a>
+    <ul>
+    <li><a href="#">Link</a></li>
+    <li><a href="#">Link</a></li>
+    <li><a href="#">Link</a></li>
+    <li><a href="#">Link</a></li>
+    <li><a href="#">Link</a></li>
+    </ul>
+    </li>
+    <li>
+    <a href="#">Link Example 1.2</a>
+    <ul>
+    <li><a href="#">Link</a></li>
+    <li><a href="#">Link</a></li>
+    <li><a href="#">Link</a></li>
+    <li><a href="#">Link</a></li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li><a href="#">Link Example 2</a></li>
+    <li><a href="#">Link Example 3</a></li>
+    <li><a href="#">Link Example 4</a></li>
+    <li data-nav-custom-content>
+    <div class="custom-message">
+    You can add any custom content to your navigation items. This text is just an example.
+    </div>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    <ul class="bottom-nav">
+    <li class="email">
+    <a class="text-green nav-item text-center" href="home.html" tabindex="0" role="menuitem">
+    <p class="h5 m-0"><i class="icofont-ui-home text-green"></i></p>
+    Home
+    </a>
+    </li>
+    <li class="github">
+    <a href="gift-card.html" class="nav-item text-center" tabindex="0" role="menuitem">
+    <p class="h5 m-0"><i class="icofont-sale-discount"></i></p>
+    Offer
+    </a>
+    </li>
+    <li class="ko-fi">
+    <a href="support.html" class="nav-item text-center" tabindex="0" role="menuitem">
+    <p class="h5 m-0"><i class="icofont-support-faq"></i></p>
+    Help
+    </a>
+    </li>
+    </ul>
+    </nav> *@
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- slick Slider JS-->
+    <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
+    <!-- Sidebar JS-->
+    <script type="text/javascript" src="vendor/sidebar/hc-offcanvas-nav.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/custom.js"></script>
+</body>
+</html>
