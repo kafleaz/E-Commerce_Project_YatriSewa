@@ -1,0 +1,3 @@
+﻿SET IDENTITY_INSERT [dbo].[UserLogin] ON
+
+SET IDENTITY_INSERT [dbo].[UserLogin] OFF

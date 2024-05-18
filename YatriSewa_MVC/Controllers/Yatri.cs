@@ -61,20 +61,12 @@ namespace YatriSewa_MVC.Controllers
         {
             return View();
         }
-        public IActionResult Profile()
-        {
-            return View();
-        }
+
         public IActionResult Selectseat()
         {
             return View();
         }
         public IActionResult Error()
-        {
-            return View();
-        }
-
-        public IActionResult Home()
         {
             return View();
         }
@@ -167,9 +159,9 @@ namespace YatriSewa_MVC.Controllers
                     return View(model);
                 }
 
+                var userLoginId = user.Login_ID;
+                return RedirectToAction("Home", new { userLoginId });
 
-                return RedirectToAction("Home");
-            
             }
 
             // If ModelState is not valid, return to the sign-in view with validation errors.
@@ -233,6 +225,9 @@ namespace YatriSewa_MVC.Controllers
             return View();
         }
 
+
+
+
         [HttpPost]
         public IActionResult Register(Customer customer, int userLoginId)
         {
@@ -263,6 +258,7 @@ namespace YatriSewa_MVC.Controllers
                     //Login_ID = userLoginId // Use the Login_ID property from the model
                 };
                 customer.Login_ID = userLoginId;
+
                 // Add customer to database
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
@@ -273,9 +269,75 @@ namespace YatriSewa_MVC.Controllers
             return View(customer);
         }
 
+        [HttpGet]
+        public IActionResult Home(int? userLoginId)
+        {
+            if (userLoginId.HasValue)
+            {
+                ViewBag.UserLoginId = userLoginId.Value;
+                // Handle the case when userLoginId is not provided
+
+            }           
+           // Pass the userLoginId to the view
+           return View();
+        }
+
+        [HttpPost]
+        public IActionResult Home(int userLoginId)
+        {
+            //if (userLoginId.HasValue)
+            //{
+            //    ViewBag.UserLoginId = userLoginId.Value;
+                // Handle the case when userLoginId is not provided         
+               // Optionally handle the case where userLoginId is not provided
+                // Redirect to a default action or show a message
+                return RedirectToAction("Signin", "Yatri", new { userLoginId });
+            
+
+            //// Pass the userLoginId to the view
+
+            //return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile(int userLoginId)
+        {
+            // Fetch customer data
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(c => c.Login_ID == userLoginId);
+
+            // Fetch login user data
+            var loginUser = await _context.UserLogin
+                .FirstOrDefaultAsync(l => l.Login_ID == userLoginId);
+
+            if (customer == null || loginUser == null)
+            {
+                return NotFound();
+            }
+
+            // Populate the ViewModel
+            var profileViewModel = new ProfileViewModel
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Age = customer.Age,
+                ContactNo = customer.ContactNo,
+                City = customer.City,
+                District = customer.District,
+                Gender = customer.Gender, // Convert Gender int to string
+                Email = loginUser.Email, // Set the email from LoginUser table
+            };
+
+            return View(profileViewModel);
+        }
 
 
+
+        
 
     }
 
+
+
 }
+

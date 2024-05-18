@@ -9,127 +9,131 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = YatriSewa_MVC
 build_property.RootNamespace = YatriSewa_MVC
-build_property.ProjectDir = C:\Users\user\OneDrive - College of Applied Business\Desktop\New folder\E-Commerce_Project_YatriSewa\YatriSewa_MVC\
+build_property.ProjectDir = C:\Users\user\OneDrive - College of Applied Business\Desktop\New folder\New folder\E-Commerce_Project_YatriSewa\YatriSewa_MVC\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\user\OneDrive - College of Applied Business\Desktop\New folder\E-Commerce_Project_YatriSewa\YatriSewa_MVC
+build_property.MSBuildProjectDirectory = C:\Users\user\OneDrive - College of Applied Business\Desktop\New folder\New folder\E-Commerce_Project_YatriSewa\YatriSewa_MVC
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Home/Indexbackup.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Home/Indexbackup.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleGJhY2t1cC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Home/Privacy.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Shared/Error.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Busdetails.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Busdetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcQnVzZGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Changepassword.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Changepassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcQ2hhbmdlcGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Customerfeedback.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Customerfeedback.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcQ3VzdG9tZXJmZWVkYmFjay5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Error.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/ForgotPassword.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcRm9yZ290UGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/GetStarted.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/GetStarted.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcR2V0U3RhcnRlZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Giftcard.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Giftcard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcR2lmdGNhcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Home.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Home.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcSG9tZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Index.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Landing.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Landing.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcTGFuZGluZy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Login.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Myticket.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Myticket.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcTXl0aWNrZXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Notavailable.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Notavailable.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcTm90YXZhaWxhYmxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Notification.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Notification.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcTm90aWZpY2F0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Payment.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Payment.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcUGF5bWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Paymentcard.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Paymentcard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcUGF5bWVudGNhcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Profile.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcUHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Register.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/ProfileEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcUHJvZmlsZUVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Selectseat.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Selectseat.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcU2VsZWN0c2VhdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Signin.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Signin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcU2lnbmluLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Signup.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Signup.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcU2lnbnVwLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Verification.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Yatri/Verification.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF0cmlcVmVyaWZpY2F0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/_ViewImports.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/_ViewStart.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Shared/_Layout.cshtml]
+[C:/Users/user/OneDrive - College of Applied Business/Desktop/New folder/New folder/E-Commerce_Project_YatriSewa/YatriSewa_MVC/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-l4xs5bph3f

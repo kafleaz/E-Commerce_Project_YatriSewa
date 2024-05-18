@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6gbjZUUpq/xeDiKAh9zPvP9pxSzNq7MjTA61f/oicBkuEB9DUrJPTDlos4DMymdGdyzOMQUhHdAo1F59j1xo5Q==",
+  "dgSpecHash": "KycpAVvt5m44EICcAKKC+fZM4jsR8SMVxvrX+5UQsbD3tC2zCw8ptc7ZzjaKoNEggv7A7vmIxDAMal6aF0FkEQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\OneDrive - College of Applied Business\\Desktop\\New folder\\E-Commerce_Project_YatriSewa\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
+  "projectFilePath": "C:\\Users\\user\\OneDrive - College of Applied Business\\Desktop\\New folder\\New folder\\E-Commerce_Project_YatriSewa\\YatriSewa_MVC\\YatriSewa_MVC.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
