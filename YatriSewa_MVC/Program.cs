@@ -67,7 +67,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "Error",
     pattern: "Error",
-    defaults: new { controller = "Yatri", action = "Error" });app.MapControllerRoute(
+    defaults: new { controller = "Yatri", action = "Error" });
+app.MapControllerRoute(
     name: "Changepassword",
     pattern: "Changepassword",
     defaults: new { controller = "Yatri", action = "Changepassword" });
@@ -107,6 +108,10 @@ app.MapControllerRoute(
     name: "Profile",
     pattern: "Profile",
     defaults: new { controller = "Yatri", action = "Profile" });
+app.MapControllerRoute(
+    name: "ProfileEdit",
+    pattern: "ProfileEdit",
+    defaults: new { controller = "Yatri", action = "ProfileEdit" });
 app.MapControllerRoute(
     name: "Selectseat",
     pattern: "Selectseat",

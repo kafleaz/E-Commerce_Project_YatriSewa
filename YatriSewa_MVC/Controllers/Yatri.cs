@@ -332,8 +332,14 @@ namespace YatriSewa_MVC.Controllers
         }
 
 
+        public IActionResult ProfileEdit()
+        {
+            return View();
+        }
 
-        
+
+
+
 
     }
 
