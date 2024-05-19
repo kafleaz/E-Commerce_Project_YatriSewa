@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\YatriSewa_MVC.props" />
-</Project>
