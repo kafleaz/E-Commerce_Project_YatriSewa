@@ -117,4 +117,6 @@ namespace YatriSewa_MVC.Models
         public string District { get; set; }
         public string Email { get; set; } // From LoginUser table
     }
+
+
 }
