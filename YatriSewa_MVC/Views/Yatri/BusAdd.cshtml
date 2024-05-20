@@ -1,0 +1,158 @@
+﻿@model YatriSewa_MVC.Models.Bus
+
+@{
+    ViewData["Title"] = "Add Bus";
+}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel="icon" type="image/png" href="~/img/logo.png">
+        <title>Add Bus</title>
+        <!-- Bootstrap core CSS -->
+        <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Icofont Icon-->
+        <link href="~/vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
+        <!-- Slick Slider -->
+        <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick-theme.min.css" />
+        <!-- Custom styles for this template -->
+        <link href="~/css/custom.css" rel="stylesheet">
+        <!-- Sidebar CSS -->
+        <link href="~/vendor/sidebar/demo.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="whitecontainer">
+            <div class="osahan-header-nav shadow-sm p-3 d-flex align-items-center bg-darkblue">
+                <h5 class="font-weight-normal mb-0 text-white">
+                    <a class="text-darkblue mr-3" href="@Url.Action("Index", "Home")"><i class="icofont-rounded-left"></i></a>
+                    Add Bus
+                </h5>
+                <div class="ml-auto d-flex align-items-center">
+                    <a class="toggle osahan-toggle h4 m-0 text-white ml-auto" href="#"><i class="icofont-navigation-menu"></i></a>
+                </div>
+            </div>
+            <div class="p-3">
+                <form id="busForm" method="post" asp-action="AddBus" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="BusName" class="text-muted mb-1">Bus Name</label>
+                            <input asp-for="BusName" class="form-control" placeholder="Bus Name" required>
+                            <span asp-validation-for="BusName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="BusNumber" class="text-muted mb-1">Bus Number</label>
+                            <input asp-for="BusNumber" class="form-control" placeholder="Bus Number" required>
+                            <span asp-validation-for="BusNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="From" class="text-muted mb-1">From</label>
+                            <select asp-for="From" class="form-control">
+                                <option value="">Select City</option>
+                                <!-- Add cities here -->
+                            </select>
+                            <span asp-validation-for="From" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="To" class="text-muted mb-1">To</label>
+                            <select asp-for="To" class="form-control">
+                                <option value="">Select City</option>
+                                <!-- Add cities here -->
+                            </select>
+                            <span asp-validation-for="To" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="SeatCapacity" class="text-muted mb-1">Max Seat Capacity</label>
+                            <select asp-for="SeatCapacity" class="form-control">
+                                <option value="">Select Capacity</option>
+                                <!-- Add capacities here -->
+                            </select>
+                            <span asp-validation-for="SeatCapacity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Price" class="text-muted mb-1">Price</label>
+                            <input asp-for="Price" class="form-control" placeholder="Price" required>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Photo" class="text-muted mb-1">Bus Photo</label>
+                        <input asp-for="Photo" type="file" class="form-control-file" required>
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="text-muted mb-1">Description about Bus</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Description about Bus"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <h6 class="text-muted">Services</h6>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <input asp-for="WiFi" class="form-check-input" type="checkbox" value="true">
+                            <label asp-for="WiFi" class="form-check-label">WiFi</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="AC" class="form-check-input" type="checkbox" value="true">
+                            <label asp-for="AC" class="form-check-label">AC</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Meals" class="form-check-input" type="checkbox" value="true">
+                            <label asp-for="Meals" class="form-check-label">Meals (Paid/Unpaid)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="SafetyFeatures" class="form-check-input" type="checkbox" value="true">
+                            <label asp-for="SafetyFeatures" class="form-check-label">Safety Features</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Essentials" class="form-check-input" type="checkbox" value="true">
+                            <label asp-for="Essentials" class="form-check-label">Essentials</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Snacks" class="form-check-input" type="checkbox" value="true">
+                            <label asp-for="Snacks" class="form-check-label">Snacks</label>
+                        </div>
+                    </div>
+
+                    <h6 class="text-muted">Operator Details</h6>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="OperatorName" class="text-muted mb-1">Name</label>
+                            <input asp-for="OperatorName" class="form-control" placeholder="Name" required>
+                            <span asp-validation-for="OperatorName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="OperatorContact" class="text-muted mb-1">Contact</label>
+                            <input asp-for="OperatorContact" class="form-control" placeholder="Contact" required>
+                            <span asp-validation-for="OperatorContact" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn create-account btn-block osahanbus-btn mb-4">Add Bus</button>
+                </form>
+            </div>
+    
+        <!-- Bootstrap core JavaScript -->
+        <script src="~/vendor/jquery/jquery.min.js"></script>
+        <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- slick Slider JS-->
+        <script type="text/javascript" src="~/vendor/slick/slick.min.js"></script>
+        <!-- Sidebar JS-->
+        <script type="text/javascript" src="~/vendor/sidebar/hc-offcanvas-nav.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="~/js/custom.js"></script>
+        </div>
+</body>
+</html>

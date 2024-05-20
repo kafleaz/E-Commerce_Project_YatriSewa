@@ -3,7 +3,9 @@ using YatriSewa_MVC.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
+using Microsoft.Extensions.Hosting;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -77,6 +79,13 @@ namespace YatriSewa_MVC.Controllers
         public Yatri(UserContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        private readonly IWebHostEnvironment _hostEnvironment;
+
+        public Yatri(IWebHostEnvironment hostEnvironment)
+        {
+            _hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -331,17 +340,59 @@ namespace YatriSewa_MVC.Controllers
             return View(profileViewModel);
         }
 
-
-        public IActionResult ProfileEdit()
+        [HttpGet]
+        public IActionResult BusAdd()
         {
-            return View();
+            return View(new BusFormViewModel());
         }
 
+        // POST: Buses/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Bus model)
+        {
+            if (ModelState.IsValid)
+            {
+                string uniqueFileName = null;
 
+                if (model.Photo != null)
+                {
+                    string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.Photo.CopyToAsync(fileStream);
+                    }
+                }
 
+                var bus = new Bus
+                {
+                    BusName = model.BusName,
+                    BusNumber = model.BusNumber,
+                    From = model.From,
+                    To = model.To,
+                    SeatCapacity = model.SeatCapacity,
+                    Price = model.Price,
+                    PhotoPath = "/uploads/" + uniqueFileName,
+                    Description = model.Description,
+                    //ServiceId = model.ServiceId,
+                    //OperatorId = model.OperatorId
+                };
 
+                // Save bus to the database
+                // _context.Buses.Add(bus);
+                // await _context.SaveChangesAsync();
 
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
     }
+
+
+
 
 
 
