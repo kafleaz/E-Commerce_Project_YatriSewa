@@ -47,6 +47,7 @@ namespace YatriSewa_MVC.Models
         public string Description { get; set; }
 
         public virtual Service Service { get; set; }
+        public int OperatorId { get; set; }
         public virtual Operator Operator { get; set; }
     }
     public class Service
@@ -120,7 +121,31 @@ namespace YatriSewa_MVC.Models
         [Column("expiry_date")]
         [DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
+        public virtual ICollection<Bus> Buses { get; set; } = new List<Bus>();
+    }
 
-        public virtual ICollection<Bus> Buses { get; set; }
+    public class BusAddViewModel
+    {
+        // Bus properties
+        public string BusName { get; set; }
+        public string BusNumber { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public int SeatCapacity { get; set; }
+        public decimal Price { get; set; }
+        public IFormFile Photo { get; set; }
+        public string Description { get; set; }
+
+        // Service properties
+        public bool WiFi { get; set; }
+        public bool AC { get; set; }
+        public bool Meals { get; set; }
+        public bool SafetyFeatures { get; set; }
+        public bool Essentials { get; set; }
+        public bool Snacks { get; set; }
+
+        // Operator properties
+        public string OperatorName { get; set; }
+        public string OperatorContact { get; set; }
     }
 }

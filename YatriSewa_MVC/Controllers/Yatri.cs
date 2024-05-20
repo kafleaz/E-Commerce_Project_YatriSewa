@@ -75,17 +75,12 @@ namespace YatriSewa_MVC.Controllers
 
 
         private readonly UserContext _context;
-
-        public Yatri(UserContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public Yatri(IWebHostEnvironment hostEnvironment)
+        public Yatri(UserContext context, IWebHostEnvironment hostEnvironment)
         {
-            _hostEnvironment = hostEnvironment;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
         }
 
         [HttpGet]
@@ -343,18 +338,17 @@ namespace YatriSewa_MVC.Controllers
         [HttpGet]
         public IActionResult BusAdd()
         {
-            return View(new BusFormViewModel());
+            return View();
         }
 
-        // POST: Buses/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Bus model)
+        public async Task<IActionResult> BusAdd(BusAddViewModel model)
         {
             if (ModelState.IsValid)
             {
+                // Handle photo upload
                 string uniqueFileName = null;
-
                 if (model.Photo != null)
                 {
                     string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
@@ -366,6 +360,7 @@ namespace YatriSewa_MVC.Controllers
                     }
                 }
 
+                // Create Bus entity
                 var bus = new Bus
                 {
                     BusName = model.BusName,
@@ -374,20 +369,41 @@ namespace YatriSewa_MVC.Controllers
                     To = model.To,
                     SeatCapacity = model.SeatCapacity,
                     Price = model.Price,
-                    PhotoPath = "/uploads/" + uniqueFileName,
-                    Description = model.Description,
-                    //ServiceId = model.ServiceId,
-                    //OperatorId = model.OperatorId
+                    PhotoPath = uniqueFileName != null ? "/uploads/" + uniqueFileName : null,
+                    Description = model.Description
                 };
 
-                // Save bus to the database
-                // _context.Buses.Add(bus);
-                // await _context.SaveChangesAsync();
+                // Create Service entity
+                var service = new Service
+                {
+                    Wifi = model.WiFi,
+                    AC = model.AC,
+                    DinnerLunch = model.Meals,
+                    SafetyFeatures = model.SafetyFeatures ? "Available" : null,
+                    Essentials = model.Essentials ? "Available" : null,
+                    Snacks = model.Snacks ? "Available" : null,
+                    Bus = bus
+                };
 
-                return RedirectToAction("Index");
+                // Create Operator entity
+                var operatorEntity = new Operator
+                {
+                    Name = model.OperatorName,
+                    ContactNo = model.OperatorContact,
+                    // Additional properties can be set here if required
+                    Buses = new List<Bus> { bus }
+                };
+
+                // Save to database
+                _context.Buses.Add(bus);
+                _context.Services.Add(service);
+                _context.Operators.Add(operatorEntity);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(BusAdd));
             }
 
-            return View(model);
+            return View("BusAdd", model);
         }
     }
 
