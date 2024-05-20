@@ -1,51 +1,43 @@
-﻿@{
-    ViewData["Title"] = "GetStarted";
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.css" />
-    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/YatriSewa_MVC.styles.css" asp-append-version="true" />
-
     <link rel="icon" type="image/png" href="img/logo.png">
-    <title>Bus Ticket Booking</title>
+    <title>Bus Ticket Booking </title>
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icofont Icon-->
-    <link href="vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
+    <link href="~/vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
     <!-- Slick Slider -->
-    <link rel="stylesheet" type="text/css" href="vendor/slick/slick.min.css" />
-    <link rel="stylesheet" type="text/css" href="vendor/slick/slick-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick-theme.min.css" />
     <!-- Custom styles for this template -->
-    <link href="css/custom.css" rel="stylesheet">
+    <link href="~/css/custom.css" rel="stylesheet">
     <!-- Sidebar CSS -->
     <link href="vendor/sidebar/demo.css" rel="stylesheet">
 </head>
 <body>
     <div class="whitecontainer">
-        <!-- Osahan Started -->
-        <div class="py-4 d-flex align-items-center justify-content-center">
-            <div class="osahan-started pt-2 text-center">
-                <img src="~/img/sign-in-pana.svg" class="img-fluid mb-2 mx-auto">
-                <div class="head py-4 px-4 text-center">
-                    <h5 class="welcometext mb-4">Start by creating an account.</h5>
-                    <p class="text-muted">I'm an early bird and I'm night owl so I'm<br>wise and I have worms.</p>
+        <!-- 404 Error -->
+        <div class="vh-100 osahan-coming-soon p-4 d-flex justify-content-center align-items-center">
+            <div class="osahan-text text-center">
+                <div class="osahan-img px-3 pb-1">
+                    <img src="~/img/not-found.svg" class="img-fluid mb-1">
                 </div>
-                <div class="osahan-fotter fixed-bottom m-3">
-                    <a href="@Url.Action("Signup")" class="create-account btn btn-block mb-3 osahanbus-btn">CREATE AN ACCOUNT</a>
-                    <a href="@Url.Action("Signin")" class="sign-in btn btn-block osahanbus-btn">SIGN IN</a>
-                </div>
+                <h3 class="mb-3 font-weight-bold text-darkblue">Welcome To Yatri Sewa <b>Admin Panel</b></h3>
+                <p class="lead mb-0">Admin, your presence is valued. We appreciate your commitment to excellence.</p>
+                <p class="mb-5"> <b> Let’s achieve great things together!</b> @* <a class="text-green" href="support.html">tell us</a>. *@</p>
+                <a href="home.html" class="btn sign-in btn-block osahanbus-social mb-4">Manage User</a>
+                <a href="@Url.Action("BusAdd")" class="btn sign-in btn-block osahanbus-social mb-4">Add Bus</a>
+                <a href="home.html" class="btn sign-in btn-block osahanbus-social mb-4">Delete Bus</a>
             </div>
         </div>
+    </div>
         <!-- sidebar -->
-        @* <nav id="main-nav">
+       @*  <nav id="main-nav">
             <ul class="second-nav">
                 <li>
                     <a href="#" class="bg-danger sidebar-user d-flex align-items-center py-4 px-3 border-0 mb-0">
@@ -158,7 +150,7 @@
                     </a>
                 </li>
             </ul>
-        </nav>*@
+        </nav> *@
         <!-- Bootstrap core JavaScript -->
         <script src="vendor/jquery/jquery.min.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -167,13 +159,6 @@
         <!-- Sidebar JS-->
         <script type="text/javascript" src="vendor/sidebar/hc-offcanvas-nav.js"></script>
         <!-- Custom scripts for all pages-->
-        <script src="js/custom.js"></script> 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/js/custom.js" asp-append-version="true"></script>
-
-    </div>
-
+        <script src="js/custom.js"></script>
 </body>
 </html>

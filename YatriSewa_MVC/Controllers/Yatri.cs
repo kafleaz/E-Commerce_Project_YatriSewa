@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -335,6 +336,37 @@ namespace YatriSewa_MVC.Controllers
             return View(profileViewModel);
         }
 
+        public IActionResult OperatorLogin()
+        {
+            return View();
+        }
+        
+
+        [HttpPost]
+        public IActionResult OperatorLogin(LoginAsOperator model)
+        {
+            // Hardcoded admin email and password
+            var adminEmail = "yatri@gmail.com";
+            var adminPassword = "yatri123"; // Ensure secure storage of passwords in real applications
+
+            if (model.OperatorEmail == adminEmail && model.OperatorPassword == adminPassword)
+            {
+                // Redirect to the BusAdd page if credentials match
+                return RedirectToAction("AdminHome");
+            }
+            else
+            {
+                // Handle the case where credentials do not match
+                ModelState.AddModelError("OperatorPassword", "Invalid login attempt.");
+                return View(model);
+            }
+        }
+
+        public IActionResult AdminHome()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult BusAdd()
         {
@@ -342,25 +374,24 @@ namespace YatriSewa_MVC.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BusAdd(BusAddViewModel model)
+        public async Task<IActionResult> BusAdd(BusFormViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // Handle photo upload
-                string uniqueFileName = null;
-                if (model.Photo != null)
+                // Save Operator
+                var busOperator = new Operator
                 {
-                    string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await model.Photo.CopyToAsync(fileStream);
-                    }
-                }
+                    Name = model.OperatorName,
+                    ContactNo = model.OperatorContact,
+                    Address = model.Address,
+                    LicenseNo = model.LicenseNo,
+                    IssueDate = model.IssueDate,
+                    ExpiryDate = model.ExpiryDate
+                };
+                _context.Operators.Add(busOperator);
+                await _context.SaveChangesAsync();
 
-                // Create Bus entity
+                // Save Bus
                 var bus = new Bus
                 {
                     BusName = model.BusName,
@@ -369,48 +400,49 @@ namespace YatriSewa_MVC.Controllers
                     To = model.To,
                     SeatCapacity = model.SeatCapacity,
                     Price = model.Price,
-                    PhotoPath = uniqueFileName != null ? "/uploads/" + uniqueFileName : null,
-                    Description = model.Description
+                    Description = model.Description,
+                    OperatorId = busOperator.OperatorId
                 };
 
-                // Create Service entity
+                if (model.Photo != null)
+                {
+                    var uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.Photo.CopyToAsync(fileStream);
+                    }
+                    bus.PhotoPath = "/uploads/" + uniqueFileName;
+                }
+
+                _context.Buses.Add(bus);
+                await _context.SaveChangesAsync();
+
+                // Save Service
                 var service = new Service
                 {
                     Wifi = model.WiFi,
                     AC = model.AC,
-                    DinnerLunch = model.Meals,
-                    SafetyFeatures = model.SafetyFeatures ? "Available" : null,
-                    Essentials = model.Essentials ? "Available" : null,
-                    Snacks = model.Snacks ? "Available" : null,
-                    Bus = bus
+                    Meals = model.Meals,
+                    SafetyFeatures = model.SafetyFeatures,
+                    Essentials = model.Essentials,
+                    Snacks = model.Snacks,
+                    BusId = bus.BusId
                 };
 
-                // Create Operator entity
-                var operatorEntity = new Operator
-                {
-                    Name = model.OperatorName,
-                    ContactNo = model.OperatorContact,
-                    // Additional properties can be set here if required
-                    Buses = new List<Bus> { bus }
-                };
-
-                // Save to database
-                _context.Buses.Add(bus);
                 _context.Services.Add(service);
-                _context.Operators.Add(operatorEntity);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(BusAdd));
+                return RedirectToAction("AdminHome");
             }
 
-            return View("BusAdd", model);
+            return View(model);
         }
     }
-
-
-
-
-
-
 }
 
