@@ -13,7 +13,8 @@ namespace YatriSewa_MVC.Models
         public DbSet<LoginUser> UserLogin { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Bus> Buses { get; set; }
-        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<Operator> Drivers { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<TransactionReport> TransactionReports { get; set; }
         public DbSet<Order> Orders { get; set; }

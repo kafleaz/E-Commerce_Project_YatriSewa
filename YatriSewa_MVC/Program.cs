@@ -120,4 +120,10 @@ app.MapControllerRoute(
     name: "Home",
     pattern: "Home",
     defaults: new { controller = "Yatri", action = "Home" });
+app.MapControllerRoute(
+    name: "BusAdd",
+    pattern: "BusAdd",
+    defaults: new { controller = "Yatri", action = "BusAdd" });
+
+
 app.Run();
