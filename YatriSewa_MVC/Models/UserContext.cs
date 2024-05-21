@@ -13,36 +13,27 @@ namespace YatriSewa_MVC.Models
         public DbSet<LoginUser> UserLogin { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Bus> Buses { get; set; }
-        public DbSet<Operator> Drivers { get; set; }
+        public DbSet<Operator> Operators { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<TransactionReport> TransactionReports { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Bus>()
+                .HasOne(b => b.Service)
+                .WithOne(s => s.Bus)
+                .HasForeignKey<Service>(s => s.BusId);
+
+            modelBuilder.Entity<Bus>()
+                .HasOne(b => b.Operator)
+                .WithMany(o => o.Buses)
+                .HasForeignKey(b => b.OperatorId);
+        }
     }
 }
 
-
-
-
-//namespace YatriSewa_MVC.Models
-//{
-//    public class UserContext(DbContextOptions<UserContext> options) : DbContext(options)
-//    {
-//        public DbSet<LoginUser> Login_Detail{ get; set; }
-        
-//        public DbSet<Customer> Customer { get; set; }
-
-//        public DbSet<Bus> Bus { get; set; }
-
-//        public DbSet<Driver> Drivers{ get; set; }
-
-//        public DbSet<Payment> Payment { get; set; }
-
-//        public DbSet<TransactionReport> TransactionReport { get; set; }
-
-//        public DbSet<Order> Order { get; set; }
-
-//        public DbSet<Reservation> Reservation { get; set; }
-//    }
-//}

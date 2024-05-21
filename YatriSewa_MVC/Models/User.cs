@@ -117,13 +117,7 @@ namespace YatriSewa_MVC.Models
         public string Email { get; set; } // From LoginUser table
     }
 
-    public class BusFormViewModel
-    {
-        public Bus Bus { get; set; }
-        public Service Service { get; set; }
-        public Operator Operator { get; set; }
-        
-    }
+
 
 
 
