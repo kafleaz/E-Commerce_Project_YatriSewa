@@ -1,9 +1,19 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using YatriSewa_MVC.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.UseKestrel(options =>
+{
+    options.Listen(IPAddress.Any, 7066, listenOptions =>
+    {
+        listenOptions.UseHttps();
+    });
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

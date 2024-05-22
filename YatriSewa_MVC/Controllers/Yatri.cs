@@ -321,7 +321,7 @@ namespace YatriSewa_MVC.Controllers
             }
 
             // Populate the ViewModel
-            var profileViewModel = new ProfileViewModel
+            var profileViewModel = new ProfileViewModel 
             {
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
