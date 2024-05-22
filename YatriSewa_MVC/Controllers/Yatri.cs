@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -75,17 +76,12 @@ namespace YatriSewa_MVC.Controllers
 
 
         private readonly UserContext _context;
-
-        public Yatri(UserContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public Yatri(IWebHostEnvironment hostEnvironment)
+        public Yatri(UserContext context, IWebHostEnvironment hostEnvironment)
         {
-            _hostEnvironment = hostEnvironment;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
         }
 
         [HttpGet]
@@ -325,7 +321,7 @@ namespace YatriSewa_MVC.Controllers
             }
 
             // Populate the ViewModel
-            var profileViewModel = new ProfileViewModel
+            var profileViewModel = new ProfileViewModel 
             {
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
@@ -340,32 +336,62 @@ namespace YatriSewa_MVC.Controllers
             return View(profileViewModel);
         }
 
+        public IActionResult OperatorLogin()
+        {
+            return View();
+        }
+        
+
+        [HttpPost]
+        public IActionResult OperatorLogin(LoginAsOperator model)
+        {
+            // Hardcoded admin email and password
+            var adminEmail = "yatri@gmail.com";
+            var adminPassword = "yatri123"; // Ensure secure storage of passwords in real applications
+
+            if (model.OperatorEmail == adminEmail && model.OperatorPassword == adminPassword)
+            {
+                // Redirect to the BusAdd page if credentials match
+                return RedirectToAction("AdminHome");
+            }
+            else
+            {
+                // Handle the case where credentials do not match
+                ModelState.AddModelError("OperatorPassword", "Invalid login attempt.");
+                return View(model);
+            }
+        }
+
+        public IActionResult AdminHome()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult BusAdd()
         {
-            return View(new BusFormViewModel());
+            return View();
         }
 
-        // POST: Buses/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Bus model)
+        public async Task<IActionResult> BusAdd(BusFormViewModel model)
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
-
-                if (model.Photo != null)
+                // Save Operator
+                var busOperator = new Operator
                 {
-                    string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await model.Photo.CopyToAsync(fileStream);
-                    }
-                }
+                    Name = model.OperatorName,
+                    ContactNo = model.OperatorContact,
+                    Address = model.Address,
+                    LicenseNo = model.LicenseNo,
+                    IssueDate = model.IssueDate,
+                    ExpiryDate = model.ExpiryDate
+                };
+                _context.Operators.Add(busOperator);
+                await _context.SaveChangesAsync();
 
+                // Save Bus
                 var bus = new Bus
                 {
                     BusName = model.BusName,
@@ -374,27 +400,49 @@ namespace YatriSewa_MVC.Controllers
                     To = model.To,
                     SeatCapacity = model.SeatCapacity,
                     Price = model.Price,
-                    PhotoPath = "/uploads/" + uniqueFileName,
                     Description = model.Description,
-                    //ServiceId = model.ServiceId,
-                    //OperatorId = model.OperatorId
+                    OperatorId = busOperator.OperatorId
                 };
 
-                // Save bus to the database
-                // _context.Buses.Add(bus);
-                // await _context.SaveChangesAsync();
+                if (model.Photo != null)
+                {
+                    var uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.Photo.CopyToAsync(fileStream);
+                    }
+                    bus.PhotoPath = "/uploads/" + uniqueFileName;
+                }
 
-                return RedirectToAction("Index");
+                _context.Buses.Add(bus);
+                await _context.SaveChangesAsync();
+
+                // Save Service
+                var service = new Service
+                {
+                    Wifi = model.WiFi,
+                    AC = model.AC,
+                    Meals = model.Meals,
+                    SafetyFeatures = model.SafetyFeatures,
+                    Essentials = model.Essentials,
+                    Snacks = model.Snacks,
+                    BusId = bus.BusId
+                };
+
+                _context.Services.Add(service);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("AdminHome");
             }
 
             return View(model);
         }
     }
-
-
-
-
-
-
 }
 

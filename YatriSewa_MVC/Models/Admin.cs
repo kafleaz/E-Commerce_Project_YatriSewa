@@ -34,12 +34,12 @@ namespace YatriSewa_MVC.Models
 
         [Required(ErrorMessage = "Price is required")]
         [Column("price")]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [StringLength(255, ErrorMessage = "Photo path cannot exceed 255 characters")]
         [Column("photo_path")]
         public string PhotoPath { get; set; }
-        public IFormFile Photo { get; set; }
+        //public IFormFile Photo { get; set; }
 
         [Required(ErrorMessage = "Description is required")]
         [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters")]
@@ -47,6 +47,7 @@ namespace YatriSewa_MVC.Models
         public string Description { get; set; }
 
         public virtual Service Service { get; set; }
+        public int OperatorId { get; set; }
         public virtual Operator Operator { get; set; }
     }
     public class Service
@@ -64,10 +65,7 @@ namespace YatriSewa_MVC.Models
 
         [Required(ErrorMessage = "Dinner/Lunch status is required")]
         [Column("dinner_lunch")]
-        public bool DinnerLunch { get; set; }
-
-        [Column("paid")]
-        public bool? Paid { get; set; }
+        public bool Meals { get; set; }
 
         [StringLength(255, ErrorMessage = "Safety Features cannot exceed 255 characters")]
         [Column("safety_features")]
@@ -120,7 +118,65 @@ namespace YatriSewa_MVC.Models
         [Column("expiry_date")]
         [DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
+        public virtual ICollection<Bus> Buses { get; set; } = new List<Bus>();
+    }
 
-        public virtual ICollection<Bus> Buses { get; set; }
+    public class BusFormViewModel
+    {
+        // Bus properties
+        [Required]
+        public string BusName { get; set; }
+        [Required]
+        public string BusNumber { get; set; }
+        [Required]
+        public string From { get; set; }
+        [Required]
+        public string To { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
+        [Required]
+        public TimeSpan Time { get; set; }
+        [Required]
+        public int SeatCapacity { get; set; }
+        [Required]
+        public int Price { get; set; }
+        public IFormFile Photo { get; set; }
+        [Required]
+        public string Description { get; set; }
+
+        // Service properties
+        [Required]
+        public bool WiFi { get; set; }
+        [Required]
+        public bool AC { get; set; }
+        [Required]
+        public bool Meals { get; set; }
+        public string? SafetyFeatures { get; set; }
+        public string? Essentials { get; set; }
+        public string? Snacks { get; set; }
+
+        // Operator properties
+        [Required]
+        public string OperatorName { get; set; }
+        [Required]
+        public string OperatorContact { get; set; }
+        [Required]
+        public string Address { get; set; }
+        [Required]
+        public string LicenseNo { get; set; }
+        [Required]
+        public DateTime IssueDate { get; set; }
+        [Required]
+        public DateTime ExpiryDate { get; set; }
+    }
+
+
+    public class LoginAsOperator
+    {
+        [Required]
+        public string OperatorEmail { get; set; }
+
+        [Required]
+        public string OperatorPassword { get; set; }
     }
 }
