@@ -3,7 +3,10 @@ using YatriSewa_MVC.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -73,10 +76,12 @@ namespace YatriSewa_MVC.Controllers
 
 
         private readonly UserContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public Yatri(UserContext context)
+        public Yatri(UserContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
         }
 
         [HttpGet]
@@ -275,29 +280,86 @@ namespace YatriSewa_MVC.Controllers
             if (userLoginId.HasValue)
             {
                 ViewBag.UserLoginId = userLoginId.Value;
-                // Handle the case when userLoginId is not provided
+            }
 
-            }           
-           // Pass the userLoginId to the view
-           return View();
+            //var fromLocations = await _context.Buses.Select(b => b.From).Distinct().ToListAsync();
+            //var toLocations = await _context.Buses.Select(b => b.To).Distinct().ToListAsync();
+
+            //var viewModel = new SearchViewModel
+            //{
+            //    From = fromLocations,
+            //    To = toLocations
+            //};
+
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Home(int userLoginId)
+        public async Task<IActionResult> Home(SearchViewModel model, int userLoginId)
         {
-            //if (userLoginId.HasValue)
-            //{
-            //    ViewBag.UserLoginId = userLoginId.Value;
-                // Handle the case when userLoginId is not provided         
-               // Optionally handle the case where userLoginId is not provided
-                // Redirect to a default action or show a message
-                return RedirectToAction("Signin", "Yatri", new { userLoginId });
-            
+            if (ModelState.IsValid)
+            {
+                // Query the Buses table to check for a matching entry
+                var busExists = await _context.Buses
+                    .AnyAsync(b => b.From == model.From && b.To == model.To && b.Date == model.Date);
 
-            //// Pass the userLoginId to the view
+                if (busExists)
+                {
+                    // Redirect to the Listing page if a match is found
+                    return RedirectToAction("BusListing", new { from = model.From, to = model.To, date = model.Date });
+                }
+                else
+                {
+                    // No matching bus found, display an appropriate message
+                    return RedirectToAction("Error");
+                }
+            }
 
-            //return View();
+            // If ModelState is not valid or no bus found, reload the Home view with the userLoginId
+            ViewBag.UserLoginId = userLoginId;
+            //model.FromLocations = await _context.Buses.Select(b => b.From).Distinct().ToListAsync();
+            //model.ToLocations = await _context.Buses.Select(b => b.To).Distinct().ToListAsync();
+
+            return View(model);
         }
+
+        public IActionResult BusListing()
+        {
+            return View();
+
+        }
+
+            // Other existing action methods
+
+            //[HttpGet]
+            //public IActionResult Home(int? userLoginId)
+            //{
+            //    if (userLoginId.HasValue)
+            //    {
+            //        ViewBag.UserLoginId = userLoginId.Value;
+            //        // Handle the case when userLoginId is not provided
+
+            //    }           
+            //   // Pass the userLoginId to the view
+            //   return View();
+            //}
+
+            //[HttpPost]
+            //public IActionResult Home(int userLoginId)
+            //{
+            //    //if (userLoginId.HasValue)
+            //    //{
+            //    //    ViewBag.UserLoginId = userLoginId.Value;
+            //        // Handle the case when userLoginId is not provided         
+            //       // Optionally handle the case where userLoginId is not provided
+            //        // Redirect to a default action or show a message
+            //        return RedirectToAction("Signin", "Yatri", new { userLoginId });
+
+
+            //    //// Pass the userLoginId to the view
+
+            //    //return View();
+            //}
 
         [HttpGet]
         public async Task<IActionResult> Profile(int userLoginId)
@@ -316,7 +378,7 @@ namespace YatriSewa_MVC.Controllers
             }
 
             // Populate the ViewModel
-            var profileViewModel = new ProfileViewModel
+            var profileViewModel = new ProfileViewModel 
             {
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
@@ -331,19 +393,116 @@ namespace YatriSewa_MVC.Controllers
             return View(profileViewModel);
         }
 
+        public IActionResult OperatorLogin()
+        {
+            return View();
+        }
+        
 
-        public IActionResult ProfileEdit()
+        [HttpPost]
+        public IActionResult OperatorLogin(LoginAsOperator model)
+        {
+            // Hardcoded admin email and password
+            var adminEmail = "yatri@gmail.com";
+            var adminPassword = "yatri123"; // Ensure secure storage of passwords in real applications
+
+            if (model.OperatorEmail == adminEmail && model.OperatorPassword == adminPassword)
+            {
+                // Redirect to the BusAdd page if credentials match
+                return RedirectToAction("AdminHome");
+            }
+            else
+            {
+                // Handle the case where credentials do not match
+                ModelState.AddModelError("OperatorPassword", "Invalid login attempt.");
+                return View(model);
+            }
+        }
+
+        public IActionResult AdminHome()
         {
             return View();
         }
 
+        [HttpGet]
+        public IActionResult BusAdd()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> BusAdd(BusFormViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Save Operator
+                var busOperator = new Operator
+                {
+                    Name = model.OperatorName,
+                    ContactNo = model.OperatorContact,
+                    Address = model.Address,
+                    LicenseNo = model.LicenseNo,
+                    IssueDate = model.IssueDate,
+                    ExpiryDate = model.ExpiryDate
+                };
+                _context.Operators.Add(busOperator);
+                await _context.SaveChangesAsync();
 
+                // Save Bus
+                var bus = new Bus
+                {
+                    BusName = model.BusName,
+                    BusNumber = model.BusNumber,
+                    From = model.From,
+                    To = model.To,
+                    Date = model.Date,
+                    Time = model.Time,
+                    SeatCapacity = model.SeatCapacity,
+                    Price = model.Price,
+                    Description = model.Description,
+                    OperatorId = busOperator.OperatorId
+                };
 
+                if (model.Photo != null)
+                {
+                    var uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.Photo.CopyToAsync(fileStream);
+                    }
+                    bus.PhotoPath = "/uploads/" + uniqueFileName;
+                }
 
+                _context.Buses.Add(bus);
+                await _context.SaveChangesAsync();
+
+                // Save Service
+                var service = new Service
+                {
+                    Wifi = model.WiFi,
+                    AC = model.AC,
+                    Meals = model.Meals,
+                    SafetyFeatures = model.SafetyFeatures,
+                    Essentials = model.Essentials,
+                    Snacks = model.Snacks,
+                    BusId = bus.BusId
+                };
+
+                _context.Services.Add(service);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("AdminHome");
+            }
+
+            return View(model);
+        }
     }
-
-
-
 }
+
 

@@ -224,33 +224,68 @@ namespace YatriSewa_MVC.Migrations
                 {
                     b.Property<int>("BusId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("bus_ID");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BusId"));
 
-                    b.Property<int>("BusNumber")
-                        .HasColumnType("int")
-                        .HasColumnName("bus_number");
-
-                    b.Property<string>("BusStatus")
+                    b.Property<string>("BusName")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
-                        .HasColumnName("bus_status");
+                        .HasColumnName("bus_name");
 
-                    b.Property<int>("DriverId")
-                        .HasColumnType("int")
-                        .HasColumnName("driver_ID");
+                    b.Property<string>("BusNumber")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("bus_no");
 
-                    b.Property<int>("NumberOfSeats")
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date")
+                        .HasColumnName("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("From")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("from_location");
+
+                    b.Property<int>("OperatorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhotoPath")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("photo_path");
+
+                    b.Property<int>("Price")
                         .HasColumnType("int")
-                        .HasColumnName("bus_seats");
+                        .HasColumnName("price");
+
+                    b.Property<int>("SeatCapacity")
+                        .HasColumnType("int")
+                        .HasColumnName("seat_capacity");
+
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time")
+                        .HasColumnName("time");
+
+                    b.Property<string>("To")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("to_location");
 
                     b.HasKey("BusId");
 
-                    b.HasIndex("DriverId")
-                        .IsUnique();
+                    b.HasIndex("OperatorId");
 
                     b.ToTable("Buses");
                 });
@@ -307,33 +342,7 @@ namespace YatriSewa_MVC.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.HasIndex("Login_ID");
-
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.Driver", b =>
-                {
-                    b.Property<int>("DriverId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("driver_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DriverId"));
-
-                    b.Property<int>("BusId")
-                        .HasColumnType("int")
-                        .HasColumnName("bus_ID");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("DriverId");
-
-                    b.ToTable("Drivers");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.LoginUser", b =>
@@ -362,28 +371,49 @@ namespace YatriSewa_MVC.Migrations
                     b.ToTable("UserLogin");
                 });
 
-            modelBuilder.Entity("YatriSewa_MVC.Models.Order", b =>
+            modelBuilder.Entity("YatriSewa_MVC.Models.Operator", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("OperatorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("order_ID");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OperatorId"));
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("customer_ID");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("address");
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("order_date");
+                    b.Property<string>("ContactNo")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("contact_no");
 
-                    b.HasKey("OrderId");
+                    b.Property<DateOnly>("ExpiryDate")
+                        .HasColumnType("date")
+                        .HasColumnName("expiry_date");
 
-                    b.HasIndex("CustomerId");
+                    b.Property<DateOnly>("IssueDate")
+                        .HasColumnType("date")
+                        .HasColumnName("issue_date");
 
-                    b.ToTable("Orders");
+                    b.Property<string>("LicenseNo")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("license_no");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("operator_name");
+
+                    b.HasKey("OperatorId");
+
+                    b.ToTable("Operators");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Payment", b =>
@@ -407,8 +437,6 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("PaymentId");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ReservationId");
 
@@ -449,41 +477,56 @@ namespace YatriSewa_MVC.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservation");
                 });
 
-            modelBuilder.Entity("YatriSewa_MVC.Models.TransactionReport", b =>
+            modelBuilder.Entity("YatriSewa_MVC.Models.Service", b =>
                 {
-                    b.Property<int>("ReportId")
+                    b.Property<int>("ServiceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("report_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportId"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("customer_ID");
-
-                    b.Property<int>("PaymentId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ReportDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("report_date");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceId"));
 
-                    b.Property<int>("ReservationId")
+                    b.Property<bool>("AC")
+                        .HasColumnType("bit")
+                        .HasColumnName("ac");
+
+                    b.Property<int>("BusId")
                         .HasColumnType("int");
 
-                    b.HasKey("ReportId");
+                    b.Property<string>("Essentials")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("essentials");
 
-                    b.HasIndex("CustomerId");
+                    b.Property<bool>("Meals")
+                        .HasColumnType("bit")
+                        .HasColumnName("dinner_lunch");
 
-                    b.HasIndex("PaymentId");
+                    b.Property<string>("SafetyFeatures")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("safety_features");
 
-                    b.HasIndex("ReservationId");
+                    b.Property<string>("Snacks")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("snacks");
 
-                    b.ToTable("TransactionReports");
+                    b.Property<bool>("Wifi")
+                        .HasColumnType("bit")
+                        .HasColumnName("wifi");
+
+                    b.HasKey("ServiceId");
+
+                    b.HasIndex("BusId")
+                        .IsUnique();
+
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -539,52 +582,22 @@ namespace YatriSewa_MVC.Migrations
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Bus", b =>
                 {
-                    b.HasOne("YatriSewa_MVC.Models.Driver", "Driver")
-                        .WithOne("Bus")
-                        .HasForeignKey("YatriSewa_MVC.Models.Bus", "DriverId")
+                    b.HasOne("YatriSewa_MVC.Models.Operator", "Operator")
+                        .WithMany("Buses")
+                        .HasForeignKey("OperatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Driver");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.Customer", b =>
-                {
-                    b.HasOne("YatriSewa_MVC.Models.LoginUser", "LoginUser")
-                        .WithMany()
-                        .HasForeignKey("Login_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LoginUser");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.Order", b =>
-                {
-                    b.HasOne("YatriSewa_MVC.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
+                    b.Navigation("Operator");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Payment", b =>
                 {
-                    b.HasOne("YatriSewa_MVC.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("YatriSewa_MVC.Models.Reservation", "Reservation")
                         .WithMany()
                         .HasForeignKey("ReservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("Reservation");
                 });
@@ -600,37 +613,26 @@ namespace YatriSewa_MVC.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("YatriSewa_MVC.Models.TransactionReport", b =>
+            modelBuilder.Entity("YatriSewa_MVC.Models.Service", b =>
                 {
-                    b.HasOne("YatriSewa_MVC.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
+                    b.HasOne("YatriSewa_MVC.Models.Bus", "Bus")
+                        .WithOne("Service")
+                        .HasForeignKey("YatriSewa_MVC.Models.Service", "BusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YatriSewa_MVC.Models.Payment", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YatriSewa_MVC.Models.Reservation", "Reservation")
-                        .WithMany()
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Payment");
-
-                    b.Navigation("Reservation");
+                    b.Navigation("Bus");
                 });
 
-            modelBuilder.Entity("YatriSewa_MVC.Models.Driver", b =>
+            modelBuilder.Entity("YatriSewa_MVC.Models.Bus", b =>
                 {
-                    b.Navigation("Bus")
+                    b.Navigation("Service")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("YatriSewa_MVC.Models.Operator", b =>
+                {
+                    b.Navigation("Buses");
                 });
 #pragma warning restore 612, 618
         }
