@@ -323,43 +323,43 @@ namespace YatriSewa_MVC.Controllers
             return View(model);
         }
 
-        public IActionResult BusListing()
+        public async Task<IActionResult> BusListing()
         {
-            return View();
-
+            var buses = await _context.Buses.Include(b => b.Operator).ToListAsync();
+            return View(buses);
         }
 
-            // Other existing action methods
+        // Other existing action methods
 
-            //[HttpGet]
-            //public IActionResult Home(int? userLoginId)
-            //{
-            //    if (userLoginId.HasValue)
-            //    {
-            //        ViewBag.UserLoginId = userLoginId.Value;
-            //        // Handle the case when userLoginId is not provided
+        //[HttpGet]
+        //public IActionResult Home(int? userLoginId)
+        //{
+        //    if (userLoginId.HasValue)
+        //    {
+        //        ViewBag.UserLoginId = userLoginId.Value;
+        //        // Handle the case when userLoginId is not provided
 
-            //    }           
-            //   // Pass the userLoginId to the view
-            //   return View();
-            //}
+        //    }           
+        //   // Pass the userLoginId to the view
+        //   return View();
+        //}
 
-            //[HttpPost]
-            //public IActionResult Home(int userLoginId)
-            //{
-            //    //if (userLoginId.HasValue)
-            //    //{
-            //    //    ViewBag.UserLoginId = userLoginId.Value;
-            //        // Handle the case when userLoginId is not provided         
-            //       // Optionally handle the case where userLoginId is not provided
-            //        // Redirect to a default action or show a message
-            //        return RedirectToAction("Signin", "Yatri", new { userLoginId });
+        //[HttpPost]
+        //public IActionResult Home(int userLoginId)
+        //{
+        //    //if (userLoginId.HasValue)
+        //    //{
+        //    //    ViewBag.UserLoginId = userLoginId.Value;
+        //        // Handle the case when userLoginId is not provided         
+        //       // Optionally handle the case where userLoginId is not provided
+        //        // Redirect to a default action or show a message
+        //        return RedirectToAction("Signin", "Yatri", new { userLoginId });
 
 
-            //    //// Pass the userLoginId to the view
+        //    //// Pass the userLoginId to the view
 
-            //    //return View();
-            //}
+        //    //return View();
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Profile(int userLoginId)
