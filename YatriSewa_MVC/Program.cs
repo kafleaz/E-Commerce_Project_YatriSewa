@@ -1,9 +1,19 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using YatriSewa_MVC.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.UseKestrel(options =>
+{
+    options.Listen(IPAddress.Any, 7066, listenOptions =>
+    {
+        listenOptions.UseHttps();
+    });
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -67,7 +77,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "Error",
     pattern: "Error",
-    defaults: new { controller = "Yatri", action = "Error" });app.MapControllerRoute(
+    defaults: new { controller = "Yatri", action = "Error" });
+app.MapControllerRoute(
     name: "Changepassword",
     pattern: "Changepassword",
     defaults: new { controller = "Yatri", action = "Changepassword" });
@@ -108,6 +119,10 @@ app.MapControllerRoute(
     pattern: "Profile",
     defaults: new { controller = "Yatri", action = "Profile" });
 app.MapControllerRoute(
+    name: "ProfileEdit",
+    pattern: "ProfileEdit",
+    defaults: new { controller = "Yatri", action = "ProfileEdit" });
+app.MapControllerRoute(
     name: "Selectseat",
     pattern: "Selectseat",
     defaults: new { controller = "Yatri", action = "Selectseat" });
@@ -115,4 +130,22 @@ app.MapControllerRoute(
     name: "Home",
     pattern: "Home",
     defaults: new { controller = "Yatri", action = "Home" });
+app.MapControllerRoute(
+    name: "BusAdd",
+    pattern: "BusAdd",
+    defaults: new { controller = "Yatri", action = "BusAdd" });
+app.MapControllerRoute(
+    name: "OperatorLogin",
+    pattern: "OperatorLogin",
+    defaults: new { controller = "Yatri", action = "OperatorLogin" });
+app.MapControllerRoute(
+    name: "AdminHome",
+    pattern: "AdminHome",
+    defaults: new { controller = "Yatri", action = "AdminHome" });
+app.MapControllerRoute(
+    name: "BusListing",
+    pattern: "BusListing",
+    defaults: new { controller = "Yatri", action = "BusListing" });
+
+
 app.Run();

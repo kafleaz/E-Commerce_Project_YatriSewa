@@ -1,0 +1,278 @@
+﻿@model YatriSewa_MVC.Models.BusFormViewModel
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel="icon" type="image/png" href="~/img/logo.png">
+        <title>Add Bus</title>
+        <!-- Bootstrap core CSS -->
+        <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Icofont Icon-->
+        <link href="~/vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
+        <!-- Slick Slider -->
+        <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick-theme.min.css" />
+        <!-- Custom styles for this template -->
+        <link href="~/css/custom.css" rel="stylesheet">
+        <!-- Sidebar CSS -->
+        <link href="~/vendor/sidebar/demo.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="longcontainer">
+            <div class="osahan-header-nav shadow-sm p-3 d-flex align-items-center bg-darkblue">
+                <h5 class="font-weight-normal mb-0 text-white">
+                    <a class="text-darkblue mr-3" href="@Url.Action("AdminHome")"><i class="icofont-rounded-left"></i></a>
+                    Add Bus
+                </h5>
+                <div class="ml-auto d-flex align-items-center">
+                    <a class="toggle osahan-toggle h4 m-0 text-white ml-auto" href="#"><i class="icofont-navigation-menu"></i></a>
+                </div>
+            </div>
+            <div class="p-3">
+                <form id="busForm" method="post" asp-action="BusAdd" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="BusName" class="text-muted mb-1">Bus Name</label>
+                            <input asp-for="BusName" class="form-control" placeholder="Bus Name" required>
+                            <span asp-validation-for="BusName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="BusNumber" class="text-muted mb-1">Bus Number</label>
+                            <input asp-for="BusNumber" class="form-control" placeholder="Bus Number" required>
+                            <span asp-validation-for="BusNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="From" class="text-muted mb-1">From</label>
+                            <select asp-for="From" class="form-control dropdown-toggle">
+                                <option value="">Select City</option>
+                                <option value="Kathmandu">Kathmandu</option>
+                                <option value="Biratnagar">Biratnagar</option>
+                                <option value="Birgunj">Birgunj</option>
+                                <option value="Butwāl">Butwāl</option>
+                                <option value="Dharan">Dharan</option>
+                                <option value="Bhiwani">Bhiwani</option>
+                                <option value="Bharatpur">Bharatpur</option>
+                                <option value="Janakpur">Janakpur</option>
+                                <option value="Dhangadhi">Dhangadhi</option>
+                                <option value="Gaighat">Gaighat</option>
+                                <option value="Khotang">Khotang</option>
+                                <option value="Hetauda">Hetauda</option>
+                                <option value="Ilām">Ilām</option>
+                                <option value="Lahān">Lahān</option>
+                                <option value="Nepalgunj">Nepalgunj</option>
+                                <option value="Dipayal">Dipayal</option>
+                                <option value="Nepalgunj">Nepalgunj</option>
+                                <option value="Itahari">Itahari</option>
+                                <option value="Tikapur">Tikapur</option>
+                                <option value="Dailekh">Dailekh</option>
+                                <option value="Darchula">Darchula</option>
+                                <option value="Dhankuta">Dhankuta</option>
+                                <option value="Dailekh">Dailekh</option>
+                                <option value="Mahendranagar">Mahendranagar</option>
+                                <option value="Tulsipur">Tulsipur</option>
+                                </select>
+                                <span asp-validation-for="From" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="To" class="text-muted mb-1">To</label>
+                            <select asp-for="To" class="form-control">
+                                <option value="">Select City</option>
+                                <option value="Kathmandu">Kathmandu</option>
+                                <option value="Biratnagar">Biratnagar</option>
+                                <option value="Birgunj">Birgunj</option>
+                                <option value="Butwāl">Butwāl</option>
+                                <option value="Dharan">Dharan</option>
+                                <option value="Bhiwani">Bhiwani</option>
+                                <option value="Bharatpur">Bharatpur</option>
+                                <option value="Janakpur">Janakpur</option>
+                                <option value="Dhangadhi">Dhangadhi</option>
+                                <option value="Gaighat">Gaighat</option>
+                                <option value="Khotang">Khotang</option>
+                                <option value="Hetauda">Hetauda</option>
+                                <option value="Ilām">Ilām</option>
+                                <option value="Lahān">Lahān</option>
+                                <option value="Nepalgunj">Nepalgunj</option>
+                                <option value="Dipayal">Dipayal</option>
+                                <option value="Nepalgunj">Nepalgunj</option>
+                                <option value="Itahari">Itahari</option>
+                                <option value="Tikapur">Tikapur</option>
+                                <option value="Dailekh">Dailekh</option>
+                                <option value="Darchula">Darchula</option>
+                                <option value="Dhankuta">Dhankuta</option>
+                                <option value="Dailekh">Dailekh</option>
+                                <option value="Mahendranagar">Mahendranagar</option>
+                                <option value="Tulsipur">Tulsipur</option>
+                                </select>
+                                <span asp-validation-for="To" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Date" class="text-muted mb-1"><span class="icofont-ui-calendar text-green"></span> Date</label>
+                            <input asp-for="Date" name="Date" class="form-control" type="date" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Time" class="text-muted mb-1" class="icofont-ui-clock text-green"> Time</label>
+                            <input asp-for="Time" name="Time" data-mdb-timepicker-init="true" type="time" class="form-control" required/>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="SeatCapacity" class="text-muted mb-1">Max Seat Capacity</label>
+                            <select asp-for="SeatCapacity" class="form-control">
+                                <option value="">Select Capacity</option>
+                                @for (int i = 1; i <= 60; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                                <!-- Add capacities here -->
+                            </select>
+                            <span asp-validation-for="SeatCapacity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Price" class="text-muted mb-1">Price</label>
+                            <input asp-for="Price" type="number" class="form-control" placeholder="Enter Price per ticket" required>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Photo" class="text-muted mb-1">Bus Photo</label>
+                        <input asp-for="Photo" type="file" class="form-control-file" required>
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="text-muted mb-1">Description about Bus</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Description about Bus"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <hr width="100%" size="1">
+@* ===========================================Services============================================= *@
+                <h6 class="text-muted"> <u>Services</u> </h6>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="WiFi" class="text-muted mb-1">WiFi</label>
+                            <div class="mt-1">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input asp-for="WiFi" type="radio" id="wifiyes" name="WiFi" value="true" class="custom-control-input">
+                                <label asp-for="WiFi" class="custom-control-label small" for="wifiyes">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input asp-for="WiFi" type="radio" id="wifino" name="WiFi" value="false" class="custom-control-input">
+                                <label asp-for="WiFi" class="custom-control-label small" for="wifino">No</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="AC" class="text-muted mb-1">AC</label>
+                            <div class="mt-1">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input asp-for="AC" type="radio" id="acyes" name="AC" value="true" class="custom-control-input">
+                                <label asp-for="AC" class="custom-control-label small" for="acyes">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input asp-for="AC" type="radio" id="acno" name="AC" value="false" class="custom-control-input">
+                                <label asp-for="AC" class="custom-control-label small" for="acno">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Meals" class="text-muted mb-2">Meals</label>
+                            <div class="mt-1">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input asp-for="Meals" type="radio" id="mealsyes" name="Meals" value="true" class="custom-control-input">
+                                <label asp-for="Meals" class="custom-control-label small" for="mealsyes">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input asp-for="Meals" type="radio" id="mealsno" name="Meals" value="false" class="custom-control-input">
+                                <label asp-for="Meals" class="custom-control-label small" for="mealsno">No</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="SafetyFeatures" class="text-muted mb-1">Safety Features</label>
+                            <input asp-for="SafetyFeatures" name="SafetyFeatures" type="text" class="form-control" placeholder="Safety Fetures" >
+                            <span asp-validation-for="SafetyFeatures" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Essentials" class="text-muted mb-1">Essentials</label>
+                            <input asp-for="Essentials" name="Essentials" type="text" class="form-control" placeholder="Essentials" >
+                            <span asp-validation-for="Essentials" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Snacks" class="text-muted mb-1">Snacks</label>
+                            <input asp-for="Snacks" name="Snacks" type="text" class="form-control" placeholder="Snacks">
+                            <span asp-validation-for="Snacks" class="text-danger"></span>
+                        </div>
+                    </div>
+                <hr width="100%" size="1">
+   @* ===========================================Operator============================================= *@
+                <h6 class="text-success text-muted "> <u>Operator</u> </h6>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="OperatorName" class="text-muted mb-1">Name</label>
+                            <input asp-for="OperatorName" class="form-control" placeholder="Name" required>
+                            <span asp-validation-for="OperatorName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="OperatorContact" class="text-muted mb-1">Contact</label>
+                            <input asp-for="OperatorContact" type="number" class="form-control" placeholder="Contact" required>
+                            <span asp-validation-for="OperatorContact" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="text-muted mb-1">Address</label>
+                        <input asp-for="Address" class="form-control" placeholder="Address" required>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="LicenseNo" class="text-muted mb-1">License Number</label>
+                        <input asp-for="LicenseNo" class="form-control" placeholder="License Number" required>
+                        <span asp-validation-for="LicenseNo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="IssueDate" class="text-muted mb-1">Issue Date</label>
+                        <input asp-for="IssueDate" class="form-control" type="date" required>
+                        <span asp-validation-for="IssueDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="ExpiryDate" class="text-muted mb-1">Expiry Date</label>
+                        <input asp-for="ExpiryDate" class="form-control" type="date" required>
+                        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                    <button type="submit" class="btn create-account btn-block osahanbus-btn mb-4">Submit</button>
+                </form>
+            </div>
+    
+        <!-- Bootstrap core JavaScript -->
+        <script src="~/vendor/jquery/jquery.min.js"></script>
+        <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- slick Slider JS-->
+        <script type="text/javascript" src="~/vendor/slick/slick.min.js"></script>
+        <!-- Sidebar JS-->
+        <script type="text/javascript" src="~/vendor/sidebar/hc-offcanvas-nav.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="~/js/custom.js"></script>
+        </div>
+</body>
+</html>

@@ -27,7 +27,7 @@
         <div class="osahan-profile">
             <div class="osahan-header-nav shadow-sm bg-darkblue p-3 d-flex align-items-center">
                 <h5 class="font-weight-normal mb-0 text-white">
-                    <a class="text-darkblue mr-3" href="@Url.Action("Home")"><i class="icofont-rounded-left"></i></a>
+                    <a class="text-darkblue mr-3" href="@Url.Action("Profile")"><i class="icofont-rounded-left"></i></a>
                     My Profile
                 </h5>
                 <div class="ml-auto d-flex align-items-center">
@@ -46,40 +46,67 @@
                                 </div>
                                 <img src="img/profile.jpg" class="rounded-pill">
                             </div>
-                            <div class="form-group">
-                                <label class="text-muted mb-1">Name</label>
-                                <input type="text" class="form-control " value="@($"{Model.FirstName ?? string.Empty} {Model.LastName ?? string.Empty}")">
-                            </div>
-                            <div class="form-group">
-                                <label class="text-muted mb-1">Email</label>
-                                <input type="email" class="form-control" value="@Model.Email" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="text-muted mb-1">Mobile Number</label>
-                                <input type="number" class="form-control" value="@Model.ContactNo">
-                            </div>
-                            <div class="form-group">
-                                <label class="text-muted mb-1">District</label>
-                                <input type="text" class="form-control" value="@Model.District">
-                            </div>
-                            <div class="form-group">
-                                <label class="text-muted mb-1">City</label>
-                                <input type="text" class="form-control" value="@Model.City">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="FirstName" class="text-muted mb-1">First Name</label>
+                                    <input asp-for="FirstName" name="FirstName" type="text" class="form-control" value="@Model.FirstName" required>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label asp-for="LastName" class="text-muted mb-1">Last Name</label>
+                                    <input asp-for="LastName" type="text" name="LastName" class="form-control" value="@Model.LastName" required>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
                             </div>
 
-                            @* <div class="form-group">
-                            <label class="text-muted mb-1">Life Insurance</label>
-                            <div class="mt-1">
-                            <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="yes" name="lifeinsurance" class="custom-control-input" checked>
-                            <label class="custom-control-label small" for="yes">Yes</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="no" name="lifeinsurance" class="custom-control-input">
-                            <label class="custom-control-label small" for="no">No</label>
-                            </div>
-                            </div>
+                            @* <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Age" class="text-muted mb-1">Age</label>
+                                    <select class="form-control" asp-for="Age" name="Age" required>
+                                        <option value="">Select Age</option>
+                                        @for (int i = 5; i <= 100; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Age" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Gender" class="text-muted mb-1">Gender</label>
+                                    <select asp-for="Gender" name="Gender" class="form-control" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="1">Male</option>
+                                        <option value="2">Female</option>
+                                        <option value="3">Other</option>
+                                    </select>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
                             </div> *@
+                            <div class="form-group">
+                                <label asp-for="ContactNo" class="text-muted mb-1">Phone Number</label>
+                                <input asp-for="ContactNo" type="number" name="ContactNo" class="form-control" value="@Model.ContactNo" required>
+                                <span asp-validation-for="ContactNo" class="text-danger"></span>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label asp-for="District" class="text-muted mb-1">District</label>
+                                <select class="form-control" asp-for="District" name="District"  required>
+                                    <option value="@Model.District">@Model.District</option>
+                                    <option value="Achham">Achham</option>
+                                    <option value="Arghakhanchi">Arghakhanchi</option>
+                                    <option value="Baglung">Baglung</option>
+                                    <option value="kathmandu">Kathmandu</option>
+                                    <!-- Add more options for other districts -->
+                                </select>
+                                <span asp-validation-for="District" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="City" class="text-muted mb-1">City</label>
+                                <input asp-for="City" type="text" name="City" class="form-control" placeholder="City" value="@Model.City" required>
+                            </div>
                             <div class="mb-5">
                                 <a href="home.html" class="btn btn-green btn-block osahanbus-btn rounded-1">UPDATE PROFILE</a>
                             </div>

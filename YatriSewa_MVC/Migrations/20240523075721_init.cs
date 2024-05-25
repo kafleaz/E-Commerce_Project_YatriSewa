@@ -51,17 +51,41 @@ namespace YatriSewa_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Drivers",
+                name: "Customers",
                 columns: table => new
                 {
-                    driver_ID = table.Column<int>(type: "int", nullable: false)
+                    customer_ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    bus_ID = table.Column<int>(type: "int", nullable: false)
+                    login_ID = table.Column<int>(type: "int", nullable: false),
+                    fname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    lname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    gender = table.Column<int>(type: "int", nullable: false),
+                    age = table.Column<int>(type: "int", nullable: false),
+                    contact_no = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    district = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    city = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Drivers", x => x.driver_ID);
+                    table.PrimaryKey("PK_Customers", x => x.customer_ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Operators",
+                columns: table => new
+                {
+                    OperatorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    operator_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    contact_no = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    license_no = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    issue_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    expiry_date = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Operators", x => x.OperatorId);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,75 +210,7 @@ namespace YatriSewa_MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Buses",
-                columns: table => new
-                {
-                    bus_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    bus_number = table.Column<int>(type: "int", nullable: false),
-                    bus_status = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    bus_seats = table.Column<int>(type: "int", nullable: false),
-                    driver_ID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Buses", x => x.bus_ID);
-                    table.ForeignKey(
-                        name: "FK_Buses_Drivers_driver_ID",
-                        column: x => x.driver_ID,
-                        principalTable: "Drivers",
-                        principalColumn: "driver_ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    customer_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    login_ID = table.Column<int>(type: "int", nullable: false),
-                    fname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    lname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    gender = table.Column<int>(type: "int", nullable: false),
-                    age = table.Column<int>(type: "int", nullable: false),
-                    contact_no = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    district = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    city = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.customer_ID);
-                    table.ForeignKey(
-                        name: "FK_Customers_UserLogin_login_ID",
-                        column: x => x.login_ID,
-                        principalTable: "UserLogin",
-                        principalColumn: "login_Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    order_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    customer_ID = table.Column<int>(type: "int", nullable: false),
-                    order_date = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.order_ID);
-                    table.ForeignKey(
-                        name: "FK_Orders_Customers_customer_ID",
-                        column: x => x.customer_ID,
-                        principalTable: "Customers",
-                        principalColumn: "customer_ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reservations",
+                name: "Reservation",
                 columns: table => new
                 {
                     reservation_ID = table.Column<int>(type: "int", nullable: false)
@@ -267,12 +223,41 @@ namespace YatriSewa_MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservations", x => x.reservation_ID);
+                    table.PrimaryKey("PK_Reservation", x => x.reservation_ID);
                     table.ForeignKey(
-                        name: "FK_Reservations_Customers_customer_ID",
+                        name: "FK_Reservation_Customers_customer_ID",
                         column: x => x.customer_ID,
                         principalTable: "Customers",
                         principalColumn: "customer_ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Buses",
+                columns: table => new
+                {
+                    BusId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    bus_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    bus_no = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    from_location = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    to_location = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    date = table.Column<DateOnly>(type: "date", nullable: false),
+                    time = table.Column<TimeSpan>(type: "time", nullable: false),
+                    seat_capacity = table.Column<int>(type: "int", nullable: false),
+                    price = table.Column<int>(type: "int", nullable: false),
+                    photo_path = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    OperatorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Buses", x => x.BusId);
+                    table.ForeignKey(
+                        name: "FK_Buses_Operators_OperatorId",
+                        column: x => x.OperatorId,
+                        principalTable: "Operators",
+                        principalColumn: "OperatorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -290,51 +275,36 @@ namespace YatriSewa_MVC.Migrations
                 {
                     table.PrimaryKey("PK_Payments", x => x.payment_ID);
                     table.ForeignKey(
-                        name: "FK_Payments_Customers_customer_ID",
-                        column: x => x.customer_ID,
-                        principalTable: "Customers",
-                        principalColumn: "customer_ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Payments_Reservations_ReservationId",
+                        name: "FK_Payments_Reservation_ReservationId",
                         column: x => x.ReservationId,
-                        principalTable: "Reservations",
+                        principalTable: "Reservation",
                         principalColumn: "reservation_ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TransactionReports",
+                name: "Services",
                 columns: table => new
                 {
-                    report_ID = table.Column<int>(type: "int", nullable: false)
+                    ServiceId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    customer_ID = table.Column<int>(type: "int", nullable: false),
-                    ReservationId = table.Column<int>(type: "int", nullable: false),
-                    PaymentId = table.Column<int>(type: "int", nullable: false),
-                    report_date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    wifi = table.Column<bool>(type: "bit", nullable: false),
+                    ac = table.Column<bool>(type: "bit", nullable: false),
+                    dinner_lunch = table.Column<bool>(type: "bit", nullable: false),
+                    safety_features = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    essentials = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    snacks = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    BusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TransactionReports", x => x.report_ID);
+                    table.PrimaryKey("PK_Services", x => x.ServiceId);
                     table.ForeignKey(
-                        name: "FK_TransactionReports_Customers_customer_ID",
-                        column: x => x.customer_ID,
-                        principalTable: "Customers",
-                        principalColumn: "customer_ID",
+                        name: "FK_Services_Buses_BusId",
+                        column: x => x.BusId,
+                        principalTable: "Buses",
+                        principalColumn: "BusId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TransactionReports_Payments_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "Payments",
-                        principalColumn: "payment_ID",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_TransactionReports_Reservations_ReservationId",
-                        column: x => x.ReservationId,
-                        principalTable: "Reservations",
-                        principalColumn: "reservation_ID",
-                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -377,25 +347,9 @@ namespace YatriSewa_MVC.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Buses_driver_ID",
+                name: "IX_Buses_OperatorId",
                 table: "Buses",
-                column: "driver_ID",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customers_login_ID",
-                table: "Customers",
-                column: "login_ID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_customer_ID",
-                table: "Orders",
-                column: "customer_ID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Payments_customer_ID",
-                table: "Payments",
-                column: "customer_ID");
+                column: "OperatorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_ReservationId",
@@ -403,24 +357,15 @@ namespace YatriSewa_MVC.Migrations
                 column: "ReservationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_customer_ID",
-                table: "Reservations",
+                name: "IX_Reservation_customer_ID",
+                table: "Reservation",
                 column: "customer_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionReports_customer_ID",
-                table: "TransactionReports",
-                column: "customer_ID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TransactionReports_PaymentId",
-                table: "TransactionReports",
-                column: "PaymentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TransactionReports_ReservationId",
-                table: "TransactionReports",
-                column: "ReservationId");
+                name: "IX_Services_BusId",
+                table: "Services",
+                column: "BusId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -442,13 +387,13 @@ namespace YatriSewa_MVC.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Buses");
+                name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Services");
 
             migrationBuilder.DropTable(
-                name: "TransactionReports");
+                name: "UserLogin");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -457,19 +402,16 @@ namespace YatriSewa_MVC.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Drivers");
+                name: "Reservation");
 
             migrationBuilder.DropTable(
-                name: "Payments");
-
-            migrationBuilder.DropTable(
-                name: "Reservations");
+                name: "Buses");
 
             migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "UserLogin");
+                name: "Operators");
         }
     }
 }

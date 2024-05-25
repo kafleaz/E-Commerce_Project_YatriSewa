@@ -27,7 +27,7 @@
         <div class="osahan-profile">
             <div class="osahan-header-nav shadow-sm bg-darkblue p-3 d-flex align-items-center">
                 <h5 class="font-weight-normal mb-0 text-white">
-                    <a class="text-darkblue mr-3" href="@Url.Action("Home")"><i class="icofont-rounded-left"></i></a>
+                    <a class="text-darkblue mr-3" href="@Url.Action("Home", "Yatri", new { userLoginId = ViewBag.UserLoginId })"><i class="icofont-rounded-left"></i></a>
                     My Profile
                 </h5>
                 <div class="ml-auto d-flex align-items-center">
@@ -81,7 +81,7 @@
                             </div>
                             </div> *@
                             <div class="mb-5">
-                                <a href="home.html" class="btn btn-green float-right rounded-pill px-4 py-2">Edit Profile</a>
+                                <a href="@Url.Action("ProfileEdit", "Yatri", new { userLoginId = ViewBag.UserLoginId })" class="btn btn-green float-right rounded-pill px-4 py-2">Edit Profile</a>
                             </div>
                         </div>
                     </div>
