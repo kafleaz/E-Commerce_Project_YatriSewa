@@ -280,29 +280,86 @@ namespace YatriSewa_MVC.Controllers
             if (userLoginId.HasValue)
             {
                 ViewBag.UserLoginId = userLoginId.Value;
-                // Handle the case when userLoginId is not provided
+            }
 
-            }           
-           // Pass the userLoginId to the view
-           return View();
+            //var fromLocations = await _context.Buses.Select(b => b.From).Distinct().ToListAsync();
+            //var toLocations = await _context.Buses.Select(b => b.To).Distinct().ToListAsync();
+
+            //var viewModel = new SearchViewModel
+            //{
+            //    From = fromLocations,
+            //    To = toLocations
+            //};
+
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Home(int userLoginId)
+        public async Task<IActionResult> Home(SearchViewModel model, int userLoginId)
         {
-            //if (userLoginId.HasValue)
-            //{
-            //    ViewBag.UserLoginId = userLoginId.Value;
-                // Handle the case when userLoginId is not provided         
-               // Optionally handle the case where userLoginId is not provided
-                // Redirect to a default action or show a message
-                return RedirectToAction("Signin", "Yatri", new { userLoginId });
-            
+            if (ModelState.IsValid)
+            {
+                // Query the Buses table to check for a matching entry
+                var busExists = await _context.Buses
+                    .AnyAsync(b => b.From == model.From && b.To == model.To && b.Date == model.Date);
 
-            //// Pass the userLoginId to the view
+                if (busExists)
+                {
+                    // Redirect to the Listing page if a match is found
+                    return RedirectToAction("BusListing", new { from = model.From, to = model.To, date = model.Date });
+                }
+                else
+                {
+                    // No matching bus found, display an appropriate message
+                    return RedirectToAction("Error");
+                }
+            }
 
-            //return View();
+            // If ModelState is not valid or no bus found, reload the Home view with the userLoginId
+            ViewBag.UserLoginId = userLoginId;
+            //model.FromLocations = await _context.Buses.Select(b => b.From).Distinct().ToListAsync();
+            //model.ToLocations = await _context.Buses.Select(b => b.To).Distinct().ToListAsync();
+
+            return View(model);
         }
+
+        public IActionResult BusListing()
+        {
+            return View();
+
+        }
+
+            // Other existing action methods
+
+            //[HttpGet]
+            //public IActionResult Home(int? userLoginId)
+            //{
+            //    if (userLoginId.HasValue)
+            //    {
+            //        ViewBag.UserLoginId = userLoginId.Value;
+            //        // Handle the case when userLoginId is not provided
+
+            //    }           
+            //   // Pass the userLoginId to the view
+            //   return View();
+            //}
+
+            //[HttpPost]
+            //public IActionResult Home(int userLoginId)
+            //{
+            //    //if (userLoginId.HasValue)
+            //    //{
+            //    //    ViewBag.UserLoginId = userLoginId.Value;
+            //        // Handle the case when userLoginId is not provided         
+            //       // Optionally handle the case where userLoginId is not provided
+            //        // Redirect to a default action or show a message
+            //        return RedirectToAction("Signin", "Yatri", new { userLoginId });
+
+
+            //    //// Pass the userLoginId to the view
+
+            //    //return View();
+            //}
 
         [HttpGet]
         public async Task<IActionResult> Profile(int userLoginId)
@@ -398,6 +455,8 @@ namespace YatriSewa_MVC.Controllers
                     BusNumber = model.BusNumber,
                     From = model.From,
                     To = model.To,
+                    Date = model.Date,
+                    Time = model.Time,
                     SeatCapacity = model.SeatCapacity,
                     Price = model.Price,
                     Description = model.Description,
@@ -445,4 +504,5 @@ namespace YatriSewa_MVC.Controllers
         }
     }
 }
+
 

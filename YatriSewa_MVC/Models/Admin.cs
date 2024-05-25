@@ -28,6 +28,17 @@ namespace YatriSewa_MVC.Models
         [Column("to_location")]
         public string To { get; set; }
 
+        [Required]
+        [Column("date")]
+        [DataType(DataType.Date)]
+        public DateOnly Date { get; set; }
+
+        [Required]
+        [Column("time")]
+        [DataType(DataType.Time)]
+        public TimeSpan Time { get; set; }
+
+
         [Required(ErrorMessage = "Seat Capacity is required")]
         [Column("seat_capacity")]
         public int SeatCapacity { get; set; }
@@ -59,6 +70,7 @@ namespace YatriSewa_MVC.Models
         [Column("wifi")]
         public bool Wifi { get; set; }
 
+      
         [Required(ErrorMessage = "AC status is required")]
         [Column("ac")]
         public bool AC { get; set; }
@@ -112,12 +124,12 @@ namespace YatriSewa_MVC.Models
         [Required(ErrorMessage = "Issue Date is required")]
         [Column("issue_date")]
         [DataType(DataType.Date)]
-        public DateTime IssueDate { get; set; }
+        public DateOnly IssueDate { get; set; }
 
         [Required(ErrorMessage = "Expiry Date is required")]
         [Column("expiry_date")]
         [DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        public DateOnly ExpiryDate { get; set; }
         public virtual ICollection<Bus> Buses { get; set; } = new List<Bus>();
     }
 
@@ -133,7 +145,7 @@ namespace YatriSewa_MVC.Models
         [Required]
         public string To { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
         [Required]
         public TimeSpan Time { get; set; }
         [Required]
@@ -165,9 +177,17 @@ namespace YatriSewa_MVC.Models
         [Required]
         public string LicenseNo { get; set; }
         [Required]
-        public DateTime IssueDate { get; set; }
+        public DateOnly IssueDate { get; set; }
         [Required]
-        public DateTime ExpiryDate { get; set; }
+        public DateOnly ExpiryDate { get; set; }
+
+    }
+
+    public class SearchViewModel
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+        public DateOnly Date { get; set; }
     }
 
 

@@ -240,6 +240,10 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("bus_no");
 
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date")
+                        .HasColumnName("date");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -268,6 +272,10 @@ namespace YatriSewa_MVC.Migrations
                     b.Property<int>("SeatCapacity")
                         .HasColumnType("int")
                         .HasColumnName("seat_capacity");
+
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time")
+                        .HasColumnName("time");
 
                     b.Property<string>("To")
                         .IsRequired()
@@ -383,12 +391,12 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("contact_no");
 
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2")
+                    b.Property<DateOnly>("ExpiryDate")
+                        .HasColumnType("date")
                         .HasColumnName("expiry_date");
 
-                    b.Property<DateTime>("IssueDate")
-                        .HasColumnType("datetime2")
+                    b.Property<DateOnly>("IssueDate")
+                        .HasColumnType("date")
                         .HasColumnName("issue_date");
 
                     b.Property<string>("LicenseNo")
@@ -406,30 +414,6 @@ namespace YatriSewa_MVC.Migrations
                     b.HasKey("OperatorId");
 
                     b.ToTable("Operators");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("order_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("customer_ID");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("order_date");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Payment", b =>
@@ -493,7 +477,7 @@ namespace YatriSewa_MVC.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Service", b =>
@@ -543,35 +527,6 @@ namespace YatriSewa_MVC.Migrations
                         .IsUnique();
 
                     b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.TransactionReport", b =>
-                {
-                    b.Property<int>("ReportId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("report_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportId"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("customer_ID");
-
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReportDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("report_date");
-
-                    b.HasKey("ReportId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.ToTable("TransactionReports");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -636,17 +591,6 @@ namespace YatriSewa_MVC.Migrations
                     b.Navigation("Operator");
                 });
 
-            modelBuilder.Entity("YatriSewa_MVC.Models.Order", b =>
-                {
-                    b.HasOne("YatriSewa_MVC.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("YatriSewa_MVC.Models.Payment", b =>
                 {
                     b.HasOne("YatriSewa_MVC.Models.Reservation", "Reservation")
@@ -678,25 +622,6 @@ namespace YatriSewa_MVC.Migrations
                         .IsRequired();
 
                     b.Navigation("Bus");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.TransactionReport", b =>
-                {
-                    b.HasOne("YatriSewa_MVC.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YatriSewa_MVC.Models.Payment", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Bus", b =>

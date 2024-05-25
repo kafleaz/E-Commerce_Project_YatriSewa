@@ -142,6 +142,10 @@ app.MapControllerRoute(
     name: "AdminHome",
     pattern: "AdminHome",
     defaults: new { controller = "Yatri", action = "AdminHome" });
+app.MapControllerRoute(
+    name: "BusListing",
+    pattern: "BusListing",
+    defaults: new { controller = "Yatri", action = "BusListing" });
 
 
 app.Run();
