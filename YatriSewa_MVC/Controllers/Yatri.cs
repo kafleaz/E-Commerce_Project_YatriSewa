@@ -323,9 +323,23 @@ namespace YatriSewa_MVC.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> BusListing()
+        [HttpGet]
+        public async Task<IActionResult> BusListing(string from, string to, DateOnly date)
         {
-            var buses = await _context.Buses.Include(b => b.Operator).ToListAsync();
+            var buses = await _context.Buses
+                .Include(b => b.Operator)
+                .Where(b => b.From == from && b.To == to && b.Date == date)
+                .ToListAsync();
+
+            ViewBag.From = from;
+            ViewBag.To = to;
+            ViewBag.Date = date;
+
+            foreach (var bus in buses)
+            {
+                bus.Service = await _context.Services.FirstOrDefaultAsync(s => s.BusId == bus.BusId);
+            }
+
             return View(buses);
         }
 

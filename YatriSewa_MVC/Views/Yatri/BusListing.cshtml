@@ -43,12 +43,16 @@
                         <div class="row mx-0 px-1">
                             <div class="col-6 p-0">
                                 <small class="text-muted mb-1 f-10 pr-1">GOING FROM</small>
-                                <p class="small mb-0">LUDHIANA</p>
+                                <p class="small mb-0">@ViewBag.From</p>
                             </div>
                             <div class="col-6 p-0">
                                 <small class="text-muted mb-1 f-10 pr-1">GOING TO</small>
-                                <p class="small mb-0">GOA</p>
+                                <p class="small mb-0">@ViewBag.To</p>
                             </div>
+                            @* <div class="col-12 p-0">
+                                <small class="text-muted mb-1 f-10 pr-1">DATE</small>
+                                <p class="small mb-0">@ViewBag.Date.ToString("dd MMM yyyy")</p>
+                            </div> *@
                         </div>
                     </div>
                 </div>
@@ -75,7 +79,15 @@
                             <div class="p-3 d-flex">
                                 <div class="bus_details w-100">
                                     <div class="d-flex">
-                                        <p><i class="icofont-wind mr-2 text-darkblue"></i><span class="small">AC</span></p>
+                                        @if (bus.Service.AC)
+                                        {
+                                            <p><i class="icofont-wind mr-2 text-darkblue"></i><span class="small">AC</span></p>
+                                        }
+                                        @if (bus.Service.Wifi)
+                                        {
+                                            <p class="ml-3"><i class="icofont-wifi mr-2 text-darkblue"></i><span class="small">WiFi</span></p>
+                                        }
+
                                         <p class="small ml-auto"><i class="icofont-bus mr-2 text-darkblue"></i>2/1</p>
                                     </div>
                                     <div class="d-flex l-hght-10">
