@@ -25,20 +25,19 @@
     <link href="~/vendor/sidebar/demo.css" rel="stylesheet">
 </head>
 <body class="">
-    <div class="longcontainer">
         <!-- Listing Page -->
-        <div class="osahan-listing">
+        <div class="longcontainer">
             <div class="osahan-header-nav shadow-sm p-3 d-flex align-items-center bg-color">
                 <h5 class="font-weight-normal mb-0 text-white">
                     <a class="text-darkblue" href="home.html"><i class="icofont-rounded-left"></i></a>
                 </h5>
                 <div class="ml-auto d-flex align-items-center">
-                    <a href="home.html" class="text-white h6 mb-0"><i class="icofont-search-1"></i></a>
+                    <a href="@Url.Action("Home")" class="text-white h6 mb-0"><i class="icofont-search-1"></i></a>
                     <a href="#" class="mx-4 text-white h6 mb-0" data-toggle="modal" data-target="#filterModal"><i class="icofont-filter"></i></a>
                     <a class="toggle osahan-toggle h4 m-0 text-white ml-auto" href="#"><i class="icofont-navigation-menu"></i></a>
                 </div>
             </div>
-            <div class="osahan-listing p-0 m-0 row border-top">
+            <div class=" p-0 m-0 row border-top">
                 <div class="p-2 border-bottom w-100">
                     <div class="bg-white border border-warning rounded-1 shadow-sm p-2">
                         <div class="row mx-0 px-1">
@@ -56,7 +55,7 @@
                 
                 @foreach (var bus in Model)
                 {
-                    <a href="bus-details.html" class="text-dark col-6 px-0">
+                    <a href="@Url.Action("Busdetails")" class="text-dark col-6 px-0">
                         <div class="list_item_gird m-0 bg-white shadow-sm listing-item border-bottom border-right">
                             <div class="px-3 pt-3 tic-div">
                                 <div class="list-item-img">
@@ -100,7 +99,7 @@
                 }
             </div>
         </div>
-    </div>
+
     <!-- Bootstrap core JavaScript -->
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

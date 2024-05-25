@@ -544,11 +544,15 @@ h1.success-icon {
     margin-bottom: 13px;
     border-radius: 8px;
 }
-
 .list-item-img img {
     height: 95px;
     border-radius: 8px;
 }
+.list-item-image {
+    height: 95px;
+    border-radius: 8px;
+ }
+
 .listing-item small.text-muted.mb-2.d-block {
     font-size: 10px;
 }
