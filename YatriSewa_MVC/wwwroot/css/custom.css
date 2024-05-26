@@ -536,17 +536,25 @@ h1.success-icon {
     line-height: 18px;
 }
 
-.list-item-img img {
-    height: 70px;
-}
 
 .list-item-img {
     text-align: center;
-    padding: 8px;
-    background: #e8ebef;
+    padding: 2px;
+    border-color:aqua;
+    background: #042F40;
     margin-bottom: 13px;
     border-radius: 8px;
 }
+    .list-item-img img {
+        height: 95px;
+        width: 163px;
+        border-radius: 8px;
+    }
+.list-item-image {
+    height: 95px;
+    width: 160px;
+    border-radius: 8px;
+ }
 
 .listing-item small.text-muted.mb-2.d-block {
     font-size: 10px;
