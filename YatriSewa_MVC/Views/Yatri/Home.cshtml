@@ -39,6 +39,7 @@
             <div class="bg-darkblue px-3 pb-3">
                 <div class="bg-white rounded-1 p-3">
                     <form asp-action="Home" method="post">
+                        <input type="hidden" name="userLoginId" value="@ViewBag.UserLoginId" />
                         <div class="form-group ">
                             <label asp-for="From" class="text-muted mb-1">From</label>
                             <select asp-for="From" class="form-control dropdown-toggle">
@@ -193,7 +194,7 @@
         <div class="fixed-bottom nav-osahan-fotter p-3">
             <div class="footer-menu row m-0 bg-darkblue shadow rounded-2">
                 <div class="col-3 p-0 text-center">
-                    <a href="home.html" class="home text-white active">
+                    <a href="@Url.Action("Home", "Yatri", new { userLoginId = ViewBag.UserLoginId })" class="home text-white active">
                         <span class="icofont-ui-home h5"></span>
                         <p class="mb-0 small">Home</p>
                     </a>
@@ -212,7 +213,7 @@
                     </a>
                 </div>
                 <div class="col-3 p-0 text-center">
-                    <a href="profile.html" class="home text-white">
+                    <a href="@Url.Action("Profile", "Yatri", new { userLoginId = ViewBag.UserLoginId })" class="home text-white">
                         <span class="icofont-user h5"></span>
                         <p class="mb-0 small">Account</p>
                     </a>

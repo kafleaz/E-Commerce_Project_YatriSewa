@@ -281,16 +281,7 @@ namespace YatriSewa_MVC.Controllers
             {
                 ViewBag.UserLoginId = userLoginId.Value;
             }
-
-            //var fromLocations = await _context.Buses.Select(b => b.From).Distinct().ToListAsync();
-            //var toLocations = await _context.Buses.Select(b => b.To).Distinct().ToListAsync();
-
-            //var viewModel = new SearchViewModel
-            //{
-            //    From = fromLocations,
-            //    To = toLocations
-            //};
-
+            
             return View();
         }
 
@@ -299,14 +290,17 @@ namespace YatriSewa_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Console.WriteLine($"UserLoginId in Home POST: {userLoginId}");
                 // Query the Buses table to check for a matching entry
+
                 var busExists = await _context.Buses
                     .AnyAsync(b => b.From == model.From && b.To == model.To && b.Date == model.Date);
 
                 if (busExists)
                 {
+                    
                     // Redirect to the Listing page if a match is found
-                    return RedirectToAction("BusListing", new { from = model.From, to = model.To, date = model.Date });
+                    return RedirectToAction("BusListing","Yatri", new { from = model.From, to = model.To, date = model.Date, userLoginId = userLoginId });
                 }
                 else
                 {
@@ -324,8 +318,10 @@ namespace YatriSewa_MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> BusListing(string from, string to, DateOnly date)
+        public async Task<IActionResult> BusListing(string from, string to, DateOnly date,int userLoginId)
         {
+            ViewBag.UserLoginId = userLoginId;
+
             var buses = await _context.Buses
                 .Include(b => b.Operator)
                 .Where(b => b.From == from && b.To == to && b.Date == date)
@@ -340,40 +336,10 @@ namespace YatriSewa_MVC.Controllers
                 bus.Service = await _context.Services.FirstOrDefaultAsync(s => s.BusId == bus.BusId);
             }
 
+            //ViewBag.UserLoginId = userLoginId;
             return View(buses);
         }
 
-        // Other existing action methods
-
-        //[HttpGet]
-        //public IActionResult Home(int? userLoginId)
-        //{
-        //    if (userLoginId.HasValue)
-        //    {
-        //        ViewBag.UserLoginId = userLoginId.Value;
-        //        // Handle the case when userLoginId is not provided
-
-        //    }           
-        //   // Pass the userLoginId to the view
-        //   return View();
-        //}
-
-        //[HttpPost]
-        //public IActionResult Home(int userLoginId)
-        //{
-        //    //if (userLoginId.HasValue)
-        //    //{
-        //    //    ViewBag.UserLoginId = userLoginId.Value;
-        //        // Handle the case when userLoginId is not provided         
-        //       // Optionally handle the case where userLoginId is not provided
-        //        // Redirect to a default action or show a message
-        //        return RedirectToAction("Signin", "Yatri", new { userLoginId });
-
-
-        //    //// Pass the userLoginId to the view
-
-        //    //return View();
-        //}
 
         [HttpGet]
         public async Task<IActionResult> Profile(int userLoginId)
@@ -404,6 +370,7 @@ namespace YatriSewa_MVC.Controllers
                 Email = loginUser.Email, // Set the email from LoginUser table
             };
 
+            ViewBag.UserLoginId = userLoginId;
             return View(profileViewModel);
         }
 
