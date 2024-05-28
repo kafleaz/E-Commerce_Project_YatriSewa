@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YatriSewa_MVC.Models;
 
@@ -11,9 +12,11 @@ using YatriSewa_MVC.Models;
 namespace YatriSewa_MVC.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240528103427_initse")]
+    partial class initse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -416,50 +419,6 @@ namespace YatriSewa_MVC.Migrations
                     b.ToTable("Operators");
                 });
 
-            modelBuilder.Entity("YatriSewa_MVC.Models.Passenger", b =>
-                {
-                    b.Property<int>("PassengerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PassengerId"));
-
-                    b.Property<decimal>("AmountPaid")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("BusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PNRNumber")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("SeatNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("TicketNumber")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PassengerId");
-
-                    b.HasIndex("BusId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Passengers");
-                });
-
             modelBuilder.Entity("YatriSewa_MVC.Models.Seat", b =>
                 {
                     b.Property<int>("SeatId")
@@ -598,25 +557,6 @@ namespace YatriSewa_MVC.Migrations
                         .IsRequired();
 
                     b.Navigation("Operator");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.Passenger", b =>
-                {
-                    b.HasOne("YatriSewa_MVC.Models.Bus", "Bus")
-                        .WithMany()
-                        .HasForeignKey("BusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YatriSewa_MVC.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bus");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Service", b =>
