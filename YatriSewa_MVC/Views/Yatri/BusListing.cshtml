@@ -60,7 +60,7 @@
                 
                 @foreach (var bus in Model)
                 {
-                    <a href="bus-details.html" class="text-dark col-6 px-0">
+                    <a class="text-dark col-6 px-0" href="@Url.Action("Busdetails", new { busId = bus.BusId, from = ViewBag.From, to = ViewBag.To, date = ViewBag.Date, userLoginId = ViewBag.UserLoginId })">
                         <div class="list_item_gird m-0 bg-white shadow-sm listing-item border-bottom border-right">
                             <div class="px-3 pt-3 tic-div">
                                 <div class="list-item-img">

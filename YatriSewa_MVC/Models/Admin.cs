@@ -181,6 +181,10 @@ namespace YatriSewa_MVC.Models
         [Required]
         public DateOnly ExpiryDate { get; set; }
 
+        public virtual Service Service { get; set; }
+
+        [ForeignKey("Bus")]
+        public int BusId { get; set; }
     }
 
     public class SearchViewModel
