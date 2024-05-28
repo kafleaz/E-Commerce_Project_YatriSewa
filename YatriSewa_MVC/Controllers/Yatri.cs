@@ -66,7 +66,7 @@ namespace YatriSewa_MVC.Controllers
             return View();
         }
 
-        public IActionResult Selectseat()
+        public IActionResult SelectSeat()
         {
             return View();
         }
@@ -282,16 +282,7 @@ namespace YatriSewa_MVC.Controllers
             {
                 ViewBag.UserLoginId = userLoginId.Value;
             }
-
-            //var fromLocations = await _context.Buses.Select(b => b.From).Distinct().ToListAsync();
-            //var toLocations = await _context.Buses.Select(b => b.To).Distinct().ToListAsync();
-
-            //var viewModel = new SearchViewModel
-            //{
-            //    From = fromLocations,
-            //    To = toLocations
-            //};
-
+            
             return View();
         }
 
@@ -300,14 +291,17 @@ namespace YatriSewa_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Console.WriteLine($"UserLoginId in Home POST: {userLoginId}");
                 // Query the Buses table to check for a matching entry
+
                 var busExists = await _context.Buses
                     .AnyAsync(b => b.From == model.From && b.To == model.To && b.Date == model.Date);
 
                 if (busExists)
                 {
+                    
                     // Redirect to the Listing page if a match is found
-                    return RedirectToAction("BusListing", new { from = model.From, to = model.To, date = model.Date });
+                    return RedirectToAction("BusListing","Yatri", new { from = model.From, to = model.To, date = model.Date, userLoginId = userLoginId });
                 }
                 else
                 {
@@ -325,8 +319,10 @@ namespace YatriSewa_MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> BusListing(string from, string to, DateOnly date)
+        public async Task<IActionResult> BusListing(string from, string to, DateOnly date,int userLoginId)
         {
+            ViewBag.UserLoginId = userLoginId;
+
             var buses = await _context.Buses
                 .Include(b => b.Operator)
                 .Where(b => b.From == from && b.To == to && b.Date == date)
@@ -341,40 +337,92 @@ namespace YatriSewa_MVC.Controllers
                 bus.Service = await _context.Services.FirstOrDefaultAsync(s => s.BusId == bus.BusId);
             }
 
+            //ViewBag.UserLoginId = userLoginId;
             return View(buses);
         }
 
-        // Other existing action methods
+        private string GenerateTicketNumber()
+        {
+            return Guid.NewGuid().ToString().Substring(0, 8).ToUpper(); // Example: Generate a random string of length 8
+        }
 
-        //[HttpGet]
-        //public IActionResult Home(int? userLoginId)
-        //{
-        //    if (userLoginId.HasValue)
-        //    {
-        //        ViewBag.UserLoginId = userLoginId.Value;
-        //        // Handle the case when userLoginId is not provided
+        private string GeneratePNRNumber()
+        {
+            return DateTime.Now.Ticks.ToString().Substring(0, 12); // Example: Generate a PNR based on current ticks
+        }
 
-        //    }           
-        //   // Pass the userLoginId to the view
-        //   return View();
-        //}
+        [HttpGet]
+        public async Task<IActionResult> SelectSeat(int busId, int userLoginId, string from, string to, DateOnly date)
+        {
+            var bus = await _context.Buses.FindAsync(busId);
+            if (bus == null)
+            {
+                return NotFound();
+            }
 
-        //[HttpPost]
-        //public IActionResult Home(int userLoginId)
-        //{
-        //    //if (userLoginId.HasValue)
-        //    //{
-        //    //    ViewBag.UserLoginId = userLoginId.Value;
-        //        // Handle the case when userLoginId is not provided         
-        //       // Optionally handle the case where userLoginId is not provided
-        //        // Redirect to a default action or show a message
-        //        return RedirectToAction("Signin", "Yatri", new { userLoginId });
+            var seats = await _context.Seats.Where(s => s.BusId == busId).ToListAsync();
+            var services = await _context.Services.FirstOrDefaultAsync(s => s.BusId == busId);
+            var user = await _context.Customers.FindAsync(userLoginId);
+            var passengers = await _context.Passengers.Where(p => p.BusId == busId).ToListAsync();
+
+            ViewBag.BusName = bus.BusName;
+            ViewBag.UserLoginId = userLoginId;
+            ViewBag.From = from;
+            ViewBag.To = to;
+            ViewBag.Date = date;
+            ViewBag.SeatCapacity = bus.SeatCapacity;
+            ViewBag.Services = services;
+            ViewBag.Passengers = passengers;
+            ViewBag.Price = bus.Price;
+            ViewBag.User = user;
+
+            return View(seats);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BookSeat(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats)
+        {
+            decimal totalAmount = 0;
+            string ticketNumber = Guid.NewGuid().ToString();
+            string pnrNumber = Guid.NewGuid().ToString();
+
+            foreach (var seatNumber in seats)
+            {
+                var seat = await _context.Seats.FirstOrDefaultAsync(s => s.BusId == busId && s.SeatNumber == seatNumber);
+                if (seat != null && !seat.IsSold)
+                {
+                    seat.IsReserved = true;
+                    seat.UserId = userLoginId;
+                    _context.Update(seat);
+
+                    var bus = await _context.Buses.FirstOrDefaultAsync(b => b.BusId == busId);
+                    totalAmount += bus.Price;
+
+                    var passenger = new Passenger
+                    {
+                        UserId = userLoginId,
+                        BusId = busId,
+                        TicketNumber = ticketNumber,
+                        PNRNumber = pnrNumber,
+                        AmountPaid = bus.Price,
+                        SeatNumber = seatNumber
+                    };
+                    _context.Passengers.Add(passenger);
+                }
+            }
+            await _context.SaveChangesAsync();
+
+            ViewBag.Bus = await _context.Buses.FirstOrDefaultAsync(b => b.BusId == busId);
+            ViewBag.User = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == userLoginId);
+            ViewBag.TicketNumber = ticketNumber;
+            ViewBag.PNRNumber = pnrNumber;
+            ViewBag.TotalAmount = totalAmount;
+            ViewBag.SeatsSelected = seats.Length;
+
+            return RedirectToAction("ConfirmPayment", new { busId, userLoginId, from, to, date, totalAmount, seats });
+        }
 
 
-        //    //// Pass the userLoginId to the view
-
-        //    //return View();
-        //}
 
         [HttpGet]
         public async Task<IActionResult> Profile(int userLoginId)
@@ -405,6 +453,7 @@ namespace YatriSewa_MVC.Controllers
                 Email = loginUser.Email, // Set the email from LoginUser table
             };
 
+            ViewBag.UserLoginId = userLoginId;
             return View(profileViewModel);
         }
 

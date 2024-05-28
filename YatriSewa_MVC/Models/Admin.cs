@@ -189,7 +189,10 @@ namespace YatriSewa_MVC.Models
 
     public class SearchViewModel
     {
+        [Required(ErrorMessage = "From Location is required")]
         public string From { get; set; }
+
+        [Required(ErrorMessage = "To Location is required")]
         public string To { get; set; }
         public DateOnly Date { get; set; }
     }

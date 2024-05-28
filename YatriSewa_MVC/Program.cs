@@ -123,9 +123,9 @@ app.MapControllerRoute(
     pattern: "ProfileEdit",
     defaults: new { controller = "Yatri", action = "ProfileEdit" });
 app.MapControllerRoute(
-    name: "Selectseat",
-    pattern: "Selectseat",
-    defaults: new { controller = "Yatri", action = "Selectseat" });
+    name: "SelectSeat",
+    pattern: "SelectSeat",
+    defaults: new { controller = "Yatri", action = "SelectSeat" });
 app.MapControllerRoute(
     name: "Home",
     pattern: "Home",

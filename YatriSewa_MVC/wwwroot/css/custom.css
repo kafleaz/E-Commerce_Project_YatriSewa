@@ -38,6 +38,7 @@ Version: 0.1
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
 
 body {
+    margin-top: 2px;
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 13px;
     display: flex;
@@ -46,18 +47,19 @@ body {
 }
 
 .mobcontainer {
-    position: relative;
-    height: 820px;
-    width: 400px;
+    
+    position: sticky;
+    min-height: 820px;
+    max-width: 450px;
     background-color: #03314B;
     text-align: center;
     justify-content: center;
 }
 
 .whitecontainer {
-    position: relative;
-    height: 820px;
-    width: 400px;
+    position: sticky;
+    width: 450px;
+    min-height: 840px;
     background-color: #F0F1F3;
     text-align: center;
     justify-content: center;
@@ -65,7 +67,8 @@ body {
 
 .longcontainer {
     position: sticky;
-    width: 400px;
+    max-width: 450px;
+    min-height: 840px;
     background-color: #F0F1F3;
     text-align: center;
     justify-content: center;
@@ -540,15 +543,22 @@ h1.success-icon {
 .list-item-img {
     text-align: center;
     padding: 2px;
-    background: #042F40;
+    border-color:aqua;
+    background: none;
     margin-bottom: 13px;
     border-radius: 8px;
 }
-
-.list-item-img img {
+    .list-item-img img {
+        height: 95px;
+        width: 183px;
+        border-radius: 8px;
+    }
+.list-item-image {
     height: 95px;
+    width: 163px;
     border-radius: 8px;
-}
+ }
+
 .listing-item small.text-muted.mb-2.d-block {
     font-size: 10px;
 }
@@ -760,11 +770,11 @@ h1.success-icon {
 
 /* ======customization.css====== */
 
-.osahan-fotter {
-    position: absolute;
+/*.osahan-fotter {
+    position: absolute;*/
     /* justify-content: center; */
     /* transform: translate(-50%); */
-}
+/*}*/
 
 .nav-osahan-fotter {
     position: sticky;
@@ -906,7 +916,7 @@ h1.success-icon {
     }
 
 .fixed-bottom{
-    /* position:fixed; */
+     /*position:fixed;*/ 
     right:0;
     bottom:0;
     left:0;
@@ -928,3 +938,10 @@ h1.success-icon {
   input[type="button"].btn-block {
     width: 100%;
   }
+
+.col-md-6 {
+    position: relative;
+    width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+}

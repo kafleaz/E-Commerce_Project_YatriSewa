@@ -61,7 +61,7 @@ namespace YatriSewa_MVC.Migrations
                     lname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     gender = table.Column<int>(type: "int", nullable: false),
                     age = table.Column<int>(type: "int", nullable: false),
-                    contact_no = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    contact_no = table.Column<string>(type: "nvarchar(10)", nullable: false),
                     district = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     city = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },

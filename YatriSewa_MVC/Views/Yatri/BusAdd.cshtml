@@ -121,7 +121,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label asp-for="Time" class="text-muted mb-1" class="icofont-ui-clock text-green"> Time</label>
-                            <input asp-for="Time" name="Time" data-mdb-timepicker-init="true" type="time" class="form-control" required/>
+                            <input asp-for="Time" name="Time"  type="time" class="form-control" required/>
                         </div>
                     </div>
                     <div class="form-row">
@@ -206,19 +206,19 @@
 
                         <div class="form-group col-md-6">
                             <label asp-for="SafetyFeatures" class="text-muted mb-1">Safety Features</label>
-                            <input asp-for="SafetyFeatures" name="SafetyFeatures" type="text" class="form-control" placeholder="Safety Fetures" >
+                            <input asp-for="SafetyFeatures" name="SafetyFeatures" type="text" class="form-control" placeholder="Safety Fetures" required>
                             <span asp-validation-for="SafetyFeatures" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label asp-for="Essentials" class="text-muted mb-1">Essentials</label>
-                            <input asp-for="Essentials" name="Essentials" type="text" class="form-control" placeholder="Essentials" >
+                            <input asp-for="Essentials" name="Essentials" type="text" class="form-control" placeholder="Essentials" required>
                             <span asp-validation-for="Essentials" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label asp-for="Snacks" class="text-muted mb-1">Snacks</label>
-                            <input asp-for="Snacks" name="Snacks" type="text" class="form-control" placeholder="Snacks">
+                            <input asp-for="Snacks" name="Snacks" type="text" class="form-control" placeholder="Snacks" required>
                             <span asp-validation-for="Snacks" class="text-danger"></span>
                         </div>
                     </div>
@@ -242,23 +242,24 @@
                         <input asp-for="Address" class="form-control" placeholder="Address" required>
                         <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
-                    <div class="form-row">
-                    <div class="form-group col-md-6">
+                    
+                    <div class="form-group ">
                         <label asp-for="LicenseNo" class="text-muted mb-1">License Number</label>
                         <input asp-for="LicenseNo" class="form-control" placeholder="License Number" required>
                         <span asp-validation-for="LicenseNo" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
-                        <label asp-for="IssueDate" class="text-muted mb-1">Issue Date</label>
-                        <input asp-for="IssueDate" class="form-control" type="date" required>
-                        <span asp-validation-for="IssueDate" class="text-danger"></span>
+                    <div class="form-row ">
+                        <div class="form-group col-md-6">
+                            <label asp-for="IssueDate" class="text-muted mb-1">License Issue Date</label>
+                            <input asp-for="IssueDate" class="form-control" type="date" required>
+                            <span asp-validation-for="IssueDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="ExpiryDate" class="text-muted mb-1">License Expiry Date</label>
+                            <input asp-for="ExpiryDate" class="form-control" type="date" required>
+                            <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group col-md-3">
-                        <label asp-for="ExpiryDate" class="text-muted mb-1">Expiry Date</label>
-                        <input asp-for="ExpiryDate" class="form-control" type="date" required>
-                        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
-                    </div>
-                </div>
 
                     <button type="submit" class="btn create-account btn-block osahanbus-btn mb-4">Submit</button>
                 </form>
@@ -272,6 +273,7 @@
         <!-- Sidebar JS-->
         <script type="text/javascript" src="~/vendor/sidebar/hc-offcanvas-nav.js"></script>
         <!-- Custom scripts for all pages-->
+
         <script src="~/js/custom.js"></script>
         </div>
 </body>

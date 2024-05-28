@@ -22,7 +22,7 @@
     <link href="~/vendor/sidebar/demo.css" rel="stylesheet">
 </head>
 <body class="">
-    <div class="whitecontainer">
+    <div class="longcontainer">
         <!-- Profile -->
         <div class="osahan-profile">
             <div class="osahan-header-nav shadow-sm bg-darkblue p-3 d-flex align-items-center">
@@ -91,7 +91,7 @@
         <div class="fixed-bottom osahan-fotter p-3">
             <div class="footer-menu row m-0 bg-darkblue shadow rounded-2">
                 <div class="col-3 p-0 text-center">
-                    <a href="home.html" class="home text-white">
+                    <a href="@Url.Action("Home", "Yatri", new { userLoginId = ViewBag.UserLoginId })" class="home text-white">
                         <span class="icofont-ui-home h5"></span>
                         <p class="mb-0 small">Home</p>
                     </a>
@@ -110,7 +110,7 @@
                     </a>
                 </div>
                 <div class="col-3 p-0 text-center">
-                    <a href="profile.html" class="home text-white active">
+                    <a href="@Url.Action("Profile", "Yatri", new { userLoginId = ViewBag.UserLoginId })" class="home text-white active">
                         <span class="icofont-user h5"></span>
                         <p class="mb-0 small">Account</p>
                     </a>
