@@ -12,7 +12,7 @@
     <title>Bus Ticket Booking</title>
     <!-- Bootstrap core CSS -->
     <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Icofont Icon-->
+    <!-- Icofont Icon -->
     <link href="~/vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
     <!-- Slick Slider -->
     <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick.min.css" />
@@ -22,13 +22,16 @@
     <!-- Sidebar CSS -->
     <link href="~/vendor/sidebar/demo.css" rel="stylesheet">
 </head>
-<body class="">
+<body>
     <div class="longcontainer">
         <!-- Bus Seat Select -->
         <div class="seat-select padding-bt">
+            <!-- Header -->
             <div class="osahan-header-nav shadow-sm p-3 d-flex align-items-center bg-darkblue">
                 <h5 class="font-weight-normal mb-0 text-white">
-                    <a class="text-green mr-3" href="@Url.Action("BusListing", "Yatri", new { from = ViewBag.From, to = ViewBag.To, date = ViewBag.Date, userLoginId = ViewBag.UserLoginId })"><i class="icofont-rounded-left"></i></a>
+                    <a class="text-green mr-3" href="@Url.Action("BusListing", "Yatri", new { from = ViewBag.From, to = ViewBag.To, date = ViewBag.Date, userLoginId = ViewBag.UserLoginId })">
+                        <i class="icofont-rounded-left"></i>
+                    </a>
                     Bus Seat Select
                 </h5>
                 <div class="ml-auto d-flex align-items-center">
@@ -86,121 +89,191 @@
 
             <!-- Select Seat Section -->
             <div class="ticket p-3">
-            <div class="select-seat bg-white mx-0 px-3 pt-3 pb-1 mb-3 rounded-1 shadow-sm">
-                <div class="col-8 pl-0">
-                    <div class="d-flex">
-                        <div class="sold text-center">
-                            <img src="~/img/sold-seat.png" class="img-fluid mb-1">
-                            <p class="small f-10">Sold Out</p>
-                        </div>
-                        <div class="sold text-center mx-3">
-                            <img src="~/img/available-seat.png" class="img-fluid mb-1">
-                            <p class="small f-10">Available</p>
-                        </div>
-                        <div class="sold text-center">
-                            <img src="~/img/selected-seat.png" class="img-fluid mb-1">
-                            <p class="small f-10">Selected</p>
-                        </div>
+                <div class="select-seat bg-white mx-0 px-3 pt-3 pb-1 mb-3 rounded-1 shadow-sm">
+                    <div class="col-8 pl-0">
+                        <div class="d-flex">
+                            <div class="sold text-center">
+                                <img src="~/img/sold-seat.png" class="img-fluid mb-1">
+                                <p class="small f-10">Sold Out</p>
+                            </div>
+                            <div class="sold text-center mx-3">
+                                <img src="~/img/available-seat.png" class="img-fluid mb-1">
+                                <p class="small f-10">Available</p>
+                            </div>
+                            <div class="sold text-center">
+                                <img src="~/img/selected-seat.png" class="img-fluid mb-1">
+                                <p class="small f-10">Selected</p>
+                            </div>
+                            <div class="sold text-center">
+                                <img src="~/img/reserved-seat.png" class="img-fluid mb-1">
+                                <p class="small f-10">Reserved</p>
+                            </div>
                             <div class="col-4 text-right pr-0">
-                            <img src="~/img/driver.png" class="img-fluid mb-4">
-                        </div>
-                    </div>
-                    <!-- Display seats in 4 columns -->
-                    <form id="seatForm" asp-action="BookSeat" method="post">
-                        <input type="hidden" name="busId" value="@ViewBag.BusId" />
-                        <input type="hidden" name="userLoginId" value="@ViewBag.UserLoginId" />
-                        <input type="hidden" name="from" value="@ViewBag.From" />
-                        <input type="hidden" name="to" value="@ViewBag.To" />
-                        <input type="hidden" name="date" value="@ViewBag.Date" />
-                        <div class="select-seat">
-                            <div class="checkboxes-seat mt-4">
-                                @{
-                                    int seatCapacity = ViewBag.SeatCapacity;
-                                    int columnCount = 4;
-                                    for (int i = 1; i <= seatCapacity; i++)
-                                    {
-                                        if (i % columnCount == 1)
-                                        {
-                                            @:<div class="row">
-                                        }
-
-                                        var seatNumber = i.ToString();
-                                        var seat = Model.FirstOrDefault(s => s.SeatNumber == seatNumber);
-                                        var isSold = seat != null && seat.IsSold;
-                                        var seatClass = isSold ? "btn-green" : "btn-success";
-                                        var isDisabled = isSold ? "checked disabled" : "";
-                                        <div class="col-3">
-                                            <div class="btn-group btn-group-toggle d-block mb-1" data-toggle="buttons">
-                                                <label class="btn check-seat @seatClass small btn-sm rounded mr-2 mb-2">
-                                                    <input type="checkbox" name="seats" value="@seatNumber" autocomplete="off" @isDisabled>
-                                                    @seatNumber
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        if (i % columnCount == 0 || i == seatCapacity)
-                                        {
-                                            @:</div>
-                                        }
-                                    }
-                                }
+                                <img src="~/img/driver.png" class="img-fluid mb-4">
                             </div>
                         </div>
-                    </form>
+                        <!-- Display seats in 4 columns -->
+                         <form id="seatForm" method="post">
+                            <input type="hidden" name="busId" value="@ViewBag.BusId" />
+                            <input type="hidden" name="userLoginId" value="@ViewBag.UserLoginId" />
+                            <input type="hidden" name="from" value="@ViewBag.From" />
+                            <input type="hidden" name="to" value="@ViewBag.To" />
+                            <input type="hidden" name="date" value="@ViewBag.Date" />
+                            <div class="select-seat">
+                                <div class="checkboxes-seat mt-4">
+                                    @{
+                                        int seatCapacity = ViewBag.SeatCapacity;
+                                        int columnCount = 4;
+                                        for (int i = 1; i <= seatCapacity; i++)
+                                        {
+                                            if (i % columnCount == 1)
+                                            {
+                                                @:<div class="row">
+                                            }
+
+                                            var seatNumber = i.ToString();
+                                            var seat = Model.FirstOrDefault(s => s.SeatNumber == seatNumber);
+                                            var seatClass = "btn-success";
+                                            var isDisabled = "";
+                                            if (seat != null)
+                                            {
+                                                if (seat.IsSold)
+                                                {
+                                                    seatClass = "btn-danger";
+                                                    isDisabled = "checked disabled";
+                                                }
+                                                else if (seat.IsReserved)
+                                                {
+                                                    seatClass = "btn-warning";
+                                                    isDisabled = "checked disabled";
+                                                }
+                                                else if (seat.Status == "selected")
+                                                {
+                                                    seatClass = "btn-green";
+                                                }
+                                            }
+                                            <div class="col-3">
+                                                <div class="btn-group btn-group-toggle d-block mb-1" data-toggle="buttons">
+                                                    <label class="btn check-seat @seatClass small btn-sm rounded mr-2 mb-2">
+                                                        <input type="checkbox" name="seats" value="@seatNumber" autocomplete="off" @isDisabled data-price="@ViewBag.Price" data-seat-number="@seatNumber">
+                                                        @seatNumber
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            if (i % columnCount == 0 || i == seatCapacity)
+                                            {
+                                                @:</div>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-darkblue btn-block">NEXT</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="fixed-bottom nav-osahan-fotter view-seatbt p-3">
+            </div>
+             <div class="fixed-bottom nav-osahan-fotter view-seatbt p-3">
                 <button type="submit" form="seatForm" class="btn btn-darkblue btn-block d-flex align-items-center osahanbus-btn rounded-1">
                     <span class="text-left l-hght-14">
-                        TOTAL @($"${ViewBag.Price * ViewBag.SelectedSeatsCount}")<br>
-                        <small class="f-10 text-white-50">Seats Selected: @ViewBag.SelectedSeatsCount</small>
+                        TOTAL $<span id="totalAmount">0.00</span><br>
+                        <small class="f-10 text-white-50">Seats Selected: <span id="selectedSeatsCount">0</span></small>
                     </span>
                     <span class="font-weight-bold ml-auto">NEXT</span>
                 </button>
+                @* <button type="button" id="reserveSeats" class="btn btn-primary btn-block mt-2">Reserve Selected Seats</button>
+                <button type="button" id="resetSeats" class="btn btn-danger btn-block mt-2">Reset Selected Seats</button> *@
             </div>
-            </div>
-            </div>
-
-            @* <!-- Passenger Information -->
-            <div class="list_item d-flex col-12 m-0 p-3 bg-white shadow-sm rounded-1 shadow-sm">
-                <div class="d-flex mb-auto">
-                    <img src="~/img/qr-code.png" class="img-fluid osahan-qr">
-                </div>
-                <div class="d-flex w-100">
-                    <div class="bus_details w-100 pl-3">
-                        <p class="mb-2 l-hght-18 font-weight-bold">More info.</p>
-                        <div class="l-hght-10 d-flex align-items-center my-2">
-                            <small class="text-muted mb-0 pr-1">Passenger</small>
-                            <input type="text" name="passengerName" class="form-control" value="@($"{ViewBag.User.FirstName} {ViewBag.User.LastName}")" />
-                        </div>
-                        <div class="l-hght-10 d-flex align-items-center my-2">
-                            <small class="text-muted mb-0 pr-1">Ticket Number</small>
-                            <input type="text" name="ticketNumber" class="form-control" value="@ViewBag.Passenger?.TicketNumber" />
-                        </div>
-                        <div class="l-hght-10 d-flex align-items-center my-2">
-                            <small class="text-muted mb-0 pr-1">PNR Number</small>
-                            <input type="text" name="pnrNumber" class="form-control" value="@ViewBag.Passenger?.PNRNumber" />
-                        </div>
-                        <div class="l-hght-10 d-flex align-items-center mt-3">
-                            <p class="mb-0 pr-1 font-weight-bold">Amount Paid</p>
-                            <p class="mb-0 ml-auto l-hght-14 text-green font-weight-bold">@($"${ViewBag.Price * ViewBag.SelectedSeatsCount}")</p>
-                        </div>
-                    </div>
-                </div>
-            </div> *@
-
-            <!-- Continue Booking -->
-            
         </div>
     </div>
-        <!-- Bootstrap core JavaScript -->
-        <script src="~/vendor/jquery/jquery.min.js"></script>
-        <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- slick Slider JS-->
-        <script type="text/javascript" src="~/vendor/slick/slick.min.js"></script>
-        <!-- Sidebar JS-->
-        <script type="text/javascript" src="~/vendor/sidebar/hc-offcanvas-nav.js"></script>
-        <!-- Custom scripts for all pages-->
-        <script src="~/js/custom.js"></script>
-    </div>
+
+    <!-- JavaScript to handle seat selection and AJAX requests -->
+   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var selectedSeats = [];
+
+            function updateTotalAmount() {
+                var totalAmount = selectedSeats.length * parseFloat($('input[name="seats"]:checked').data('price') || 0);
+                $('#totalAmount').text(totalAmount.toFixed(2));
+                $('#selectedSeatsCount').text(selectedSeats.length);
+            }
+
+            $('input[name="seats"]').on('change', function () {
+                var seatNumber = $(this).data('seat-number');
+                if ($(this).is(':checked')) {
+                    selectedSeats.push(seatNumber);
+                    $(this).closest('label').addClass('btn-green').removeClass('btn-success');
+                } else {
+                    selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+                    $(this).closest('label').removeClass('btn-green').addClass('btn-success');
+                }
+                updateTotalAmount();
+
+                var isSelected = $(this).is(':checked');
+                var busId = $('input[name="busId"]').val();
+                var userLoginId = $('input[name="userLoginId"]').val();
+
+                $.ajax({
+                    url: '@Url.Action("UpdateSeatSelection", "Yatri")',
+                    type: 'POST',
+                    data: {
+                        seatNumber: seatNumber,
+                        isSelected: isSelected,
+                        userLoginId: userLoginId,
+                        busId: busId
+                    },
+                    success: function () {
+                        console.log("Seat selection updated successfully");
+                    },
+                    error: function () {
+                        console.error("Error updating seat selection");
+                    }
+                });
+            });
+
+            $('#reserveSeats').on('click', function () {
+                var busId = $('input[name="busId"]').val();
+                var userLoginId = $('input[name="userLoginId"]').val();
+
+                $.ajax({
+                    url: '@Url.Action("ReserveSeats", "Yatri")',
+                    type: 'POST',
+                    data: {
+                        busId: busId,
+                        userLoginId: userLoginId,
+                        seats: selectedSeats
+                    },
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        console.error("Error reserving seats");
+                    }
+                });
+            });
+
+            $('#resetSeats').on('click', function () {
+                var busId = $('input[name="busId"]').val();
+                var userLoginId = $('input[name="userLoginId"]').val();
+
+                $.ajax({
+                    url: '@Url.Action("ResetSeats", "Yatri")',
+                    type: 'POST',
+                    data: {
+                        busId: busId,
+                        userLoginId: userLoginId
+                    },
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        console.error("Error resetting seats");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -9,7 +9,9 @@ namespace YatriSewa_MVC.Models
         public string SeatNumber { get; set; }
         public bool IsSold { get; set; }
         public bool IsReserved { get; set; }
+        public string Status { get; set; }
         public int? UserId { get; set; }
+        public virtual Passenger Passenger { get; set; }
     }
 
     public class Passenger
@@ -19,7 +21,6 @@ namespace YatriSewa_MVC.Models
 
         [Required]
         public int UserId { get; set; }
-        public virtual Customer Customer { get; set; }
 
         [Required]
         public int BusId { get; set; }

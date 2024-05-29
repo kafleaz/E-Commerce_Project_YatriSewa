@@ -17,7 +17,6 @@ namespace YatriSewa_MVC.Migrations
                     PassengerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
                     BusId = table.Column<int>(type: "int", nullable: false),
                     TicketNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PNRNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -32,13 +31,7 @@ namespace YatriSewa_MVC.Migrations
                         column: x => x.BusId,
                         principalTable: "Buses",
                         principalColumn: "BusId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Passengers_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "customer_ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);                   
                 });
 
             migrationBuilder.CreateIndex(

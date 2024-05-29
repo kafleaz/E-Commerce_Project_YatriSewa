@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YatriSewa_MVC.Models;
 
@@ -11,9 +12,11 @@ using YatriSewa_MVC.Models;
 namespace YatriSewa_MVC.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240529064105_seatstatus")]
+    partial class seatstatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -430,6 +433,9 @@ namespace YatriSewa_MVC.Migrations
                     b.Property<int>("BusId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PNRNumber")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -452,6 +458,8 @@ namespace YatriSewa_MVC.Migrations
 
                     b.HasIndex("BusId");
 
+                    b.HasIndex("CustomerId");
+
                     b.ToTable("Passengers");
                 });
 
@@ -472,9 +480,6 @@ namespace YatriSewa_MVC.Migrations
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PassengerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SeatNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -487,8 +492,6 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("SeatId");
-
-                    b.HasIndex("PassengerId");
 
                     b.ToTable("Seats");
                 });
@@ -612,18 +615,15 @@ namespace YatriSewa_MVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Bus");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.Seat", b =>
-                {
-                    b.HasOne("YatriSewa_MVC.Models.Passenger", "Passenger")
+                    b.HasOne("YatriSewa_MVC.Models.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("PassengerId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Passenger");
+                    b.Navigation("Bus");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Service", b =>

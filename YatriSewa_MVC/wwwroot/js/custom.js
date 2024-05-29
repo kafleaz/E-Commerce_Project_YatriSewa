@@ -126,4 +126,21 @@ document.getElementById("signupForm").addEventListener("submit", function (event
 });
 
 
+function updateSeatSelection(checkbox, seatCost) {
+    var seatNumber = checkbox.value;
+    if (checkbox.checked) {
+        totalCost += seatCost;
+        selectedSeatsCount++;
+    } else {
+        totalCost -= seatCost;
+        selectedSeatsCount--;
+    }
 
+    // Update the total cost and selected seats count display
+    document.getElementById("totalAmount").textContent = totalCost.toFixed(2);
+    document.getElementById("selectedSeatsCount").textContent = selectedSeatsCount;
+
+    // Enable/disable the "Next" button based on seat selection
+    var nextButton = document.querySelector(".osahanbus-btn");
+    nextButton.disabled = selectedSeatsCount === 0;
+}

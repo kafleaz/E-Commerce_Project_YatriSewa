@@ -340,26 +340,22 @@ namespace YatriSewa_MVC.Controllers
             return View(buses);
         }
 
-        private string GenerateTicketNumber()
+        [HttpGet("SelectSeat")]
+        [HttpPost("SelectSeat")]
+        public async Task<IActionResult> SelectSeat(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats = null)
         {
-            return Guid.NewGuid().ToString().Substring(0, 8).ToUpper(); // Example: Generate a random string of length 8
-        }
+            if (Request.Method == "POST")
+            {
+                return await BookSeats(busId, userLoginId, from, to, date, seats);
+            }
 
-        private string GeneratePNRNumber()
-        {
-            return DateTime.Now.Ticks.ToString().Substring(0, 12); // Example: Generate a PNR based on current ticks
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> SelectSeat(int busId, int userLoginId, string from, string to, DateOnly date)
-        {
             var bus = await _context.Buses.FindAsync(busId);
             if (bus == null)
             {
                 return NotFound();
             }
 
-            var seats = await _context.Seats.Where(s => s.BusId == busId).ToListAsync();
+            var seatsList = await _context.Seats.Where(s => s.BusId == busId).ToListAsync();
             var services = await _context.Services.FirstOrDefaultAsync(s => s.BusId == busId);
             var user = await _context.Customers.FindAsync(userLoginId);
             var passengers = await _context.Passengers.Where(p => p.BusId == busId).ToListAsync();
@@ -375,15 +371,21 @@ namespace YatriSewa_MVC.Controllers
             ViewBag.Price = bus.Price;
             ViewBag.User = user;
 
-            return View(seats);
+            return View(seatsList);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> BookSeat(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats)
+        private async Task<IActionResult> BookSeats(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats)
         {
             decimal totalAmount = 0;
-            string ticketNumber = Guid.NewGuid().ToString();
-            string pnrNumber = Guid.NewGuid().ToString();
+            string ticketNumber = GenerateTicketNumber();
+            string pnrNumber = GeneratePNRNumber();
+
+            var bus = await _context.Buses.FirstOrDefaultAsync(b => b.BusId == busId);
+
+            if (bus == null)
+            {
+                return NotFound();
+            }
 
             foreach (var seatNumber in seats)
             {
@@ -394,7 +396,6 @@ namespace YatriSewa_MVC.Controllers
                     seat.UserId = userLoginId;
                     _context.Update(seat);
 
-                    var bus = await _context.Buses.FirstOrDefaultAsync(b => b.BusId == busId);
                     totalAmount += bus.Price;
 
                     var passenger = new Passenger
@@ -409,17 +410,97 @@ namespace YatriSewa_MVC.Controllers
                     _context.Passengers.Add(passenger);
                 }
             }
-            await _context.SaveChangesAsync();
 
-            ViewBag.Bus = await _context.Buses.FirstOrDefaultAsync(b => b.BusId == busId);
-            ViewBag.User = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == userLoginId);
-            ViewBag.TicketNumber = ticketNumber;
-            ViewBag.PNRNumber = pnrNumber;
-            ViewBag.TotalAmount = totalAmount;
-            ViewBag.SeatsSelected = seats.Length;
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                ViewBag.Bus = bus;
+                ViewBag.User = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == userLoginId);
+                ViewBag.TicketNumber = ticketNumber;
+                ViewBag.PNRNumber = pnrNumber;
+                ViewBag.TotalAmount = totalAmount;
+                ViewBag.SeatsSelected = seats.Length;
 
-            return RedirectToAction("ConfirmPayment", new { busId, userLoginId, from, to, date, totalAmount, seats });
+                return RedirectToAction("Payment", new { busId, userLoginId, from, to, date });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "There was an error processing your request. Please try again.";
+                return View(seats);
+            }
         }
+
+        private string GenerateTicketNumber()
+        {
+            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToUpper();
+        }
+
+        private string GeneratePNRNumber()
+        {
+            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6).ToUpper();
+        }
+
+
+
+
+        //[HttpPost]
+        //public IActionResult UpdateSeatSelection(string seatNumber, bool isSelected, int userLoginId, int busId)
+        //{
+        //    var seat = _context.Seats.FirstOrDefault(s => s.SeatNumber == seatNumber && s.BusId == busId);
+
+        //    if (seat != null)
+        //    {
+        //        if (isSelected)
+        //        {
+        //            seat.Status = "selected";
+        //            seat.UserId = userLoginId;
+        //        }
+        //        else
+        //        {
+        //            seat.Status = "available";
+        //            seat.UserId = null;
+        //        }
+
+        //        _context.SaveChanges();
+        //    }
+
+        //    return Ok();
+        //}
+
+        //[HttpPost]
+        //public IActionResult ReserveSeats(int busId, int userLoginId)
+        //{
+        //    var selectedSeats = _context.Seats.Where(s => s.BusId == busId && s.UserId == userLoginId && s.Status == "selected").ToList();
+
+        //    foreach (var seat in selectedSeats)
+        //    {
+        //        seat.Status = "reserved";
+        //        seat.IsReserved = true;
+        //    }
+
+        //    _context.SaveChanges();
+
+        //    return Ok();
+        //}
+
+        //[HttpPost]
+        //public IActionResult ResetSeats(int busId, int userLoginId)
+        //{
+        //    var selectedSeats = _context.Seats.Where(s => s.BusId == busId && s.UserId == userLoginId && s.Status == "selected").ToList();
+
+        //    foreach (var seat in selectedSeats)
+        //    {
+        //        seat.Status = "available";
+        //        seat.UserId = null;
+        //        seat.IsReserved = false;
+        //    }
+
+        //    _context.SaveChanges();
+
+        //    return Ok();
+        //}
+
+
 
 
 
