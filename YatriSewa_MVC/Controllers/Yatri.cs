@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
-using System;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -33,10 +32,10 @@ namespace YatriSewa_MVC.Controllers
         //{
         //    return View();
         //}
-        //public IActionResult Busdetails()
-        //{
-        //    return View();
-        //}
+        public IActionResult Busdetails()
+        {
+            return View();
+        }
         public IActionResult Customerfeedback()
         {
             return View();
@@ -282,7 +281,7 @@ namespace YatriSewa_MVC.Controllers
             {
                 ViewBag.UserLoginId = userLoginId.Value;
             }
-            
+
             return View();
         }
 
@@ -299,9 +298,9 @@ namespace YatriSewa_MVC.Controllers
 
                 if (busExists)
                 {
-                    
+
                     // Redirect to the Listing page if a match is found
-                    return RedirectToAction("BusListing","Yatri", new { from = model.From, to = model.To, date = model.Date, userLoginId = userLoginId });
+                    return RedirectToAction("BusListing", "Yatri", new { from = model.From, to = model.To, date = model.Date, userLoginId = userLoginId });
                 }
                 else
                 {
@@ -319,7 +318,7 @@ namespace YatriSewa_MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> BusListing(string from, string to, DateOnly date,int userLoginId)
+        public async Task<IActionResult> BusListing(string from, string to, DateOnly date, int userLoginId)
         {
             ViewBag.UserLoginId = userLoginId;
 
@@ -566,161 +565,7 @@ namespace YatriSewa_MVC.Controllers
 
             return View(model);
         }
-
-
-
-        //[HttpGet]
-        //public IActionResult Busdetails()
-        //{
-        //    // Fetch the list of buses from the database and convert them to BusFormViewModel objects
-        //    var buses = _context.Buses
-        //        .Include(b => b.Service)
-        //        .Include(b => b.Operator)
-        //        .Select(b => new BusFormViewModel
-        //        {
-        //            BusName = b.BusName,
-        //            BusNumber = b.BusNumber,
-        //            From = b.From,
-        //            To = b.To,
-        //            Date = b.Date,
-        //            Time = b.Time,
-        //            SeatCapacity = b.SeatCapacity,
-        //            Price = b.Price,
-        //            Description = b.Description,
-        //            WiFi = b.Service.Wifi,
-        //            AC = b.Service.AC,
-        //            Meals = b.Service.Meals,
-        //            SafetyFeatures = b.Service.SafetyFeatures,
-        //            Essentials = b.Service.Essentials,
-        //            Snacks = b.Service.Snacks,
-        //            OperatorName = b.Operator.Name,
-        //            OperatorContact = b.Operator.ContactNo,
-        //            Address = b.Operator.Address,
-        //            LicenseNo = b.Operator.LicenseNo,
-        //            IssueDate = b.Operator.IssueDate,
-        //            ExpiryDate = b.Operator.ExpiryDate
-        //        })
-        //        .ToList();
-
-        //    return View(buses);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Busdetails(int? busId)
-        //{
-        //    if (busId == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var bus = await _context.Buses
-        //        .Include(b => b.Service)
-        //        .Include(b => b.Operator)
-        //        .FirstOrDefaultAsync(m => m.BusId == busId);
-
-        //    if (bus == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var viewModel = new BusFormViewModel
-        //    {
-        //        BusId = bus.BusId,
-        //        BusName = bus.BusName,
-        //        BusNumber = bus.BusNumber,
-        //        From = bus.From,
-        //        To = bus.To,
-        //        Date = bus.Date,
-        //        Time = bus.Time,
-        //        SeatCapacity = bus.SeatCapacity,
-        //        Price = bus.Price,
-        //        Description = bus.Description,
-        //        WiFi = bus.Service.Wifi,
-        //        AC = bus.Service.AC,
-        //        Meals = bus.Service.Meals,
-        //        SafetyFeatures = bus.Service.SafetyFeatures,
-        //        Essentials = bus.Service.Essentials,
-        //        Snacks = bus.Service.Snacks,
-        //        OperatorName = bus.Operator.Name,
-        //        OperatorContact = bus.Operator.ContactNo,
-        //        Address = bus.Operator.Address,
-        //        LicenseNo = bus.Operator.LicenseNo,
-        //        IssueDate = bus.Operator.IssueDate,
-        //        ExpiryDate = bus.Operator.ExpiryDate
-        //    };
-
-        //    return View("Busdetails", viewModel);
-        //}
-        [HttpGet]
-        public async Task<IActionResult> Busdetails(int BusId, int userLoginId, string from, string to, DateOnly date)
-        {
-            // Fetch the bus with the specified conditions
-            var bus = await _context.Buses
-                .Include(b => b.Service)
-                .Where(b => b.From == from && b.To == to && b.Date == date)
-                .FirstOrDefaultAsync(m => m.BusId == BusId);
-
-            // Check if the bus is not found
-            if (bus == null)
-            {
-                return NotFound();
-            }
-
-            // Fetch the associated services and user details
-            var services = await _context.Services.FirstOrDefaultAsync(s => s.BusId == BusId);
-            var user = await _context.Customers.FindAsync(userLoginId);
-
-            // Create the ViewModel with null-conditional operators to handle null Service
-            var viewModel = new BusFormViewModel
-            {
-                BusId = bus.BusId,
-                BusName = bus.BusName,
-                BusNumber = bus.BusNumber,
-                From = bus.From,
-                To = bus.To,
-                Date = bus.Date,
-                Time = bus.Time,
-                SeatCapacity = bus.SeatCapacity,
-                Price = bus.Price,
-                Description = bus.Description,
-                WiFi = bus.Service?.Wifi ?? false,
-                AC = bus.Service?.AC ?? false,
-                Meals = bus.Service?.Meals ?? false,
-                SafetyFeatures = bus.Service?.SafetyFeatures,
-                Essentials = bus.Service?.Essentials,
-                Snacks = bus.Service?.Snacks,
-            };
-
-            return View(viewModel);
-        }
-
-
-
     }
 }
 
 
-//[HttpGet]
-//public async Task<IActionResult> SelectSeat(int busId, int userLoginId, string from, string to, DateOnly date)
-//{
-//    var bus = await _context.Buses.FindAsync(busId);
-//    if (bus == null)
-//    {
-//        return NotFound();
-//    }
-//    var seats = await _context.Seats.Where(s => s.BusId == busId).ToListAsync();
-//    var services = await _context.Services.FirstOrDefaultAsync(s => s.BusId == busId);
-//    var user = await _context.Customers.FindAsync(userLoginId);
-//    var passengers = await _context.Passengers.Where(p => p.BusId == busId).ToListAsync();
-//    ViewBag.BusName = bus.BusName;
-//    ViewBag.UserLoginId = userLoginId;
-//    ViewBag.From = from;
-//    ViewBag.To = to;
-//    ViewBag.Date = date;
-//    ViewBag.SeatCapacity = bus.SeatCapacity;
-//    ViewBag.Services = services;
-//    ViewBag.Passengers = passengers;
-//    ViewBag.Price = bus.Price;
-//    ViewBag.User = user;
-//    return View(seats);
-//}

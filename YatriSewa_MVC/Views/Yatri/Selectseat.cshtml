@@ -48,23 +48,32 @@
                     <span class="text-dark">4.0</span>
                 </div>
                 <div class="bg-white rounded-1 shadow-sm p-3 mb-3 w-100">
-                    @if (ViewBag.Services != null)
-                    {
+                  
                         <div class="row mx-0 mb-3">
+                        @if (ViewBag.Services.Wifi)
+                             {
                             <div class="col-6 p-0">
                                 <small class="text-muted mb-1 f-10 pr-1">Wifi</small>
-                                <p class="small mb-0 l-hght-14">@ViewBag.Services.Wifi</p>
+                                <p class="small mb-0 l-hght-14">Available</p>
                             </div>
+                             }
+                              @if (ViewBag.Services.AC)
+                             {
                             <div class="col-6 p-0">
                                 <small class="text-muted mb-1 f-10 pr-1">AC</small>
-                                <p class="small mb-0 l-hght-14">@ViewBag.Services.AC</p>
+                                <p class="small mb-0 l-hght-14">Available</p>
                             </div>
+                             }
                         </div>
+                    
                         <div class="row mx-0 mb-3">
+                            @if (ViewBag.Services.Meals)
+                             {
                             <div class="col-6 p-0">
                                 <small class="text-muted mb-1 f-10 pr-1">Dinner / Lunch</small>
-                                <p class="small mb-0 l-hght-14">@ViewBag.Services.Meals</p>
+                                <p class="small mb-0 l-hght-14">Available</p>
                             </div>
+                             }
                             <div class="col-6 p-0">
                                 <small class="text-muted mb-1 f-10 pr-1">Safety Features</small>
                                 <p class="small mb-0 l-hght-14">@ViewBag.Services.SafetyFeatures</p>
@@ -80,7 +89,7 @@
                                 <p class="small mb-0 l-hght-14">@ViewBag.Services.Snacks</p>
                             </div>
                         </div>
-                    }
+                    
                 </div>
             </div>
 
@@ -148,6 +157,8 @@
                         </div>
                     </form>
                 </div>
+            </div>
+            </div>
                 <div class="fixed-bottom nav-osahan-fotter view-seatbt p-3">
                 <button type="submit" form="seatForm" class="btn btn-darkblue btn-block d-flex align-items-center osahanbus-btn rounded-1">
                     <span class="text-left l-hght-14">
@@ -156,8 +167,6 @@
                     </span>
                     <span class="font-weight-bold ml-auto">NEXT</span>
                 </button>
-            </div>
-            </div>
             </div>
 
             @* <!-- Passenger Information -->
