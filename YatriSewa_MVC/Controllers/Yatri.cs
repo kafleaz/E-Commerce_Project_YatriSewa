@@ -56,10 +56,7 @@ namespace YatriSewa_MVC.Controllers
         {
             return View();
         }
-        public IActionResult Payment()
-        {
-            return View();
-        }
+        
         public IActionResult Paymentcard()
         {
             return View();
@@ -429,6 +426,8 @@ namespace YatriSewa_MVC.Controllers
             _context.Passengers.Add(passenger);
             await _context.SaveChangesAsync();
 
+            int passengerId = passenger.PassengerId;
+
             ViewBag.Bus = bus;
             ViewBag.User = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == userLoginId);
             ViewBag.TicketNumber = ticketNumber;
@@ -436,14 +435,8 @@ namespace YatriSewa_MVC.Controllers
             ViewBag.TotalAmount = TotalAmount;
             ViewBag.SeatsSelected = seatNumbers.Length;
 
-            return RedirectToAction("Payment", new { busId, userLoginId, from, to, date, totalAmount = TotalAmount, seatNumbers = string.Join(",", seatNumbers) });
+            return RedirectToAction("Payment", new { busId, userLoginId, from, to, date, totalAmount = TotalAmount, seatNumbers = string.Join(",", seatNumbers), passengerId });
         }
-
-
-
-
-
-
         private string GenerateTicketNumber()
         {
             return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToUpper();
@@ -455,64 +448,112 @@ namespace YatriSewa_MVC.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult Payment(int busId, int userLoginId, string from, string to, string date, decimal totalAmount, string seatNumbers, int passengerId)
+        {
+            var bus = _context.Buses.FirstOrDefault(b => b.BusId == busId);
+            var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == passengerId);
+            var passengername = _context.Customers.FirstOrDefault(c => c.CustomerId == userLoginId);
+
+            if (passenger == null)
+            {
+                return NotFound();
+            }
+
+            var ticketNumber = _context.Passengers
+                .Where(p => p.PassengerId == passengerId)
+                .Select(p => p.TicketNumber)
+                .FirstOrDefault();
+
+            var viewModel = new PaymentViewModel
+            {
+                BusId = busId,
+                UserId = userLoginId,
+                From = from,
+                To = to,
+                Date = date,
+                TotalAmount = totalAmount,
+                SeatNumbers = seatNumbers,
+                PassengerId = passengerId,
+                FullName = $"{passengername?.FirstName} {passengername?.LastName}",
+                TicketNumber = ticketNumber,
+                AmountPaid = totalAmount
+            };
+
+            return View(viewModel);
+        }
+    
 
 
-        //[HttpPost]
-        //public IActionResult UpdateSeatSelection(string seatNumber, bool isSelected, int userLoginId, int busId)
-        //{
-        //    var seat = _context.Seats.FirstOrDefault(s => s.SeatNumber == seatNumber && s.BusId == busId);
 
-        //    if (seat != null)
-        //    {
-        //        if (isSelected)
-        //        {
-        //            seat.Status = "selected";
-        //            seat.UserId = userLoginId;
-        //        }
-        //        else
-        //        {
-        //            seat.Status = "available";
-        //            seat.UserId = null;
-        //        }
+    [HttpPost("Payment")]
+        public IActionResult ReserveSeats(ReserveSeatsModel model)
+        {
+            try
+            {
 
-        //        _context.SaveChanges();
-        //    }
+                var passenger = _context.Passengers.FirstOrDefault(p => p.PassengerId == model.PassengerId);
 
-        //    return Ok();
-        //}
+                // If passenger not found, return error
+                if (passenger == null)
+                {
+                    return Json(new { success = false, message = "Passenger not found." });
+                }
+                // Split the seat numbers string into an array
+                string[] seatNumbers = model.SeatNumbers.Split(',');
 
-        //[HttpPost]
-        //public IActionResult ReserveSeats(int busId, int userLoginId)
-        //{
-        //    var selectedSeats = _context.Seats.Where(s => s.BusId == busId && s.UserId == userLoginId && s.Status == "selected").ToList();
+                // Update each seat in the database
+                foreach (var seatNumber in seatNumbers)
+                {
+                    var seat = new Seat
+                    {
+                        SeatNumber = seatNumber,
+                        BusId = model.BusId,
+                        UserId = model.UserId, // Assign UserId
+                        PassengerId = passenger.PassengerId,
+                        IsReserved = true,
+                        IsSold = false
+                    };
+                    _context.Seats.Add(seat);
+                }
 
-        //    foreach (var seat in selectedSeats)
-        //    {
-        //        seat.Status = "reserved";
-        //        seat.IsReserved = true;
-        //    }
+                // Save changes to the database
+                _context.SaveChanges();
 
-        //    _context.SaveChanges();
+                // Return success response
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Return error response with error message
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
 
-        //    return Ok();
-        //}
+        [HttpPost]
+        public IActionResult BuySeats(BuySeatsModel model)
+        {
+            try
+            {
+                foreach (var seatNumber in model.SeatNumbers.Split(','))
+                {
+                    var seat = _context.Seats.FirstOrDefault(s => s.SeatNumber == seatNumber && s.BusId == model.BusId);
+                    if (seat != null)
+                    {
+                        seat.IsReserved = false;
+                        seat.IsSold = true;
+                    }
+                }
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
 
-        //[HttpPost]
-        //public IActionResult ResetSeats(int busId, int userLoginId)
-        //{
-        //    var selectedSeats = _context.Seats.Where(s => s.BusId == busId && s.UserId == userLoginId && s.Status == "selected").ToList();
 
-        //    foreach (var seat in selectedSeats)
-        //    {
-        //        seat.Status = "available";
-        //        seat.UserId = null;
-        //        seat.IsReserved = false;
-        //    }
-
-        //    _context.SaveChanges();
-
-        //    return Ok();
-        //}
 
 
 

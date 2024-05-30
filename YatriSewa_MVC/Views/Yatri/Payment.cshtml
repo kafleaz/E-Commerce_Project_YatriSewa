@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model PaymentViewModel
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -32,40 +34,30 @@
                     <a class="toggle osahan-toggle h4 m-0 text-white ml-auto" href="#"><i class="icofont-navigation-menu"></i></a>
                 </div>
             </div>
-            <!-- You Ticket -->
+            <!-- Your Ticket -->
             <div class="your-ticket pt-2">
                 <div class="p-3">
                     <div class="bg-white rounded-1 shadow-sm p-2 mb-2">
                         <div class="row mx-0 px-1">
                             <div class="col-6 p-0">
-                                <small class="text-muted mb-1 f-10 pr-1">GOING FROM</small>
-                                <p class="small mb-0"> LUDHIANA</p>
+                                <small class="text-muted mb-1 f-10 pr-1 font-weight-bold">GOING FROM</small>
+                                <p class="small mb-0"> @Model.From</p>
                             </div>
                             <div class="col-6 p-0">
-                                <small class="text-muted mb-1 f-10 pr-1">GOING TO</small>
-                                <p class="small mb-0"> GOA</p>
+                                <small class="text-muted mb-1 f-10 pr-1 font-weight-bold">GOING TO</small>
+                                <p class="small mb-0">@Model.To</p>
                             </div>
                         </div>
                     </div>
                     <div class="bg-white rounded-1 shadow-sm p-2 mb-2 w-100">
                         <div class="row mx-0 px-1">
                             <div class="col-12 p-0 mb-2">
-                                <small class="text-green mb-1 f-10 pr-1">PICKUP FROM</small>
-                                <p class="small mb-0 l-hght-14"> Model Towm, Ludhiana - 8:15 PM</p>
+                                <small class="text-green mb-1 f-10 pr-1 font-weight-bold">PICKUP FROM</small>
+                                <p class="small mb-0 l-hght-14">@Model.From Bus Station</p>
                             </div>
                             <div class="col-12 p-0">
-                                <small class="text-green mb-1 f-10 pr-1">DROPPING AT</small>
-                                <p class="small mb-0 l-hght-14">Goa Mall Road - 7: 00 AM</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="seat-no small pb-2">
-                        <div class="voucher-code">
-                            <div class="input-group border-0 shadow-sm bg-white rounded-1">
-                                <input type="text" class="form-control small form-controlsm border-0 rounded-1" id="inlineFormInputGroup" placeholder="Enter Voucher Code">
-                                <div class="input-group-prepend m-1">
-                                    <div class="rounded-1 small rounded btn btn-sm btn-green inpt-group-text shadow-sm text-white border-0">Apply</div>
-                                </div>
+                                <small class="text-green mb-1 f-10 pr-1 font-weight-bold">DROPPING AT</small>
+                                <p class="small mb-0 l-hght-14">@Model.To Bus Station</p>
                             </div>
                         </div>
                     </div>
@@ -75,19 +67,19 @@
                                 <p class="mb-2 l-hght-18 font-weight-bold">Traveller’s Info.</p>
                                 <div class="l-hght-10 d-flex align-items-center my-2">
                                     <small class="text-muted mb-0 pr-1">Passenger</small>
-                                    <p class="small mb-0 ml-auto l-hght-14"> Joan Rase</p>
+                                    <p class="small mb-0 ml-auto l-hght-14"> @Model.FullName</p>
                                 </div>
                                 <div class="l-hght-10 d-flex align-items-center my-2">
                                     <small class="text-muted mb-0 pr-1">Ticket Number</small>
-                                    <p class="small mb-0 ml-auto l-hght-14"> 1313</p>
+                                    <p class="small mb-0 ml-auto l-hght-14"> @Model.TicketNumber</p>
                                 </div>
                                 <div class="l-hght-10 d-flex align-items-center my-2">
                                     <small class="text-muted mb-0 pr-1">Seat No</small>
-                                    <p class="small mb-0 ml-auto l-hght-14"> C1 - C2 - C3</p>
+                                    <p class="small mb-0 ml-auto l-hght-14"> @Model.SeatNumbers</p>
                                 </div>
                                 <div class="l-hght-10 d-flex align-items-center mt-3">
                                     <p class="mb-0 pr-1 font-weight-bold">Amount Paid</p>
-                                    <p class="mb-0 ml-auto l-hght-14 text-green font-weight-bold">$700</p>
+                                    <p class="mb-0 ml-auto l-hght-14 text-green font-weight-bold">$ @Model.AmountPaid</p>
                                 </div>
                             </div>
                         </div>
@@ -120,146 +112,78 @@
                                         <img src="img/visa.png" class="img-fluid rounded ml-auto">
                                     </a>
                                 </label>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
                 <!-- Select Seat -->
             </div>
         </div>
-        <div class="osahan-fotter fixed-bottom view-seatbt p-3">
-            <a href="payment-card.html" class="btn btn-darkblue btn-block d-flex align-items-center osahanbus-btn rounded-1">
-                <span class="text-left l-hght-14">
-                    TOTAL $700<br>
-                    <small class="f-10 text-white-50">Seats Selected : 3</small>
+            <form id="reserveForm" method="post" action="@Url.Action("ReserveSeats", "Yatri")">
+                <input type="hidden" name="PassengerId" value="@Model.PassengerId" />
+                <input type="hidden" name="BusId" value="@Model.BusId" />
+                <input type="hidden" name="UserId" value="@Model.UserId" />
+                @* <input type="hidden" name="From" value="@Model.From" />
+                <input type="hidden" name="To" value="@Model.To" />
+                <input type="hidden" name="Date" value="@Model.Date" />
+                <input type="hidden" name="TotalAmount" value="@Model.TotalAmount" /> *@
+                <input type="hidden" name="SeatNumbers" value="@Model.SeatNumbers" />
+              @*   <input type="hidden" name="IsReserved" value="true" />
+                <input type="hidden" name="IsSold" value="false" /> *@
+            </form>
+        <div class="nav-osahan-fotter view-seatbt p-3">
+                <button type="button" id="reserveForm" form="reserveForm" class="btn btn-green btn-block d-flex align-items-center rounded-1">
+                <span class="text-left">
+                    <i class="icofont-children-care"></i>
                 </span>
-                <span class="font-weight-bold ml-auto">CONFIRM</span>
-            </a>
+                Reserve
+                <span class="text-right ml-auto">
+                    $ @Model.TotalAmount
+                </span>
+            </button>
+            <button type="button" id="buyButton" class="btn btn-danger btn-block d-flex align-items-center rounded-1 mt-3">
+                <span class="text-left">
+                    <i class="icofont-cart-alt"></i>
+                </span>
+                Buy
+                <span class="text-right ml-auto">
+                    $ @Model.TotalAmount
+                </span>
+            </button>
         </div>
-        <!-- sidebar -->
-        @* <nav id="main-nav">
-            <ul class="second-nav">
-                <li>
-                    <a href="#" class="bg-darkblue sidebar-user d-flex align-items-center py-4 px-3 border-0 mb-0">
-                        <img src="img/user1.jpg" class="img-fluid rounded-pill mr-3">
-                        <div class="text-white">
-                            <h6 class="mb-0">I Am Osahan</h6>
-                            <small>+91 12345-67890</small><br>
-                            <span class="f-10 text-white-50">Version 1.32</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="index.html"><i class="icofont-page mr-2"></i> Splash</a>
-                </li>
-                <li>
-                    <a href="landing.html"><i class="icofont-stylish-right mr-2"></i> Landing</a>
-                </li>
-                <li>
-                    <a href="get-started.html"><i class="icofont-ui-play mr-2"></i> Get Started</a>
-                </li>
-                <li>
-                    <a href="#"><i class="icofont-key mr-2"></i> Authentication</a>
-                    <ul>
-                        <li><a href="signin.html">Sign In</a></li>
-                        <li><a href="signup.html">Sign Up</a></li>
-                        <li><a href="change-password.html">Change Password</a></li>
-                        <li><a href="verification.html">Verification</a></li>
-                    </ul>
-                </li>
-                <li><a href="home.html"><i class="icofont-ui-home mr-2"></i> Homepage</a></li>
-                <li><a href="gift-card.html"><i class="icofont-sale-discount mr-2"></i> Offers</a></li>
-                <li><a href="listing.html"><i class="icofont-list mr-2"></i> Listing</a></li>
-                <li><a href="bus-details.html"><i class="icofont-file-text mr-2"></i> Bus Detail</a></li>
-                <li><a href="select-seat.html"><i class="icofont-check-circled mr-2"></i> Select Seat</a></li>
-                <li><a href="payment.html"><i class="icofont-id-card mr-2"></i> Checkout</a></li>
-                <li><a href="payment-card.html"><i class="icofont-ui-v-card mr-2"></i> Payment</a></li>
-                <li>
-                    <a href="#"><i class="icofont-user-alt-3 mr-2"></i> Profile Pages</a>
-                    <ul>
-                        <li><a href="profile.html"> Profile</a></li>
-                        <li><a href="your-ticket.html"> Your Ticket</a></li>
-                        <li><a href="my-ticket.html"> History</a></li>
-                        <li><a href="customer-feedback.html">  Customer Feedback</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="icofont-page mr-2"></i> Extra Pages</a>
-                    <ul>
-                        <li><a href="support.html">Support</a></li>
-                        <li><a href="notification.html">Notification</a></li>
-                        <li><a href="not-available.html">Not Available</a></li>
-                        <li><a href="404.html"> Not Found</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="icofont-link mr-2"></i> Navigation Link Example</a>
-                    <ul>
-                        <li>
-                            <a href="#">Link Example 1</a>
-                            <ul>
-                                <li>
-                                    <a href="#">Link Example 1.1</a>
-                                    <ul>
-                                        <li><a href="#">Link</a></li>
-                                        <li><a href="#">Link</a></li>
-                                        <li><a href="#">Link</a></li>
-                                        <li><a href="#">Link</a></li>
-                                        <li><a href="#">Link</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Link Example 1.2</a>
-                                    <ul>
-                                        <li><a href="#">Link</a></li>
-                                        <li><a href="#">Link</a></li>
-                                        <li><a href="#">Link</a></li>
-                                        <li><a href="#">Link</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Link Example 2</a></li>
-                        <li><a href="#">Link Example 3</a></li>
-                        <li><a href="#">Link Example 4</a></li>
-                        <li data-nav-custom-content>
-                            <div class="custom-message">
-                                You can add any custom content to your navigation items. This text is just an example.
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="bottom-nav">
-                <li class="email">
-                    <a class="text-green nav-item text-center" href="home.html" tabindex="0" role="menuitem">
-                        <p class="h5 m-0"><i class="icofont-ui-home text-green"></i></p>
-                        Home
-                    </a>
-                </li>
-                <li class="github">
-                    <a href="gift-card.html" class="nav-item text-center" tabindex="0" role="menuitem">
-                        <p class="h5 m-0"><i class="icofont-sale-discount"></i></p>
-                        Offer
-                    </a>
-                </li>
-                <li class="ko-fi">
-                    <a href="support.html" class="nav-item text-center" tabindex="0" role="menuitem">
-                        <p class="h5 m-0"><i class="icofont-support-faq"></i></p>
-                        Help
-                    </a>
-                </li>
-            </ul>
-        </nav> *@
+
         <!-- Bootstrap core JavaScript -->
         <script src="~/vendor/jquery/jquery.min.js"></script>
         <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- slick Slider JS-->
-        <script type="text/javascript" src="~/vendor/slick/slick.min.js"></script>
+        <script src="~/vendor/slick/slick.min.js"></script>
         <!-- Sidebar JS-->
-        <script type="text/javascript" src="~/vendor/sidebar/hc-offcanvas-nav.js"></script>
+        <script src="~/vendor/sidebar/hc-offcanvas-nav.js"></script>
         <!-- Custom scripts for all pages-->
-        <script src="~/js/custom.js"></script>
+        <script src="~/js/osahan.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('#reserveForm').click(function () {
+                        reserveSeats(); // Call the function to reserve seats
+                    });
+
+                    function reserveSeats() {
+                        $.ajax({
+                            url: '@Url.Action("ReserveSeats", "Yatri")',
+                            method: 'POST',
+                            data: $('#reserveForm').serialize(), // Serialize form data
+                            success: function (response) {
+                                // Handle success response
+                                alert('Seats reserved successfully!');
+                            },
+                            error: function (error) {
+                                // Handle error response
+                                alert('Error reserving seats.');
+                            }
+                        });
+                    }
+                });
+            </script>
     </div>
 </body>
 </html>

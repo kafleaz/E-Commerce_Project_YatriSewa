@@ -11,6 +11,7 @@ namespace YatriSewa_MVC.Models
         public bool IsReserved { get; set; }
         public string Status { get; set; }
         public int? UserId { get; set; }
+        public int PassengerId { get; set; }
         public virtual Passenger Passenger { get; set; }
     }
 
@@ -59,6 +60,46 @@ namespace YatriSewa_MVC.Models
         public bool IsReserved { get; set; }
         public bool IsSold { get; set; }
         public bool IsSelected { get; set; }
+    }
+
+    public class ReserveSeatsModel
+    {
+        public int PassengerId { get; set; }
+        public int BusId { get; set; }
+        public int UserId { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Date { get; set; }
+        public string SeatNumbers { get; set; }
+        public bool IsReserved { get; set; }
+        public decimal TotalAmount { get; set; }
+    }
+
+    public class BuySeatsModel
+    {
+        public int PassengerId { get; set; }
+        public int BusId { get; set; }
+        public int UserId { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Date { get; set; }
+        public string SeatNumbers { get; set; }
+        public bool IsSold { get; set; }
+        public decimal TotalAmount { get; set; }
+    }
+    public class PaymentViewModel
+    {
+        public int BusId { get; set; }
+        public int UserId { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Date { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string SeatNumbers { get; set; }
+        public int PassengerId { get; set; }
+        public string FullName { get; set; }
+        public string TicketNumber { get; set; }
+        public decimal AmountPaid { get; set; }
     }
 
 

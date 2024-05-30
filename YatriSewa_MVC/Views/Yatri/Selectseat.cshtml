@@ -176,7 +176,7 @@
                 </div>
             </div>
             <div class="fixed-bottom nav-osahan-fotter view-seatbt p-3">
-                <button type="submit" form="seatForm" class="btn btn-darkblue btn-block d-flex align-items-center osahanbus-btn rounded-1">
+                <button type="submit" id="submitButton" form="seatForm" class="btn btn-darkblue btn-block d-flex align-items-center osahanbus-btn rounded-1">
                     <span class="text-left l-hght-14">
                         Total Amount: Rs.<span id="totalAmount">0.00</span><br>
                         <small class="f-10 text-white">Seats Selected: <span  id="selectedSeatsCount">0</span></small>
@@ -197,38 +197,48 @@
     <!-- Custom scripts for all pages-->
     <script src="~/js/osahan.js"></script>
 
-    <script>
-        $(document).ready(function () {
+   <script>
+    $(document).ready(function () {
         var selectedSeats = [];
         var pricePerSeat = parseFloat('@Model.Price'); // Retrieve the price per seat
 
-            function updateTotalAmount() {
-                var totalAmount = selectedSeats.length * pricePerSeat; // Calculate the total amount based on selected seats
-                $('#totalAmount').text(totalAmount.toFixed(2));
-                $('#selectedSeatsCount').text(selectedSeats.length);
-                $('input[name="TotalAmount"]').val(totalAmount); // Update hidden input field with the total amount
-                $('input[name="SelectedSeats"]').val(selectedSeats.join(',')); // Update hidden input field with selected seat numbers
+        function updateTotalAmount() {
+            var totalAmount = selectedSeats.length * pricePerSeat; // Calculate the total amount based on selected seats
+            $('#totalAmount').text(totalAmount.toFixed(2));
+            $('#selectedSeatsCount').text(selectedSeats.length);
+            $('input[name="TotalAmount"]').val(totalAmount); // Update hidden input field with the total amount
+            $('input[name="SelectedSeats"]').val(selectedSeats.join(',')); // Update hidden input field with selected seat numbers
+
+            // Enable/disable the submit button based on the number of selected seats
+            if (selectedSeats.length > 0) {
+                $('#submitButton').prop('disabled', false);
+            } else {
+                $('#submitButton').prop('disabled', true);
             }
+        }
 
-            $('input[name="seatCheckbox"]').on('change', function () {
-                var seatNumber = $(this).val();
-                if ($(this).is(':checked')) {
-                    selectedSeats.push(seatNumber);
-                    $(this).closest('label').addClass('btn-green').removeClass('btn-success');
-                } else {
-                    selectedSeats = selectedSeats.filter(s => s !== seatNumber);
-                    $(this).closest('label').removeClass('btn-green').addClass('btn-success');
-                }
-                updateTotalAmount();
-            });
-
-            $('#seatForm').on('submit', function () {
-                $('input[name="SelectedSeats"]').val(selectedSeats.join(',')); // Update hidden input field with selected seat numbers
-                $('input[name="TotalAmount"]').val(selectedSeats.length * pricePerSeat); // Update hidden input field with the total amount
-            });
+        $('input[name="seatCheckbox"]').on('change', function () {
+            var seatNumber = $(this).val();
+            if ($(this).is(':checked')) {
+                selectedSeats.push(seatNumber);
+                $(this).closest('label').addClass('btn-green').removeClass('btn-success');
+            } else {
+                selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+                $(this).closest('label').removeClass('btn-green').addClass('btn-success');
+            }
+            updateTotalAmount();
         });
 
-    </script>
+        $('#seatForm').on('submit', function () {
+            $('input[name="SelectedSeats"]').val(selectedSeats.join(',')); // Update hidden input field with selected seat numbers
+            $('input[name="TotalAmount"]').val(selectedSeats.length * pricePerSeat); // Update hidden input field with the total amount
+        });
+
+        // Initially disable the submit button
+        $('#submitButton').prop('disabled', true);
+    });
+</script>
+
 
 
 </body>
