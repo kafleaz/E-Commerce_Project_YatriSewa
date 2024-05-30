@@ -340,13 +340,13 @@ namespace YatriSewa_MVC.Controllers
             return View(buses);
         }
 
+
         [HttpGet("SelectSeat")]
-        [HttpPost("SelectSeat")]
         public async Task<IActionResult> SelectSeat(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats = null)
         {
             if (Request.Method == "POST")
             {
-                return await BookSeats(busId, userLoginId, from, to, date, seats);
+                return await BookSeat(busId, userLoginId, from, to, date, seats);
             }
 
             var bus = await _context.Buses.FindAsync(busId);
@@ -360,26 +360,43 @@ namespace YatriSewa_MVC.Controllers
             var user = await _context.Customers.FindAsync(userLoginId);
             var passengers = await _context.Passengers.Where(p => p.BusId == busId).ToListAsync();
 
-            ViewBag.BusName = bus.BusName;
+            var viewModel = new SeatSelectionViewModel
+            {
+                BusId = busId,
+                BusName = bus.BusName,
+                SeatCapacity = bus.SeatCapacity,
+                Price = bus.Price,
+                Seats = seatsList.Select(s => new SeatViewModel
+                {
+                    SeatNumber = s.SeatNumber,
+                    IsReserved = s.IsReserved,
+                    IsSold = s.IsSold,
+                    IsSelected = seats != null && seats.Contains(s.SeatNumber)
+                }).ToList()
+            };
+
             ViewBag.UserLoginId = userLoginId;
             ViewBag.From = from;
             ViewBag.To = to;
             ViewBag.Date = date;
-            ViewBag.SeatCapacity = bus.SeatCapacity;
             ViewBag.Services = services;
             ViewBag.Passengers = passengers;
             ViewBag.Price = bus.Price;
             ViewBag.User = user;
 
-            return View(seatsList);
+            return View(viewModel);
         }
 
-        private async Task<IActionResult> BookSeats(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats)
+        private async Task<IActionResult> BookSeat(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats)
         {
-            decimal totalAmount = 0;
+            throw new NotImplementedException();
+        }
+
+        [HttpPost("SelectSeat")]
+        public async Task<IActionResult> BookSeat(int busId, int userLoginId, string from, string to, DateOnly date, string SelectedSeats, decimal TotalAmount) // Changed parameter name to match form input
+        {
             string ticketNumber = GenerateTicketNumber();
             string pnrNumber = GeneratePNRNumber();
-
             var bus = await _context.Buses.FirstOrDefaultAsync(b => b.BusId == busId);
 
             if (bus == null)
@@ -387,7 +404,8 @@ namespace YatriSewa_MVC.Controllers
                 return NotFound();
             }
 
-            foreach (var seatNumber in seats)
+            var seatNumbers = SelectedSeats.Split(',');
+            foreach (var seatNumber in seatNumbers)
             {
                 var seat = await _context.Seats.FirstOrDefaultAsync(s => s.BusId == busId && s.SeatNumber == seatNumber);
                 if (seat != null && !seat.IsSold)
@@ -395,40 +413,36 @@ namespace YatriSewa_MVC.Controllers
                     seat.IsReserved = true;
                     seat.UserId = userLoginId;
                     _context.Update(seat);
-
-                    totalAmount += bus.Price;
-
-                    var passenger = new Passenger
-                    {
-                        UserId = userLoginId,
-                        BusId = busId,
-                        TicketNumber = ticketNumber,
-                        PNRNumber = pnrNumber,
-                        AmountPaid = bus.Price,
-                        SeatNumber = seatNumber
-                    };
-                    _context.Passengers.Add(passenger);
                 }
             }
 
-            var result = await _context.SaveChangesAsync();
-            if (result > 0)
+            var passenger = new Passenger
             {
-                ViewBag.Bus = bus;
-                ViewBag.User = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == userLoginId);
-                ViewBag.TicketNumber = ticketNumber;
-                ViewBag.PNRNumber = pnrNumber;
-                ViewBag.TotalAmount = totalAmount;
-                ViewBag.SeatsSelected = seats.Length;
+                UserId = userLoginId,
+                BusId = busId,
+                TicketNumber = ticketNumber,
+                PNRNumber = pnrNumber,
+                AmountPaid = TotalAmount,
+                SeatNumber = string.Join(",", seatNumbers) // Assign seat numbers to Passenger
+            };
 
-                return RedirectToAction("Payment", new { busId, userLoginId, from, to, date });
-            }
-            else
-            {
-                ViewBag.ErrorMessage = "There was an error processing your request. Please try again.";
-                return View(seats);
-            }
+            _context.Passengers.Add(passenger);
+            await _context.SaveChangesAsync();
+
+            ViewBag.Bus = bus;
+            ViewBag.User = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == userLoginId);
+            ViewBag.TicketNumber = ticketNumber;
+            ViewBag.PNRNumber = pnrNumber;
+            ViewBag.TotalAmount = TotalAmount;
+            ViewBag.SeatsSelected = seatNumbers.Length;
+
+            return RedirectToAction("Payment", new { busId, userLoginId, from, to, date, totalAmount = TotalAmount, seatNumbers = string.Join(",", seatNumbers) });
         }
+
+
+
+
+
 
         private string GenerateTicketNumber()
         {

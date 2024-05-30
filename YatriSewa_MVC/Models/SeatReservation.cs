@@ -38,8 +38,28 @@ namespace YatriSewa_MVC.Models
         public decimal AmountPaid { get; set; }
 
         [Required]
-        [StringLength(10)]
         public string SeatNumber { get; set; }
     }
+
+    public class SeatSelectionViewModel
+    {
+        public int BusId { get; set; }
+        public string BusName { get; set; }
+        public int SeatCapacity { get; set; }
+        public decimal Price { get; set; }
+        public decimal AmountPaid { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string SeatNumber { get; set; }
+        public List<SeatViewModel> Seats { get; set; }
+    }
+
+    public class SeatViewModel
+    {
+        public string SeatNumber { get; set; }
+        public bool IsReserved { get; set; }
+        public bool IsSold { get; set; }
+        public bool IsSelected { get; set; }
+    }
+
 
 }
