@@ -92,25 +92,25 @@
                 <div class="select-seat bg-white mx-0 px-3 pt-3 pb-1 mb-3 rounded-1 shadow-sm">
                     <div class="col-8 pl-0">
                         <div class="d-flex">
-                            <div class="sold text-center">
-                                <img src="~/img/sold-seat.png" class="img-fluid mb-1">
-                                <p class="small f-10">Sold Out</p>
-                            </div>
-                            <div class="sold text-center mx-3">
-                                <img src="~/img/available-seat.png" class="img-fluid mb-1">
-                                <p class="small f-10">Available</p>
-                            </div>
-                            <div class="sold text-center">
-                                <img src="~/img/selected-seat.png" class="img-fluid mb-1">
-                                <p class="small f-10">Selected</p>
-                            </div>
-                            <div class="sold text-center">
-                                <img src="~/img/reserved-seat.png" class="img-fluid mb-1">
-                                <p class="small f-10">Reserved</p>
-                            </div>
-                            <div class="col-4 text-right pr-0">
-                                <img src="~/img/driver.png" class="img-fluid mb-4">
-                            </div>
+                              <div class="seat-box text-center mx-2">
+                                  <div class="seat available mb-1"></div>
+                                  <p class="small f-10">Available</p>
+                              </div>
+                              <div class="seat-box selected text-center mx-2">
+                                  <div class="seat green mb-1"></div>
+                                  <p class="small f-10">Selected</p>
+                              </div>
+                              <div class="seat-box reserved text-center mx-2">
+                                  <div class="seat yellow mb-1"></div>
+                                  <p class="small f-10">Reserved</p>
+                              </div>
+                              <div class="seat-box sold text-center mx-2">
+                                  <div class="seat red mb-1"></div>
+                                  <p class="small f-10">SoldOut</p>
+                              </div>
+                              <div class="col-4 text-right pr-0 mx-2">
+                                  <img src="~/img/driver.png" class="img-fluid mb-4">
+                              </div>
                         </div>
                         <!-- Display seats in 4 columns -->
                         <form id="seatForm" method="post" action="@Url.Action("BookSeat", "Yatri")">
@@ -174,8 +174,21 @@
                         </form>
                     </div>
                 </div>
+
+
             </div>
             <div class="fixed-bottom nav-osahan-fotter view-seatbt p-3">
+                @if (Model.Seats.Any(s => s.IsReserved && s.UserId == (int)ViewBag.UserLoginId && s.BusId == Model.BusId))
+                {
+                    <div class=" row mb-2">
+                        <div class="col">
+                            <button id="buyReservedSeatButton" class="btn btn-success ">Buy Reserved Seat</button>
+                        </div>
+                        <div class="col">
+                            <button id="cancelReservationButton" class="btn btn-danger ">Cancel Reservation</button>
+                        </div>
+                    </div>
+                }
                 <button type="submit" id="submitButton" form="seatForm" class="btn btn-darkblue btn-block d-flex align-items-center osahanbus-btn rounded-1">
                     <span class="text-left l-hght-14">
                         Total Amount: Rs.<span id="totalAmount">0.00</span><br>
@@ -236,8 +249,38 @@
 
         // Initially disable the submit button
         $('#submitButton').prop('disabled', true);
+
+        // Buy Reserved Seat button click
+        $('#buyReservedSeatButton').click(function () {
+            var userLoginId = '@ViewBag.UserLoginId';
+            window.location.href = '@Url.Action("PaymentCard", "Yatri")' + '?userLoginId=' + userLoginId;
+        });
+
+        // Cancel Reservation button click
+        $('#cancelReservationButton').click(function () {
+            if (confirm('Do you want to cancel the reservation?')) {
+                var userLoginId = '@ViewBag.UserLoginId';
+                $.ajax({
+                    url: '@Url.Action("CancelReservation", "Yatri")',
+                    method: 'POST',
+                    data: { userLoginId: userLoginId },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload(); // Reload the page to reflect changes
+                        } else {
+                            alert('Unsuccessful: ' + response.message);
+                        }
+                    },
+                    error: function (error) {
+                        alert('Error canceling reservation.');
+                    }
+                });
+            }
+        });
     });
 </script>
+
 
 
 

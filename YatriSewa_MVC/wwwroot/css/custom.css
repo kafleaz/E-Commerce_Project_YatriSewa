@@ -945,3 +945,27 @@ h1.success-icon {
     padding-right: 15px;
     padding-left: 15px;
 }
+
+.seat-box .seat {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.red {
+    background-color: #BD2130;
+}
+
+.green {
+    background-color: #36A690;
+}
+
+.yellow {
+    background-color: #D39E00;
+}
+
+.available {
+    border: 1px solid rgb(0, 0, 0);
+    background-color: white;
+}

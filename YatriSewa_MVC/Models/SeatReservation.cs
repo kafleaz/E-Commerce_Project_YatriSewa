@@ -56,10 +56,12 @@ namespace YatriSewa_MVC.Models
 
     public class SeatViewModel
     {
+        public int UserId { get; set; }
         public string SeatNumber { get; set; }
         public bool IsReserved { get; set; }
         public bool IsSold { get; set; }
         public bool IsSelected { get; set; }
+        public int BusId { get; set; }
     }
 
     public class ReserveSeatsModel

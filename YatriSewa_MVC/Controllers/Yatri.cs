@@ -369,7 +369,9 @@ namespace YatriSewa_MVC.Controllers
                     SeatNumber = s.SeatNumber,
                     IsReserved = s.IsReserved,
                     IsSold = s.IsSold,
-                    IsSelected = seats != null && seats.Contains(s.SeatNumber)
+                    IsSelected = seats != null && seats.Contains(s.SeatNumber),
+                    UserId = s.UserId ?? 0, // Ensure this is set
+                    BusId = s.BusId
                 }).ToList()
             };
 
@@ -544,6 +546,40 @@ namespace YatriSewa_MVC.Controllers
                 Console.WriteLine($"Exception occurred: {ex.Message}");
 
                 // Return error response with error message
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CancelReservation(int userLoginId)
+        {
+            try
+            {
+                var passenger = _context.Passengers.FirstOrDefault(p => p.UserId == userLoginId);
+
+                if (passenger == null)
+                {
+                    return Json(new { success = false, message = "Reservation not found." });
+                }
+
+                var ticketNumber = passenger.TicketNumber;
+
+                // Delete the passenger record
+                _context.Passengers.Remove(passenger);
+
+                // Also delete the related seat reservations
+                var seats = _context.Seats.Where(s => s.PassengerId == passenger.PassengerId).ToList();
+                foreach (var seat in seats)
+                {
+                    _context.Seats.Remove(seat);
+                }
+
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Reservation canceled successfully!" });
+            }
+            catch (Exception ex)
+            {
                 return Json(new { success = false, message = ex.Message });
             }
         }
