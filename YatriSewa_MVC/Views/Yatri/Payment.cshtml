@@ -9,21 +9,15 @@
     <meta name="author" content="">
     <link rel="icon" type="image/png" href="img/logo.png">
     <title>Payment</title>
-    <!-- Bootstrap core CSS -->
     <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Icofont Icon-->
     <link href="~/vendor/icons/icofont.min.css" rel="stylesheet" type="text/css">
-    <!-- Slick Slider -->
     <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick.min.css" />
     <link rel="stylesheet" type="text/css" href="~/vendor/slick/slick-theme.min.css" />
-    <!-- Custom styles for this template -->
     <link href="~/css/custom.css" rel="stylesheet">
-    <!-- Sidebar CSS -->
     <link href="~/vendor/sidebar/demo.css" rel="stylesheet">
 </head>
 <body class="">
     <div class="longcontainer">
-        <!-- Payment -->
         <div class="payment padding-bt">
             <div class="osahan-header-nav shadow-sm p-3 d-flex align-items-center bg-darkblue">
                 <h5 class="font-weight-normal mb-0 text-white">
@@ -34,7 +28,6 @@
                     <a class="toggle osahan-toggle h4 m-0 text-white ml-auto" href="#"><i class="icofont-navigation-menu"></i></a>
                 </div>
             </div>
-            <!-- Your Ticket -->
             <div class="your-ticket pt-2">
                 <div class="p-3">
                     <div class="bg-white rounded-1 shadow-sm p-2 mb-2">
@@ -84,7 +77,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Select Payment -->
                     <div class="payment-borrad shadow-sm bg-white mt-2 rounded-1">
                         <div class="border-bottom p-3">
                             <div class="w-100 mastercard custom-control custom-radio custom-control-inline mr-0">
@@ -112,78 +104,68 @@
                                         <img src="img/visa.png" class="img-fluid rounded ml-auto">
                                     </a>
                                 </label>
-                           
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- Select Seat -->
             </div>
-        </div>
             <form id="reserveForm" method="post" action="@Url.Action("ReserveSeats", "Yatri")">
                 <input type="hidden" name="PassengerId" value="@Model.PassengerId" />
                 <input type="hidden" name="BusId" value="@Model.BusId" />
-                <input type="hidden" name="UserId" value="@Model.UserId" />
-                @* <input type="hidden" name="From" value="@Model.From" />
-                <input type="hidden" name="To" value="@Model.To" />
-                <input type="hidden" name="Date" value="@Model.Date" />
-                <input type="hidden" name="TotalAmount" value="@Model.TotalAmount" /> *@
+                <input type="hidden" name="UserLoginId" value="@Model.UserId" />
                 <input type="hidden" name="SeatNumbers" value="@Model.SeatNumbers" />
-              @*   <input type="hidden" name="IsReserved" value="true" />
-                <input type="hidden" name="IsSold" value="false" /> *@
             </form>
-        <div class="nav-osahan-fotter view-seatbt p-3">
-                <button type="button" id="reserveForm" form="reserveForm" class="btn btn-green btn-block d-flex align-items-center rounded-1">
-                <span class="text-left">
-                    <i class="icofont-children-care"></i>
-                </span>
-                Reserve
-                <span class="text-right ml-auto">
-                    $ @Model.TotalAmount
-                </span>
-            </button>
-            <button type="button" id="buyButton" class="btn btn-danger btn-block d-flex align-items-center rounded-1 mt-3">
-                <span class="text-left">
-                    <i class="icofont-cart-alt"></i>
-                </span>
-                Buy
-                <span class="text-right ml-auto">
-                    $ @Model.TotalAmount
-                </span>
-            </button>
+            <div class="nav-osahan-fotter view-seatbt p-3">
+                <button type="button" id="reserveButton" class="btn btn-green btn-block d-flex align-items-center rounded-1">
+                    <span class="text-left">
+                        <i class="icofont-children-care"></i>
+                    </span>
+                    Reserve
+                    <span class="text-right ml-auto">
+                       Selected Seat: @Model.SeatNumbers
+                    </span>
+                </button>
+                <button type="button" id="buyButton" class="btn btn-danger btn-block d-flex align-items-center rounded-1 mt-3">
+                    <span class="text-left">
+                        <i class="icofont-cart-alt"></i>
+                    </span>
+                    Buy
+                    <span class="text-right ml-auto">
+                        Rs. @Model.TotalAmount
+                    </span>
+                </button>
+            </div>
         </div>
-
-        <!-- Bootstrap core JavaScript -->
         <script src="~/vendor/jquery/jquery.min.js"></script>
         <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- slick Slider JS-->
         <script src="~/vendor/slick/slick.min.js"></script>
-        <!-- Sidebar JS-->
         <script src="~/vendor/sidebar/hc-offcanvas-nav.js"></script>
-        <!-- Custom scripts for all pages-->
         <script src="~/js/osahan.js"></script>
-            <script>
-                $(document).ready(function () {
-                    $('#reserveForm').click(function () {
-                        reserveSeats(); // Call the function to reserve seats
-                    });
-
-                    function reserveSeats() {
-                        $.ajax({
-                            url: '@Url.Action("ReserveSeats", "Yatri")',
-                            method: 'POST',
-                            data: $('#reserveForm').serialize(), // Serialize form data
-                            success: function (response) {
-                                // Handle success response
-                                alert('Seats reserved successfully!');
-                            },
-                            error: function (error) {
-                                // Handle error response
-                                alert('Error reserving seats.');
-                            }
-                        });
-                    }
+        <script>
+            $(document).ready(function () {
+                $('#reserveButton').click(function () {
+                    reserveSeats(); // Call the function to reserve seats
                 });
-            </script>
+
+                function reserveSeats() {
+                    $.ajax({
+                        url: '@Url.Action("ReserveSeats", "Yatri")',
+                        method: 'POST',
+                        data: $('#reserveForm').serialize(), // Serialize form data
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                            } else {
+                                alert('Unsuccessful: ' + response.message);
+                            }
+                        },
+                        error: function (error) {
+                            alert('Error reserving seats.');
+                        }
+                    });
+                }
+            });
+        </script>
     </div>
 </body>
 </html>

@@ -133,6 +133,7 @@ namespace YatriSewa_MVC.Controllers
 
 
 
+
         [HttpGet]
         public IActionResult Signin()
         {
@@ -402,16 +403,16 @@ namespace YatriSewa_MVC.Controllers
             }
 
             var seatNumbers = SelectedSeats.Split(',');
-            foreach (var seatNumber in seatNumbers)
-            {
-                var seat = await _context.Seats.FirstOrDefaultAsync(s => s.BusId == busId && s.SeatNumber == seatNumber);
-                if (seat != null && !seat.IsSold)
-                {
-                    seat.IsReserved = true;
-                    seat.UserId = userLoginId;
-                    _context.Update(seat);
-                }
-            }
+            //foreach (var seatNumber in seatNumbers)
+            //{
+            //    var seat = await _context.Seats.FirstOrDefaultAsync(s => s.BusId == busId && s.SeatNumber == seatNumber);
+            //    if (seat != null && !seat.IsSold)
+            //    {
+            //        seat.IsReserved = true;
+            //        seat.UserId = userLoginId;
+            //        _context.Update(seat);
+            //    }
+            //}
 
             var passenger = new Passenger
             {
@@ -482,15 +483,17 @@ namespace YatriSewa_MVC.Controllers
 
             return View(viewModel);
         }
-    
 
 
 
-    [HttpPost("Payment")]
-        public IActionResult ReserveSeats(ReserveSeatsModel model)
+
+        [HttpPost("ReserveSeats")]
+        public IActionResult ReserveSeats(ReserveSeatsModel model, int userLoginId)
         {
             try
             {
+                // Log the received model
+                Console.WriteLine($"Received model: PassengerId={model.PassengerId}, BusId={model.BusId}, SeatNumbers={model.SeatNumbers}, UserLoginId={userLoginId}");
 
                 var passenger = _context.Passengers.FirstOrDefault(p => p.PassengerId == model.PassengerId);
 
@@ -499,8 +502,12 @@ namespace YatriSewa_MVC.Controllers
                 {
                     return Json(new { success = false, message = "Passenger not found." });
                 }
+
                 // Split the seat numbers string into an array
                 string[] seatNumbers = model.SeatNumbers.Split(',');
+
+                // Log the seat numbers
+                Console.WriteLine($"Seat numbers: {string.Join(", ", seatNumbers)}");
 
                 // Update each seat in the database
                 foreach (var seatNumber in seatNumbers)
@@ -509,26 +516,39 @@ namespace YatriSewa_MVC.Controllers
                     {
                         SeatNumber = seatNumber,
                         BusId = model.BusId,
-                        UserId = model.UserId, // Assign UserId
+                        UserId = userLoginId, // Assign UserId
                         PassengerId = passenger.PassengerId,
                         IsReserved = true,
+                        Status= "Reserved",
                         IsSold = false
                     };
+
+                    // Log each seat being added
+                    Console.WriteLine($"Adding seat: SeatNumber={seat.SeatNumber}, BusId={seat.BusId}, UserId={seat.UserId}, PassengerId={seat.PassengerId}");
+
                     _context.Seats.Add(seat);
                 }
 
                 // Save changes to the database
                 _context.SaveChanges();
 
+                // Log successful save
+                Console.WriteLine("Seats reserved successfully!");
+
                 // Return success response
-                return Json(new { success = true });
+                return Json(new { success = true, message = "Seats reserved successfully!" });
             }
             catch (Exception ex)
             {
+                // Log the exception
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+
                 // Return error response with error message
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+
 
         [HttpPost]
         public IActionResult BuySeats(BuySeatsModel model)

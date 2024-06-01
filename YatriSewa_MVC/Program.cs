@@ -147,5 +147,6 @@ app.MapControllerRoute(
     pattern: "BusListing",
     defaults: new { controller = "Yatri", action = "BusListing" });
 
+app.MapControllers();
 
 app.Run();
