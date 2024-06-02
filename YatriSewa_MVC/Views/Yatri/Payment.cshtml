@@ -147,6 +147,13 @@
                     reserveSeats(); // Call the function to reserve seats
                 });
 
+                $('#buyButton').click(function () {
+                    var userLoginId = '@Model.UserId';
+                    var busId = '@Model.BusId';
+                    var passengerId = '@Model.PassengerId';
+                    window.location.href = '@Url.Action("PaymentCard", "Yatri")' + '?userLoginId=' + userLoginId + '&busId=' + busId + '&passengerId=' + passengerId;
+                });
+
                 function reserveSeats() {
                     $.ajax({
                         url: '@Url.Action("ReserveSeats", "Yatri")',

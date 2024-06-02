@@ -405,16 +405,6 @@ namespace YatriSewa_MVC.Controllers
             }
 
             var seatNumbers = SelectedSeats.Split(',');
-            //foreach (var seatNumber in seatNumbers)
-            //{
-            //    var seat = await _context.Seats.FirstOrDefaultAsync(s => s.BusId == busId && s.SeatNumber == seatNumber);
-            //    if (seat != null && !seat.IsSold)
-            //    {
-            //        seat.IsReserved = true;
-            //        seat.UserId = userLoginId;
-            //        _context.Update(seat);
-            //    }
-            //}
 
             var passenger = new Passenger
             {
@@ -586,28 +576,35 @@ namespace YatriSewa_MVC.Controllers
 
 
 
-        [HttpPost]
-        public IActionResult BuySeats(BuySeatsModel model)
+        [HttpGet]
+        public IActionResult PaymentCard(int busId, int userLoginId, int passengerId)
         {
-            try
+            var bus = _context.Buses.FirstOrDefault(b => b.BusId == busId);
+            var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == passengerId);
+            var customer = _context.Customers.FirstOrDefault(c => c.CustomerId == userLoginId);
+
+            if (bus == null || passenger == null || customer == null)
             {
-                foreach (var seatNumber in model.SeatNumbers.Split(','))
-                {
-                    var seat = _context.Seats.FirstOrDefault(s => s.SeatNumber == seatNumber && s.BusId == model.BusId);
-                    if (seat != null)
-                    {
-                        seat.IsReserved = false;
-                        seat.IsSold = true;
-                    }
-                }
-                _context.SaveChanges();
-                return Json(new { success = true });
+                return NotFound();
             }
-            catch (Exception ex)
+
+            var viewModel = new PaymentViewModel
             {
-                return Json(new { success = false, message = ex.Message });
-            }
+                BusId = bus.BusId,
+                BusName = bus.BusName,
+                From = bus.From,
+                To = bus.To,
+                Date = bus.Date.ToString("dd MMM, yyyy"),
+                Time = bus.Time.ToString(@"hh\:mm"), // Correct TimeSpan formatting
+                SeatNumbers = passenger.SeatNumber,
+                TotalAmount = passenger.AmountPaid,
+                FullName = $"{customer.FirstName} {customer.LastName}"
+            };
+
+            return View(viewModel);
         }
+
+
 
 
 
