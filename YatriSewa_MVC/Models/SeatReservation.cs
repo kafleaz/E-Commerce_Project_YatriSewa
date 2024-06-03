@@ -51,6 +51,7 @@ namespace YatriSewa_MVC.Models
         public decimal AmountPaid { get; set; }
         public decimal TotalAmount { get; set; }
         public string SeatNumber { get; set; }
+        public int PassengerId { get; set;}
         public List<SeatViewModel> Seats { get; set; }
     }
 
@@ -92,6 +93,7 @@ namespace YatriSewa_MVC.Models
     public class PaymentViewModel
     {
         public int BusId { get; set; }
+        public string BusNumber { get; set; }
         public string BusName { get; set; }
         public string Time { get; set; }
         public int UserId { get; set; }

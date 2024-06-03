@@ -253,7 +253,9 @@
         // Buy Reserved Seat button click
         $('#buyReservedSeatButton').click(function () {
             var userLoginId = '@ViewBag.UserLoginId';
-            window.location.href = '@Url.Action("PaymentCard", "Yatri")' + '?userLoginId=' + userLoginId;
+            var busId = '@Model.BusId';
+
+            window.location.href = '@Url.Action("CheckReservedSeats", "Yatri")' + '?userLoginId=' + userLoginId + '&busId=' + busId;
         });
 
         // Cancel Reservation button click

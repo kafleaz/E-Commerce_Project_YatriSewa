@@ -151,10 +151,9 @@ app.MapControllerRoute(
     pattern: "BusListing",
     defaults: new { controller = "Yatri", action = "BusListing" });
 app.MapControllerRoute(
-    name: "PaymentConfirmation",
-    pattern: "PaymentConfirmation",
-    defaults: new { controller = "Yatri", action = "PaymentConfirmation" });
-
+    name: "Ticket",
+    pattern: "Ticket",
+    defaults: new { controller = "Yatri", action = "Ticket" });
 app.MapControllers();
 
 app.Run();

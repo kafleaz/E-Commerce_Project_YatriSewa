@@ -11,6 +11,7 @@ using Stripe;
 using Stripe.Checkout;
 using StripeCustomer = Stripe.Customer;
 using Stripe.Issuing;
+using YatriSewa_MVC.Migrations;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -32,10 +33,7 @@ namespace YatriSewa_MVC.Controllers
         //{
         //    return View();
         //}
-        //public IActionResult Signup()
-        //{
-        //    return View();
-        //}
+       
         public IActionResult Busdetails()
         {
             return View();
@@ -579,6 +577,28 @@ namespace YatriSewa_MVC.Controllers
         }
 
 
+        public IActionResult CheckReservedSeats(int userLoginId, int busId)
+        {
+            // Check if the user has any reserved seats
+            var reservedSeats = _context.Seats
+                .Where(s => s.UserId == userLoginId && s.IsReserved && s.BusId == busId)
+                .ToList();
+
+            //if (!reservedSeats.Any())
+            //{
+            //    return RedirectToAction("NoReservedSeats");
+            //}
+
+            // Get the PassengerId from one of the reserved seats
+            var passengerId = reservedSeats.First().PassengerId;
+
+            // Find the seat numbers
+            var seatNumbers = string.Join(",", reservedSeats.Select(s => s.SeatNumber));
+
+            // Redirect to the PaymentCard action with the necessary parameters
+            return RedirectToAction("PaymentCard", new { userLoginId, busId, passengerId, seatNumbers });
+        }
+
 
         [HttpGet]
         public IActionResult PaymentCard(int busId, int userLoginId, int passengerId, string seatNumbers)
@@ -693,21 +713,35 @@ namespace YatriSewa_MVC.Controllers
                 var seatNumberList = seatNumbers.Split(','); // Assuming seatNumbers is a comma-separated string
                 foreach (var seatNumber in seatNumberList)
                 {
-                    var seat = new Seat
+                    var existingSeat = _context.Seats.FirstOrDefault(s => s.SeatNumber == seatNumber && s.BusId == model.BusId && s.UserId == userLoginId && s.PassengerId == passenger.PassengerId);
+
+                    if (existingSeat != null)
                     {
-                        SeatNumber = seatNumber,
-                        BusId = model.BusId,
-                        UserId = userLoginId,
-                        PassengerId = passenger.PassengerId,
-                        IsReserved = false,
-                        Status = "Sold",
-                        IsSold = true
-                    };
-                    _context.Seats.Add(seat);
+                        // Update existing seat reservation
+                        //existingSeat.PassengerId = passenger.PassengerId;
+                        existingSeat.IsReserved = false;
+                        existingSeat.Status = "Sold";
+                        existingSeat.IsSold = true;
+                    }
+                    else
+                    {
+                        // Add new seat reservation
+                        var seat = new Seat
+                        {
+                            SeatNumber = seatNumber,
+                            BusId = model.BusId,
+                            UserId = userLoginId,
+                            PassengerId = passenger.PassengerId,
+                            IsReserved = false,
+                            Status = "Sold",
+                            IsSold = true
+                        };
+                        _context.Seats.Add(seat);
+                    }
                 }
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("PaymentConfirmation");
+                return RedirectToAction("Ticket", new { paymentId = payment.PaymentId });
             }
             else
             {
@@ -734,7 +768,47 @@ namespace YatriSewa_MVC.Controllers
 
 
 
+        [HttpGet]
+        public IActionResult Ticket( int userLoginId, int paymentId, int passengerId)
+        {
+            var payment = _context.Payments.FirstOrDefault(p => p.PaymentId == paymentId);
+            if (payment == null)
+            {
+                return NotFound();
+            }
+            var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == payment.PassengerId);
+            var bus = _context.Buses.FirstOrDefault(b => b.BusId == passenger.BusId);
+            var passengername = _context.Customers.FirstOrDefault(c => c.CustomerId == userLoginId);
 
+            if (passenger == null)
+            {
+                return NotFound();
+            }
+
+            var ticketNumber = _context.Passengers
+                .Where(p => p.PassengerId == passengerId)
+                .Select(p => p.TicketNumber)
+                .FirstOrDefault();
+
+            //var viewModel = new PaymentViewModel
+            //{
+            //    BusId = bus.BusId,
+            //    BusName = bus.BusName,
+            //    BusNumber = bus.BusNumber,
+            //    Time = bus.Time.ToString("HH:mm"),
+            //    UserId = passenger.UserId,
+            //    From = bus.From,
+            //    To = bus.To,
+            //    Date = bus.Date.ToString("dd/MM/yyyy"),
+            //    TotalAmount = payment.AmountPaid,
+            //    SeatNumbers = passenger.SeatNumber,
+            //    PassengerId = passenger.PassengerId,
+            //    FullName = $"{passengername.FirstName} {passengername.LastName}",
+            //    TicketNumber = passenger.TicketNumber,
+            //};
+
+            return View();
+        }
 
 
 
