@@ -60,36 +60,53 @@
             </div>
         </div>
         <!-- Select Payment -->
-        <div class=" payment-borrad shadow bg-white m-3 rounded-1 p-3 osahan-fotter">
+        <div class="payment-borrad shadow bg-white m-3 rounded-1 p-3 osahan-fotter">
             <div class="d-flex">
                 <p>Total Payable NPR</p>
                 <p class="ml-auto font-weight-bold text-green">Rs. @Model.TotalAmount</p>
             </div>
             <div class="d-flex small">
-                <form class="w-100" method="post" action="@Url.Action("ProcessPayment", "Yatri")">
+                <form id="payment-form" asp-action="ProcessPayment" asp-controller="Yatri" method="post" class="w-100">
+                    <input type="hidden" name="PassengerId" value="@ViewBag.PassengerId" />
+                    <input type="hidden" name="TotalAmount" value="@Model.TotalAmount" />
+                    <div class="form-group mb-2">
+                        <label for="cardNumber" class="mb-1 text-muted">Card Number</label>
+                        <div id="card-element" class="form-control">
+                            <!-- A Stripe Element will be inserted here. -->
+                        </div>
+                        <div id="card-errors" role="alert"></div>
+                    </div>
+                    <button type="submit" form="payment-form" class="btn btn-darkblue btn-block">Pay</button>
+                </form>
+                @* <form id="payment-form" asp-action="ProcessPayment" asp-controller="Yatri" method="post" class="w-100">
+                    <input type="hidden" name="PassengerId" value="@Model.PassengerId" />
                     <div class="form-group mb-2">
                         <div class="d-flex align-items-start">
-                            <label for="exampleInputEmail1" class="mb-1 text-muted">Card Number</label>
+                            <label for="cardNumber" class="mb-1 text-muted">Card Number</label>
                             <img src="~/img/master-card.png" class="img-fluid ml-auto rounded">
                         </div>
-                        <input type="number" class="form-control form-control-sm" placeholder="1234 5678 9145 4589" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                        <div id="card-element" class="form-control">
+                            <!-- A Stripe Element will be inserted here. -->
+                        </div>
+                        <div id="card-errors" role="alert"></div>
+                        <input type="text" name="CardNumber" class="form-control form-control-sm" placeholder="1234 5678 9145 4589" id="cardNumber" aria-describedby="emailHelp" required>
                     </div>
                     <div class="form-group row mb-3">
                         <div class="col-8">
                             <label for="exampleInputmondate1" class="mb-1 text-muted">Month / Date</label>
                             <div class="d-flex border rounded">
-                                <input type="number" class="form-control text-center form-control-sm border-0 px-1" placeholder="MM" id="exampleInputmondate1" aria-describedby="mondateHelp" required>
+                                <input type="number" name="ExpiryMonth" class="form-control text-center form-control-sm border-0 px-1" placeholder="MM" id="exampleInputmondate1" aria-describedby="mondateHelp" required>
                                 <span class="pt-2">/</span>
-                                <input type="number" class="form-control text-center form-control-sm border-0 px-1" placeholder="YY" id="exampleInputmondate1" aria-describedby="mondateHelp" required>
+                                <input type="number" name="ExpiryYear" class="form-control text-center form-control-sm border-0 px-1" placeholder="YY" id="exampleInputmondate1" aria-describedby="mondateHelp" required>
                             </div>
                         </div>
                         <div class="col-4">
                             <label for="exampleInputcvv1" class="mb-1 text-muted">CVV</label>
-                            <input type="number" class="form-control text-center form-control-sm" placeholder="000" id="exampleInputcvv1" aria-describedby="cvvHelp" required>
+                            <input type="number" name="CVV" class="form-control text-center form-control-sm" placeholder="000" id="exampleInputcvv1" aria-describedby="cvvHelp" required>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-darkblue btn-block">Pay</button>
-                </form>
+                </form> *@
             </div>
         </div>
         <!-- Bootstrap core JavaScript -->
@@ -101,6 +118,53 @@
         <script type="text/javascript" src="~/vendor/sidebar/hc-offcanvas-nav.js"></script>
         <!-- Custom scripts for all pages-->
         <script src="~/js/custom.js"></script>
+
+        <!-- JavaScript for formatting card number -->
+
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+            var stripe = Stripe('pk_test_51PNIqUB3UNeeoGIfi9PmjcqcnD9yxuOVBNYfCmGnhIQlUqAR0mUc2qFXWICir0siHGOeTMads3hropx7gvL5O0zv007TTg7Afv'); // Replace with your Stripe publishable key
+            var elements = stripe.elements();
+            var card = elements.create('card');
+            card.mount('#card-element');
+
+            // Handle real-time validation errors from the card Element.
+            card.on('change', function (event) {
+                var displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+
+            // Handle form submission.
+            var form = document.getElementById('payment-form');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                stripe.createToken(card).then(function (result) {
+                    if (result.error) {
+                        // Inform the user if there was an error.
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        // Send the token to your server.
+                        stripeTokenHandler(result.token);
+                    }
+                });
+            });
+
+            // Submit the form with the Stripe token.
+            function stripeTokenHandler(token) {
+                var form = document.getElementById('payment-form');
+                var hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
+                form.submit();
+            }
+        </script>
     </div>
 </body>
 </html>

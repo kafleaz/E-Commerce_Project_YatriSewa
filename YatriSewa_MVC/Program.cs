@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Net;
 using YatriSewa_MVC.Models;
 
@@ -13,7 +14,6 @@ builder.WebHost.UseKestrel(options =>
         listenOptions.UseHttps();
     });
 });
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -33,6 +33,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<UserContext>()
     .AddDefaultTokenProviders();
+
+// Configure Stripe settings
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 var app = builder.Build();
 
@@ -146,6 +150,10 @@ app.MapControllerRoute(
     name: "BusListing",
     pattern: "BusListing",
     defaults: new { controller = "Yatri", action = "BusListing" });
+app.MapControllerRoute(
+    name: "PaymentConfirmation",
+    pattern: "PaymentConfirmation",
+    defaults: new { controller = "Yatri", action = "PaymentConfirmation" });
 
 app.MapControllers();
 

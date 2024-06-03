@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
+using Stripe;
+using Stripe.Checkout;
+using StripeCustomer = Stripe.Customer;
+using Stripe.Issuing;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -232,7 +236,7 @@ namespace YatriSewa_MVC.Controllers
 
 
         [HttpPost]
-        public IActionResult Register(Customer customer, int userLoginId)
+        public IActionResult Register(Models.Customer customer, int userLoginId)
         {
 
             if (ModelState.IsValid)
@@ -248,7 +252,7 @@ namespace YatriSewa_MVC.Controllers
                 }
 
 
-                var customers = new Customer
+                var customers = new Models.Customer
                 {
 
                     FirstName = customer.FirstName,
@@ -600,13 +604,129 @@ namespace YatriSewa_MVC.Controllers
                 TotalAmount = passenger.AmountPaid,
                 FullName = $"{customer.FirstName} {customer.LastName}"
             };
-
+            ViewBag.PassengerId = passengerId;
             return View(viewModel);
+        }
+
+        
+
+
+        [HttpPost]
+        public async Task<IActionResult> ProcessPayment(string stripeToken, PaymentViewModel model)
+        {
+            if (model == null || model.PassengerId == 0)
+            {
+                ModelState.AddModelError("", "Invalid payment details.");
+                return View("PaymentFailed");
+            }
+
+            var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == model.PassengerId);
+
+            if (passenger == null)
+            {
+                ModelState.AddModelError("", "Passenger not found.");
+                return View("PaymentFailed");
+            }
+
+            if (string.IsNullOrEmpty(stripeToken))
+            {
+                ModelState.AddModelError("", "Payment token is missing.");
+                return View("PaymentFailed");
+            }
+
+            if (model.TotalAmount <= 0)
+            {
+                ModelState.AddModelError("TotalAmount", "The amount to be charged must be greater than zero.");
+                return View(model);
+            }
+
+            StripeConfiguration.ApiKey = "sk_test_51PNIqUB3UNeeoGIf1BwZwOzVjkkGUopjyJgVaTeP57NJhJNNqZNjFLfzQgK1W5kMinCZnaTN8iugH3qLXlxEgcgm00VBFEoCPp"; // Replace with your actual Stripe secret key
+
+            var options = new ChargeCreateOptions
+            {
+                Amount = (long)(model.TotalAmount * 100), // Amount in cents
+                Currency = "usd",
+                Description = "Bus Ticket Payment",
+                Source = stripeToken,
+            };
+
+            var service = new ChargeService();
+            Charge charge;
+
+            try
+            {
+                charge = await service.CreateAsync(options);
+            }
+            catch (StripeException ex)
+            {
+                ModelState.AddModelError("", $"Stripe error: {ex.Message}");
+                return View(model);
+            }
+
+            if (charge.Status == "succeeded")
+
+            {
+                var card = charge.PaymentMethodDetails.Card;
+                // Save payment details to database
+                var payment = new Payment
+                {
+                    PassengerId = model.PassengerId,
+                    AmountPaid = model.TotalAmount,
+                    TransactionDate = DateTime.Now,
+                    PaymentMethod = "Stripe",
+                    CardNumber = "**** **** **** " + card.Last4, // Example masked card number
+                    CardExpiry = card.ExpMonth.ToString("D2") + "/" + card.ExpYear.ToString().Substring(2), // Example masked expiry date
+                    TransactionId = charge.Id,
+                    Status = charge.Status
+                };
+
+                _context.Payments.Add(payment);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("PaymentConfirmation");
+            }
+            else
+            {
+                // Handle payment failure
+                var payment = new Payment
+                {
+                    PassengerId = model.PassengerId,
+                    AmountPaid = model.TotalAmount,
+                    TransactionDate = DateTime.Now,
+                    PaymentMethod = "Stripe",
+                    CardNumber = "**** **** **** 4242", // Example masked card number
+                    CardExpiry = "12/25", // Example masked expiry date
+                    TransactionId = charge.Id,
+                    Status = charge.Status
+                };
+
+                _context.Payments.Add(payment);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("PaymentFailed");
+            }
         }
 
 
 
 
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult PaymentConfirmation(int paymentId)
+        {
+            var payment = _context.Payments.Find(paymentId);
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            return View(payment);
+        }
 
 
 

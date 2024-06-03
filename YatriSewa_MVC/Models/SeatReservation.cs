@@ -100,11 +100,31 @@ namespace YatriSewa_MVC.Models
         public string Date { get; set; }
         public decimal TotalAmount { get; set; }
         public string SeatNumbers { get; set; }
+       
         public int PassengerId { get; set; }
         public string FullName { get; set; }
         public string TicketNumber { get; set; }
+        public string StripeToken { get; set; }
+       
         public decimal AmountPaid { get; set; }
+   
+        public string CardNumber { get; set; }
+        
+        public string CardExpiry => $"{ExpiryMonth:D2}/{ExpiryYear:D2}";
+        public int ExpiryMonth { get; set; }
+        public string CVC { get; set; }
+        public int ExpiryYear { get; set; }
+        public string StripePublishableKey { get; set; }
+        public string CardCvc { get; set; }
     }
-
+    //public class ProcessPaymentViewModel
+    //{
+    //    public int PassengerId { get; set; }
+    //    public decimal AmountPaid { get; set; }
+    //    public string CardNumber { get; set; }
+    //    public int ExpiryMonth { get; set; }
+    //    public int ExpiryYear { get; set; }
+    //    public string CardCvc { get; set; }
+    //}
 
 }

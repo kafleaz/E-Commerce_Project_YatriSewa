@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+//stripepass//yatrisewa123
 namespace YatriSewa_MVC.Models
 {
     public class Bus
