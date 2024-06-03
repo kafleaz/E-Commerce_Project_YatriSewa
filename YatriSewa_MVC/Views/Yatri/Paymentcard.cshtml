@@ -69,6 +69,9 @@
                 <form id="payment-form" asp-action="ProcessPayment" asp-controller="Yatri" method="post" class="w-100">
                     <input type="hidden" name="PassengerId" value="@ViewBag.PassengerId" />
                     <input type="hidden" name="TotalAmount" value="@Model.TotalAmount" />
+                    <input type="hidden" name="BusId" value="@Model.BusId" />
+                    <input type="hidden" name="seatNumbers" value="@ViewBag.SeatNumbers" /> <!-- Add seat numbers -->
+                    <input type="hidden" name="userLoginId" value="@ViewBag.UserLoginId" />
                     <div class="form-group mb-2">
                         <label for="cardNumber" class="mb-1 text-muted">Card Number</label>
                         <div id="card-element" class="form-control">

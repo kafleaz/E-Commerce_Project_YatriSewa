@@ -151,7 +151,8 @@
                     var userLoginId = '@Model.UserId';
                     var busId = '@Model.BusId';
                     var passengerId = '@Model.PassengerId';
-                    window.location.href = '@Url.Action("PaymentCard", "Yatri")' + '?userLoginId=' + userLoginId + '&busId=' + busId + '&passengerId=' + passengerId;
+                    var seatNumbers = '@Model.SeatNumbers';
+                    window.location.href = '@Url.Action("PaymentCard", "Yatri")' + '?userLoginId=' + userLoginId + '&busId=' + busId + '&passengerId=' + passengerId + '&seatNumbers=' + seatNumbers;
                 });
 
                 function reserveSeats() {

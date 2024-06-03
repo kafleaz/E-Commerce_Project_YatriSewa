@@ -581,7 +581,7 @@ namespace YatriSewa_MVC.Controllers
 
 
         [HttpGet]
-        public IActionResult PaymentCard(int busId, int userLoginId, int passengerId)
+        public IActionResult PaymentCard(int busId, int userLoginId, int passengerId, string seatNumbers)
         {
             var bus = _context.Buses.FirstOrDefault(b => b.BusId == busId);
             var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == passengerId);
@@ -605,6 +605,8 @@ namespace YatriSewa_MVC.Controllers
                 FullName = $"{customer.FirstName} {customer.LastName}"
             };
             ViewBag.PassengerId = passengerId;
+            ViewBag.SeatNumbers = seatNumbers;
+            ViewBag.UserLoginId = userLoginId;
             return View(viewModel);
         }
 
@@ -612,7 +614,7 @@ namespace YatriSewa_MVC.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ProcessPayment(string stripeToken, PaymentViewModel model)
+        public async Task<IActionResult> ProcessPayment(string stripeToken, PaymentViewModel model, string seatNumbers, int userLoginId)
         {
             if (model == null || model.PassengerId == 0)
             {
@@ -681,6 +683,28 @@ namespace YatriSewa_MVC.Controllers
                 };
 
                 _context.Payments.Add(payment);
+                await _context.SaveChangesAsync();
+
+                //string[] seatNumberList = model.SeatNumbers.Split(',');
+
+                // Log the seat numbers
+                //Console.WriteLine($"Seat numbers: {string.Join(", ", seatNumbers)}");
+
+                var seatNumberList = seatNumbers.Split(','); // Assuming seatNumbers is a comma-separated string
+                foreach (var seatNumber in seatNumberList)
+                {
+                    var seat = new Seat
+                    {
+                        SeatNumber = seatNumber,
+                        BusId = model.BusId,
+                        UserId = userLoginId,
+                        PassengerId = passenger.PassengerId,
+                        IsReserved = false,
+                        Status = "Sold",
+                        IsSold = true
+                    };
+                    _context.Seats.Add(seat);
+                }
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("PaymentConfirmation");
