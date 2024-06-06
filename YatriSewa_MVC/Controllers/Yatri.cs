@@ -12,6 +12,7 @@ using Stripe.Checkout;
 using StripeCustomer = Stripe.Customer;
 using Stripe.Issuing;
 using YatriSewa_MVC.Migrations;
+using System;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -741,7 +742,7 @@ namespace YatriSewa_MVC.Controllers
                 }
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Ticket", new { paymentId = payment.PaymentId });
+                return RedirectToAction("Ticket", new { paymentId = payment.PaymentId, userLoginId });
             }
             else
             {
@@ -769,7 +770,7 @@ namespace YatriSewa_MVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Ticket( int userLoginId, int paymentId, int passengerId)
+        public IActionResult Ticket( int userLoginId, int paymentId)
         {
             var payment = _context.Payments.FirstOrDefault(p => p.PaymentId == paymentId);
             if (payment == null)
@@ -777,37 +778,49 @@ namespace YatriSewa_MVC.Controllers
                 return NotFound();
             }
             var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == payment.PassengerId);
-            var bus = _context.Buses.FirstOrDefault(b => b.BusId == passenger.BusId);
-            var passengername = _context.Customers.FirstOrDefault(c => c.CustomerId == userLoginId);
 
             if (passenger == null)
             {
                 return NotFound();
             }
+            
+            var passengername = _context.Customers.FirstOrDefault(c => c.CustomerId == userLoginId);
 
+            if (passengername == null)
+            {
+                return NotFound();
+            }
+
+            var bus = _context.Buses.FirstOrDefault(c => c.BusId == passenger.BusId);
+
+            if (bus == null)
+            {
+                return NotFound();
+            }
             var ticketNumber = _context.Passengers
-                .Where(p => p.PassengerId == passengerId)
+                .Where(p => p.PassengerId == passenger.PassengerId)
                 .Select(p => p.TicketNumber)
                 .FirstOrDefault();
 
-            //var viewModel = new PaymentViewModel
-            //{
-            //    BusId = bus.BusId,
-            //    BusName = bus.BusName,
-            //    BusNumber = bus.BusNumber,
-            //    Time = bus.Time.ToString("HH:mm"),
-            //    UserId = passenger.UserId,
-            //    From = bus.From,
-            //    To = bus.To,
-            //    Date = bus.Date.ToString("dd/MM/yyyy"),
-            //    TotalAmount = payment.AmountPaid,
-            //    SeatNumbers = passenger.SeatNumber,
-            //    PassengerId = passenger.PassengerId,
-            //    FullName = $"{passengername.FirstName} {passengername.LastName}",
-            //    TicketNumber = passenger.TicketNumber,
-            //};
+            var viewModel = new PaymentViewModel
+            {
+                //BusId = passenger.BusId,
+                BusName = bus.BusName,
+                BusNumber = bus.BusNumber,
+                Time = bus.Time.ToString(@"hh\:mm"),
+                //UserId = passenger.UserId,
+                From = bus.From,
+                To = bus.To,
+                Date = bus.Date.ToString("dd/MM/yyyy"),
+                TotalAmount = payment.AmountPaid,
+                SeatNumbers = passenger.SeatNumber,
+                //PassengerId = passenger.PassengerId,
+                PNRNumber = passenger.PNRNumber,
+                FullName = $"{passengername.FirstName} {passengername.LastName}",
+                TicketNumber = passenger.TicketNumber,
+            };
 
-            return View();
+            return View(viewModel);
         }
 
 

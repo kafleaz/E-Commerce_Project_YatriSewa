@@ -102,7 +102,7 @@ namespace YatriSewa_MVC.Models
         public string Date { get; set; }
         public decimal TotalAmount { get; set; }
         public string SeatNumbers { get; set; }
-       
+        public string PNRNumber { get; set; }
         public int PassengerId { get; set; }
         public string FullName { get; set; }
         public string TicketNumber { get; set; }
