@@ -5,54 +5,47 @@ namespace YatriSewa_MVC.Models
 {
     public class Payment
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("payment_ID")]
         public int PaymentId { get; set; }
+        public int PassengerId { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public decimal AmountPaid { get; set; }
+        public string PaymentMethod { get; set; }
+        public string CardNumber { get; set; }
+        public string CardExpiry { get; set; }
+        public string TransactionId { get; set; }
+        public string Status { get; set; }
 
-        [ForeignKey("Customer")]
-        [Column("customer_ID")]
-        public int CustomerId { get; set; }
-
-        //public virtual Customer Customer { get; set; }
-
-        //[ForeignKey("Reservation")]
-        //[Column("reservation_ID")]
-        //public int ReservationId { get; set; }
-
-        public virtual  Reservation Reservation { get; set; }
-
-        [Column("payment_date")]
-        public DateTime PaymentDate { get; set; }
+        // Navigation property
+        public Passenger Passenger { get; set; }
     }
 
-    public class TransactionReport
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("report_ID")]
-        public int ReportId { get; set; }
+    //public class TransactionReport
+    //{
+    //    [Key]
+    //    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    //    [Column("report_ID")]
+    //    public int ReportId { get; set; }
 
-        [ForeignKey("Customer")]
-        [Column("customer_ID")]
-        public int CustomerId { get; set; }
+    //    [ForeignKey("Customer")]
+    //    [Column("customer_ID")]
+    //    public int CustomerId { get; set; }
 
-        public virtual Customer Customer { get; set; }
+    //    public virtual Customer Customer { get; set; }
 
-        //[ForeignKey("Reservation")]
-        //[Column("reservation_ID")]
-        //[Required]
-        //public int ReservationId { get; set; }
+    //    //[ForeignKey("Reservation")]
+    //    //[Column("reservation_ID")]
+    //    //[Required]
+    //    //public int ReservationId { get; set; }
 
-        //public virtual Reservation Reservation { get; set; }
+    //    //public virtual Reservation Reservation { get; set; }
 
-        //[ForeignKey("Payment")]
-        //[Column("payment_ID")]
-        //public int PaymentId { get; set; }
+    //    //[ForeignKey("Payment")]
+    //    //[Column("payment_ID")]
+    //    //public int PaymentId { get; set; }
 
-        public virtual Payment Payment { get; set; }
+    //    public virtual Payment Payment { get; set; }
 
-        [Column("report_date")]
-        public DateTime ReportDate { get; set; }
-    }
+    //    [Column("report_date")]
+    //    public DateTime ReportDate { get; set; }
+    //}
 }

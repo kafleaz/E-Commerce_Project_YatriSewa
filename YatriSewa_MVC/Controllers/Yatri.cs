@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
+using Stripe;
+using Stripe.Checkout;
+using StripeCustomer = Stripe.Customer;
+using Stripe.Issuing;
+using YatriSewa_MVC.Migrations;
+using System;
 
 namespace YatriSewa_MVC.Controllers
 {
@@ -28,10 +34,7 @@ namespace YatriSewa_MVC.Controllers
         //{
         //    return View();
         //}
-        //public IActionResult Signup()
-        //{
-        //    return View();
-        //}
+       
         public IActionResult Busdetails()
         {
             return View();
@@ -56,16 +59,13 @@ namespace YatriSewa_MVC.Controllers
         {
             return View();
         }
-        public IActionResult Payment()
-        {
-            return View();
-        }
+        
         public IActionResult Paymentcard()
         {
             return View();
         }
 
-        public IActionResult Selectseat()
+        public IActionResult SelectSeat()
         {
             return View();
         }
@@ -131,6 +131,7 @@ namespace YatriSewa_MVC.Controllers
             //ModelState.AddModelError(string.Empty, "An error occurred while processing your request. Please try again later.");
             return View(model);
         }
+
 
 
 
@@ -234,7 +235,7 @@ namespace YatriSewa_MVC.Controllers
 
 
         [HttpPost]
-        public IActionResult Register(Customer customer, int userLoginId)
+        public IActionResult Register(Models.Customer customer, int userLoginId)
         {
 
             if (ModelState.IsValid)
@@ -250,7 +251,7 @@ namespace YatriSewa_MVC.Controllers
                 }
 
 
-                var customers = new Customer
+                var customers = new Models.Customer
                 {
 
                     FirstName = customer.FirstName,
@@ -339,6 +340,507 @@ namespace YatriSewa_MVC.Controllers
             //ViewBag.UserLoginId = userLoginId;
             return View(buses);
         }
+
+
+        [HttpGet("SelectSeat")]
+        public async Task<IActionResult> SelectSeat(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats = null)
+        {
+            if (Request.Method == "POST")
+            {
+                return await BookSeat(busId, userLoginId, from, to, date, seats);
+            }
+
+            var bus = await _context.Buses.FindAsync(busId);
+            if (bus == null)
+            {
+                return NotFound();
+            }
+
+            var seatsList = await _context.Seats.Where(s => s.BusId == busId).ToListAsync();
+            var services = await _context.Services.FirstOrDefaultAsync(s => s.BusId == busId);
+            var user = await _context.Customers.FindAsync(userLoginId);
+            var passengers = await _context.Passengers.Where(p => p.BusId == busId).ToListAsync();
+
+            var viewModel = new SeatSelectionViewModel
+            {
+                BusId = busId,
+                BusName = bus.BusName,
+                SeatCapacity = bus.SeatCapacity,
+                Price = bus.Price,
+                Seats = seatsList.Select(s => new SeatViewModel
+                {
+                    SeatNumber = s.SeatNumber,
+                    IsReserved = s.IsReserved,
+                    IsSold = s.IsSold,
+                    IsSelected = seats != null && seats.Contains(s.SeatNumber),
+                    UserId = s.UserId ?? 0, // Ensure this is set
+                    BusId = s.BusId
+                }).ToList()
+            };
+
+            ViewBag.UserLoginId = userLoginId;
+            ViewBag.From = from;
+            ViewBag.To = to;
+            ViewBag.Date = date;
+            ViewBag.Services = services;
+            ViewBag.Passengers = passengers;
+            ViewBag.Price = bus.Price;
+            ViewBag.User = user;
+
+            return View(viewModel);
+        }
+
+        private async Task<IActionResult> BookSeat(int busId, int userLoginId, string from, string to, DateOnly date, string[] seats)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost("SelectSeat")]
+        public async Task<IActionResult> BookSeat(int busId, int userLoginId, string from, string to, DateOnly date, string SelectedSeats, decimal TotalAmount) // Changed parameter name to match form input
+        {
+            string ticketNumber = GenerateTicketNumber();
+            string pnrNumber = GeneratePNRNumber();
+            var bus = await _context.Buses.FirstOrDefaultAsync(b => b.BusId == busId);
+
+            if (bus == null)
+            {
+                return NotFound();
+            }
+
+            var seatNumbers = SelectedSeats.Split(',');
+
+            var passenger = new Passenger
+            {
+                UserId = userLoginId,
+                BusId = busId,
+                TicketNumber = ticketNumber,
+                PNRNumber = pnrNumber,
+                AmountPaid = TotalAmount,
+                SeatNumber = string.Join(",", seatNumbers) // Assign seat numbers to Passenger
+            };
+
+            _context.Passengers.Add(passenger);
+            await _context.SaveChangesAsync();
+
+            int passengerId = passenger.PassengerId;
+
+            ViewBag.Bus = bus;
+            ViewBag.User = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == userLoginId);
+            ViewBag.TicketNumber = ticketNumber;
+            ViewBag.PNRNumber = pnrNumber;
+            ViewBag.TotalAmount = TotalAmount;
+            ViewBag.SeatsSelected = seatNumbers.Length;
+
+            return RedirectToAction("Payment", new { busId, userLoginId, from, to, date, totalAmount = TotalAmount, seatNumbers = string.Join(",", seatNumbers), passengerId });
+        }
+        private string GenerateTicketNumber()
+        {
+            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToUpper();
+        }
+
+        private string GeneratePNRNumber()
+        {
+            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6).ToUpper();
+        }
+
+
+        [HttpGet]
+        public IActionResult Payment(int busId, int userLoginId, string from, string to, string date, decimal totalAmount, string seatNumbers, int passengerId)
+        {
+            var bus = _context.Buses.FirstOrDefault(b => b.BusId == busId);
+            var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == passengerId);
+            var passengername = _context.Customers.FirstOrDefault(c => c.CustomerId == userLoginId);
+
+            if (passenger == null)
+            {
+                return NotFound();
+            }
+
+            var ticketNumber = _context.Passengers
+                .Where(p => p.PassengerId == passengerId)
+                .Select(p => p.TicketNumber)
+                .FirstOrDefault();
+
+            var viewModel = new PaymentViewModel
+            {
+                BusId = busId,
+                UserId = userLoginId,
+                From = from,
+                To = to,
+                Date = date,
+                TotalAmount = totalAmount,
+                SeatNumbers = seatNumbers,
+                PassengerId = passengerId,
+                FullName = $"{passengername?.FirstName} {passengername?.LastName}",
+                TicketNumber = ticketNumber,
+                AmountPaid = totalAmount
+            };
+
+            return View(viewModel);
+        }
+
+
+
+
+        [HttpPost("ReserveSeats")]
+        public IActionResult ReserveSeats(ReserveSeatsModel model, int userLoginId)
+        {
+            try
+            {
+                // Log the received model
+                Console.WriteLine($"Received model: PassengerId={model.PassengerId}, BusId={model.BusId}, SeatNumbers={model.SeatNumbers}, UserLoginId={userLoginId}");
+
+                var passenger = _context.Passengers.FirstOrDefault(p => p.PassengerId == model.PassengerId);
+
+                // If passenger not found, return error
+                if (passenger == null)
+                {
+                    return Json(new { success = false, message = "Passenger not found." });
+                }
+
+                // Split the seat numbers string into an array
+                string[] seatNumbers = model.SeatNumbers.Split(',');
+
+                // Log the seat numbers
+                Console.WriteLine($"Seat numbers: {string.Join(", ", seatNumbers)}");
+
+                // Update each seat in the database
+                foreach (var seatNumber in seatNumbers)
+                {
+                    var seat = new Seat
+                    {
+                        SeatNumber = seatNumber,
+                        BusId = model.BusId,
+                        UserId = userLoginId, // Assign UserId
+                        PassengerId = passenger.PassengerId,
+                        IsReserved = true,
+                        Status= "Reserved",
+                        IsSold = false
+                    };
+
+                    // Log each seat being added
+                    Console.WriteLine($"Adding seat: SeatNumber={seat.SeatNumber}, BusId={seat.BusId}, UserId={seat.UserId}, PassengerId={seat.PassengerId}");
+
+                    _context.Seats.Add(seat);
+                }
+
+                // Save changes to the database
+                _context.SaveChanges();
+
+                // Log successful save
+                Console.WriteLine("Seats reserved successfully!");
+
+                // Return success response
+                return Json(new { success = true, message = "Seats reserved successfully!" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+
+                // Return error response with error message
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CancelReservation(int userLoginId)
+        {
+            try
+            {
+                var passenger = _context.Passengers.FirstOrDefault(p => p.UserId == userLoginId);
+
+                if (passenger == null)
+                {
+                    return Json(new { success = false, message = "Reservation not found." });
+                }
+
+                var ticketNumber = passenger.TicketNumber;
+
+                // Delete the passenger record
+                _context.Passengers.Remove(passenger);
+
+                // Also delete the related seat reservations
+                var seats = _context.Seats.Where(s => s.PassengerId == passenger.PassengerId).ToList();
+                foreach (var seat in seats)
+                {
+                    _context.Seats.Remove(seat);
+                }
+
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Reservation canceled successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
+        public IActionResult CheckReservedSeats(int userLoginId, int busId)
+        {
+            // Check if the user has any reserved seats
+            var reservedSeats = _context.Seats
+                .Where(s => s.UserId == userLoginId && s.IsReserved && s.BusId == busId)
+                .ToList();
+
+            //if (!reservedSeats.Any())
+            //{
+            //    return RedirectToAction("NoReservedSeats");
+            //}
+
+            // Get the PassengerId from one of the reserved seats
+            var passengerId = reservedSeats.First().PassengerId;
+
+            // Find the seat numbers
+            var seatNumbers = string.Join(",", reservedSeats.Select(s => s.SeatNumber));
+
+            // Redirect to the PaymentCard action with the necessary parameters
+            return RedirectToAction("PaymentCard", new { userLoginId, busId, passengerId, seatNumbers });
+        }
+
+
+        [HttpGet]
+        public IActionResult PaymentCard(int busId, int userLoginId, int passengerId, string seatNumbers)
+        {
+            var bus = _context.Buses.FirstOrDefault(b => b.BusId == busId);
+            var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == passengerId);
+            var customer = _context.Customers.FirstOrDefault(c => c.CustomerId == userLoginId);
+
+            if (bus == null || passenger == null || customer == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new PaymentViewModel
+            {
+                BusId = bus.BusId,
+                BusName = bus.BusName,
+                From = bus.From,
+                To = bus.To,
+                Date = bus.Date.ToString("dd MMM, yyyy"),
+                Time = bus.Time.ToString(@"hh\:mm"), // Correct TimeSpan formatting
+                SeatNumbers = passenger.SeatNumber,
+                TotalAmount = passenger.AmountPaid,
+                FullName = $"{customer.FirstName} {customer.LastName}"
+            };
+            ViewBag.PassengerId = passengerId;
+            ViewBag.SeatNumbers = seatNumbers;
+            ViewBag.UserLoginId = userLoginId;
+            return View(viewModel);
+        }
+
+        
+
+
+        [HttpPost]
+        public async Task<IActionResult> ProcessPayment(string stripeToken, PaymentViewModel model, string seatNumbers, int userLoginId)
+        {
+            if (model == null || model.PassengerId == 0)
+            {
+                ModelState.AddModelError("", "Invalid payment details.");
+                return View("PaymentFailed");
+            }
+
+            var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == model.PassengerId);
+
+            if (passenger == null)
+            {
+                ModelState.AddModelError("", "Passenger not found.");
+                return View("PaymentFailed");
+            }
+
+            if (string.IsNullOrEmpty(stripeToken))
+            {
+                ModelState.AddModelError("", "Payment token is missing.");
+                return View("PaymentFailed");
+            }
+
+            if (model.TotalAmount <= 0)
+            {
+                ModelState.AddModelError("TotalAmount", "The amount to be charged must be greater than zero.");
+                return View(model);
+            }
+
+            StripeConfiguration.ApiKey = "sk_test_51PNIqUB3UNeeoGIf1BwZwOzVjkkGUopjyJgVaTeP57NJhJNNqZNjFLfzQgK1W5kMinCZnaTN8iugH3qLXlxEgcgm00VBFEoCPp"; // Replace with your actual Stripe secret key
+
+            var options = new ChargeCreateOptions
+            {
+                Amount = (long)(model.TotalAmount * 100), // Amount in cents
+                Currency = "usd",
+                Description = "Bus Ticket Payment",
+                Source = stripeToken,
+            };
+
+            var service = new ChargeService();
+            Charge charge;
+
+            try
+            {
+                charge = await service.CreateAsync(options);
+            }
+            catch (StripeException ex)
+            {
+                ModelState.AddModelError("", $"Stripe error: {ex.Message}");
+                return View(model);
+            }
+
+            if (charge.Status == "succeeded")
+
+            {
+                var card = charge.PaymentMethodDetails.Card;
+                // Save payment details to database
+                var payment = new Payment
+                {
+                    PassengerId = model.PassengerId,
+                    AmountPaid = model.TotalAmount,
+                    TransactionDate = DateTime.Now,
+                    PaymentMethod = "Stripe",
+                    CardNumber = "**** **** **** " + card.Last4, // Example masked card number
+                    CardExpiry = card.ExpMonth.ToString("D2") + "/" + card.ExpYear.ToString().Substring(2), // Example masked expiry date
+                    TransactionId = charge.Id,
+                    Status = charge.Status
+                };
+
+                _context.Payments.Add(payment);
+                await _context.SaveChangesAsync();
+
+                //string[] seatNumberList = model.SeatNumbers.Split(',');
+
+                // Log the seat numbers
+                //Console.WriteLine($"Seat numbers: {string.Join(", ", seatNumbers)}");
+
+                var seatNumberList = seatNumbers.Split(','); // Assuming seatNumbers is a comma-separated string
+                foreach (var seatNumber in seatNumberList)
+                {
+                    var existingSeat = _context.Seats.FirstOrDefault(s => s.SeatNumber == seatNumber && s.BusId == model.BusId && s.UserId == userLoginId && s.PassengerId == passenger.PassengerId);
+
+                    if (existingSeat != null)
+                    {
+                        // Update existing seat reservation
+                        //existingSeat.PassengerId = passenger.PassengerId;
+                        existingSeat.IsReserved = false;
+                        existingSeat.Status = "Sold";
+                        existingSeat.IsSold = true;
+                    }
+                    else
+                    {
+                        // Add new seat reservation
+                        var seat = new Seat
+                        {
+                            SeatNumber = seatNumber,
+                            BusId = model.BusId,
+                            UserId = userLoginId,
+                            PassengerId = passenger.PassengerId,
+                            IsReserved = false,
+                            Status = "Sold",
+                            IsSold = true
+                        };
+                        _context.Seats.Add(seat);
+                    }
+                }
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Ticket", new { paymentId = payment.PaymentId, userLoginId });
+            }
+            else
+            {
+                // Handle payment failure
+                var payment = new Payment
+                {
+                    PassengerId = model.PassengerId,
+                    AmountPaid = model.TotalAmount,
+                    TransactionDate = DateTime.Now,
+                    PaymentMethod = "Stripe",
+                    CardNumber = "**** **** **** 4242", // Example masked card number
+                    CardExpiry = "12/25", // Example masked expiry date
+                    TransactionId = charge.Id,
+                    Status = charge.Status
+                };
+
+                _context.Payments.Add(payment);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("PaymentFailed");
+            }
+        }
+
+
+
+
+        [HttpGet]
+        public IActionResult Ticket( int userLoginId, int paymentId)
+        {
+            var payment = _context.Payments.FirstOrDefault(p => p.PaymentId == paymentId);
+            if (payment == null)
+            {
+                return NotFound();
+            }
+            var passenger = _context.Passengers.FirstOrDefault(c => c.PassengerId == payment.PassengerId);
+
+            if (passenger == null)
+            {
+                return NotFound();
+            }
+            
+            var passengername = _context.Customers.FirstOrDefault(c => c.CustomerId == userLoginId);
+
+            if (passengername == null)
+            {
+                return NotFound();
+            }
+
+            var bus = _context.Buses.FirstOrDefault(c => c.BusId == passenger.BusId);
+
+            if (bus == null)
+            {
+                return NotFound();
+            }
+            var ticketNumber = _context.Passengers
+                .Where(p => p.PassengerId == passenger.PassengerId)
+                .Select(p => p.TicketNumber)
+                .FirstOrDefault();
+
+            var viewModel = new PaymentViewModel
+            {
+                //BusId = passenger.BusId,
+                BusName = bus.BusName,
+                BusNumber = bus.BusNumber,
+                Time = bus.Time.ToString(@"hh\:mm"),
+                //UserId = passenger.UserId,
+                From = bus.From,
+                To = bus.To,
+                Date = bus.Date.ToString("dd/MM/yyyy"),
+                TotalAmount = payment.AmountPaid,
+                SeatNumbers = passenger.SeatNumber,
+                //PassengerId = passenger.PassengerId,
+                PNRNumber = passenger.PNRNumber,
+                FullName = $"{passengername.FirstName} {passengername.LastName}",
+                TicketNumber = passenger.TicketNumber,
+            };
+
+            return View(viewModel);
+        }
+
+
+
+
+
+        [HttpGet]
+        public IActionResult PaymentConfirmation(int paymentId)
+        {
+            var payment = _context.Payments.Find(paymentId);
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            return View(payment);
+        }
+
+
+
 
 
         [HttpGet]

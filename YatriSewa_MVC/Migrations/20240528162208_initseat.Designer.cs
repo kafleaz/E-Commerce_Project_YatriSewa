@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YatriSewa_MVC.Models;
 
@@ -11,9 +12,11 @@ using YatriSewa_MVC.Models;
 namespace YatriSewa_MVC.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240528162208_initseat")]
+    partial class initseat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -430,6 +433,9 @@ namespace YatriSewa_MVC.Migrations
                     b.Property<int>("BusId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PNRNumber")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -437,7 +443,8 @@ namespace YatriSewa_MVC.Migrations
 
                     b.Property<string>("SeatNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("TicketNumber")
                         .IsRequired()
@@ -451,51 +458,9 @@ namespace YatriSewa_MVC.Migrations
 
                     b.HasIndex("BusId");
 
+                    b.HasIndex("CustomerId");
+
                     b.ToTable("Passengers");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.Payment", b =>
-                {
-                    b.Property<int>("PaymentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
-
-                    b.Property<decimal>("AmountPaid")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CardExpiry")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PassengerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PaymentId");
-
-                    b.HasIndex("PassengerId");
-
-                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Seat", b =>
@@ -515,14 +480,7 @@ namespace YatriSewa_MVC.Migrations
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PassengerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SeatNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -530,8 +488,6 @@ namespace YatriSewa_MVC.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("SeatId");
-
-                    b.HasIndex("PassengerId");
 
                     b.ToTable("Seats");
                 });
@@ -655,29 +611,15 @@ namespace YatriSewa_MVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("YatriSewa_MVC.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Bus");
-                });
 
-            modelBuilder.Entity("YatriSewa_MVC.Models.Payment", b =>
-                {
-                    b.HasOne("YatriSewa_MVC.Models.Passenger", "Passenger")
-                        .WithMany()
-                        .HasForeignKey("PassengerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Passenger");
-                });
-
-            modelBuilder.Entity("YatriSewa_MVC.Models.Seat", b =>
-                {
-                    b.HasOne("YatriSewa_MVC.Models.Passenger", "Passenger")
-                        .WithMany()
-                        .HasForeignKey("PassengerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Passenger");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("YatriSewa_MVC.Models.Service", b =>

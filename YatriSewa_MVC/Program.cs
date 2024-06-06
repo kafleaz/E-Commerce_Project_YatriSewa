@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Net;
 using YatriSewa_MVC.Models;
 
@@ -13,7 +14,6 @@ builder.WebHost.UseKestrel(options =>
         listenOptions.UseHttps();
     });
 });
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -33,6 +33,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<UserContext>()
     .AddDefaultTokenProviders();
+
+// Configure Stripe settings
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 var app = builder.Build();
 
@@ -123,9 +127,9 @@ app.MapControllerRoute(
     pattern: "ProfileEdit",
     defaults: new { controller = "Yatri", action = "ProfileEdit" });
 app.MapControllerRoute(
-    name: "Selectseat",
-    pattern: "Selectseat",
-    defaults: new { controller = "Yatri", action = "Selectseat" });
+    name: "SelectSeat",
+    pattern: "SelectSeat",
+    defaults: new { controller = "Yatri", action = "SelectSeat" });
 app.MapControllerRoute(
     name: "Home",
     pattern: "Home",
@@ -146,6 +150,10 @@ app.MapControllerRoute(
     name: "BusListing",
     pattern: "BusListing",
     defaults: new { controller = "Yatri", action = "BusListing" });
-
+app.MapControllerRoute(
+    name: "Ticket",
+    pattern: "Ticket",
+    defaults: new { controller = "Yatri", action = "Ticket" });
+app.MapControllers();
 
 app.Run();
