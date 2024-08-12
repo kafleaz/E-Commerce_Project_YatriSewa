@@ -1,0 +1,16 @@
+{
+  "name": "Yatri Sewa Bus ticket booking",
+  "short_name": "YatriSewa",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2196F3",
+  "icons": [
+    {
+      "src": "/img/yatrilogodark.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
+

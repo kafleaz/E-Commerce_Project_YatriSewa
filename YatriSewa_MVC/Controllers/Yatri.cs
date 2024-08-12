@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 using Stripe;
+using BCrypt.Net;
 using Stripe.Checkout;
 using StripeCustomer = Stripe.Customer;
 using Stripe.Issuing;
@@ -109,13 +110,17 @@ namespace YatriSewa_MVC.Controllers
                 }
 
                 model.ConfirmPassword = model.Password;
+
+                // Hash the password before saving
+                var Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
                 // Process the signup information (e.g., save to database)
                 // Redirect to a success page or perform other actions
                 var user = new LoginUser
                 {
                     Email = model.Email,
-                    Password = model.Password,
-                    ConfirmPassword = model.ConfirmPassword
+                    Password = Password,
+                    ConfirmPassword = Password
                 };
 
                 // Save user to database
@@ -158,7 +163,8 @@ namespace YatriSewa_MVC.Controllers
                     return View(model);
                 }
 
-                if (user.Password != model.Password)
+                // Verify the hashed password
+                if (!BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
                 {
                     // Incorrect password
                     ModelState.AddModelError("Password", "Incorrect password.");
@@ -193,17 +199,21 @@ namespace YatriSewa_MVC.Controllers
                     ModelState.AddModelError("Email", "No user found with this email address.");
                     return View(model);
                 }
+                
 
-                if (model.NewPassword != model.ConfirmNewPassword)
+                if (model.NewPassword != model.NewPassword)
                 {
                     // Password and confirm password do not match, show appropriate message
                     ModelState.AddModelError("ConfirmNewPassword", "Passwords do not match.");
                     return View(model);
                 }
 
+                // Hash the new password before saving
+                var NewPassword = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+
                 // Update the user's password and confirm password
-                existingUser.Password = model.NewPassword;
-                existingUser.ConfirmPassword = model.ConfirmNewPassword;
+                existingUser.Password = NewPassword;
+                existingUser.ConfirmPassword = NewPassword;
 
                 // Save changes to the database
                 _context.SaveChanges();

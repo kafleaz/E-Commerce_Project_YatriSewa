@@ -68,7 +68,7 @@ body {
 .longcontainer {
     position: sticky;
     max-width: 450px;
-    min-height: 840px;
+    min-height: 860px;
     background-color: #F0F1F3;
     text-align: center;
     justify-content: center;

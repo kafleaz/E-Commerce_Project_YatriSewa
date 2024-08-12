@@ -1,3 +1,4 @@
+using Makaretu.Dns;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+// Broadcast mDNS service
+var mdns = new MulticastService();
+mdns.Start();
+var serviceDiscovery = new ServiceDiscovery(mdns);
+serviceDiscovery.Advertise(new ServiceProfile("yatrisewa", "_http._tcp", 7066));
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
